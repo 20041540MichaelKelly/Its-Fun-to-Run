@@ -3,6 +3,7 @@ package mick.studio.itsfuntorun.activities
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.google.android.material.snackbar.Snackbar
+import mick.studio.itsfuntorun.activities.main.MainApp
 import mick.studio.itsfuntorun.activities.models.RunModel
 import mick.studio.itsfuntorun.databinding.ActivityRunBinding
 import timber.log.Timber
@@ -12,7 +13,7 @@ class RunActivity : AppCompatActivity() {
     private lateinit var binding: ActivityRunBinding
     var run = RunModel()
     val runs = ArrayList<RunModel>()
-
+    lateinit var app : MainApp
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -23,15 +24,17 @@ class RunActivity : AppCompatActivity() {
 
         i("Run Activity started...")
 
+        app = application as MainApp
+
         binding.btnAdd.setOnClickListener() {
             run.runInKms = binding.runKms.text.toString()
             run.runInTime = binding.runTime.text.toString()
 
             if (run.runInKms.isNotEmpty() && run.runInTime.isNotEmpty()) {
-                runs.add(run.copy())
+                app.runs.add(run.copy())
                 i("add Button Pressed: ${run.runInKms}")
                 for(i in runs.indices){
-                    i("run[$i]:${this.runs[i]}")
+                    i("run[$i]:${this.runs[i]} ${this.runs.size}")
                 }
             }
             else {
