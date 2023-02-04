@@ -11,6 +11,8 @@ import timber.log.Timber.i
 class RunActivity : AppCompatActivity() {
     private lateinit var binding: ActivityRunBinding
     var run = RunModel()
+    val runs = ArrayList<RunModel>()
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -23,8 +25,14 @@ class RunActivity : AppCompatActivity() {
 
         binding.btnAdd.setOnClickListener() {
             run.runInKms = binding.runKms.text.toString()
-            if (run.runInKms.isNotEmpty()) {
+            run.runInTime = binding.runTime.text.toString()
+
+            if (run.runInKms.isNotEmpty() && run.runInTime.isNotEmpty()) {
+                runs.add(run.copy())
                 i("add Button Pressed: ${run.runInKms}")
+                for(i in runs.indices){
+                    i("run[$i]:${this.runs[i]}")
+                }
             }
             else {
                 Snackbar
