@@ -3,8 +3,8 @@ package mick.studio.itsfuntorun.activities
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.google.android.material.snackbar.Snackbar
-import mick.studio.itsfuntorun.activities.main.MainApp
-import mick.studio.itsfuntorun.activities.models.RunModel
+import mick.studio.itsfuntorun.main.MainApp
+import mick.studio.itsfuntorun.models.RunModel
 import mick.studio.itsfuntorun.databinding.ActivityRunBinding
 import timber.log.Timber
 import timber.log.Timber.i

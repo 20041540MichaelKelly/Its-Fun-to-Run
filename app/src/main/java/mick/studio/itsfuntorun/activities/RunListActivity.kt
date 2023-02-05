@@ -2,15 +2,23 @@ package mick.studio.itsfuntorun.activities
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import mick.studio.itsfuntorun.R
-import mick.studio.itsfuntorun.activities.main.MainApp
+import androidx.recyclerview.widget.LinearLayoutManager
+import mick.studio.itsfuntorun.adapter.RunListAdapter
+import mick.studio.itsfuntorun.main.MainApp
+import mick.studio.itsfuntorun.databinding.ActivityRunListBinding
 
 class RunListActivity : AppCompatActivity() {
     lateinit var app: MainApp
+    private lateinit var binding: ActivityRunListBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_run_list)
+        binding = ActivityRunListBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
         app = application as MainApp
+
+        val layoutManager= LinearLayoutManager(this)
+        binding.recyclerView.layoutManager = layoutManager
+        binding.recyclerView.adapter = RunListAdapter(app.runs)
     }
 }
