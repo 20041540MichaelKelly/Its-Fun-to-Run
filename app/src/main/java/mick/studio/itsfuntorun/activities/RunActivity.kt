@@ -2,7 +2,10 @@ package mick.studio.itsfuntorun.activities
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuItem
 import com.google.android.material.snackbar.Snackbar
+import mick.studio.itsfuntorun.R
 import mick.studio.itsfuntorun.main.MainApp
 import mick.studio.itsfuntorun.models.RunModel
 import mick.studio.itsfuntorun.databinding.ActivityRunBinding
@@ -19,6 +22,9 @@ class RunActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityRunBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        binding.toolbar.title = title
+        setSupportActionBar(binding.toolbar)
+
 
         Timber.plant(Timber.DebugTree())
 
@@ -36,6 +42,8 @@ class RunActivity : AppCompatActivity() {
                 for(i in runs.indices){
                     i("run[$i]:${this.runs[i]} ${this.runs.size}")
                 }
+                setResult(RESULT_OK)
+                finish()
             }
             else {
                 Snackbar
@@ -44,5 +52,19 @@ class RunActivity : AppCompatActivity() {
             }
         }
 
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        menuInflater.inflate(R.menu.menu_run, menu)
+        return super.onCreateOptionsMenu(menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            R.id.item_cancel -> {
+                finish()
+            }
+        }
+        return super.onOptionsItemSelected(item)
     }
 }

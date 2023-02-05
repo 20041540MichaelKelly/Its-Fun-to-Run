@@ -11,9 +11,9 @@ class MainApp : Application() {
     override fun onCreate() {
         super.onCreate()
         Timber.plant(Timber.DebugTree())
-        i("Placemark started")
-        runs.add(RunModel("One", "About one..."))
-        runs.add(RunModel("Two", "About two..."))
-        runs.add(RunModel("Three", "About three..."))
+        i("Run started")
+       /* runs.add(RunModel("5", "56:00:23"))
+        runs.add(RunModel("3.23", "43:02:12"))
+        runs.add(RunModel("4.56", "40:01:45"))*/
     }
 }

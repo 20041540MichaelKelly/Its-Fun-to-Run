@@ -3,4 +3,7 @@
     <string name="button_addRun">Add Run</string>
     <string name="hint_run_kms">Run in KM</string>
     <string name="hint_run_time">Run Time</string>
+    <string name="menu_addRun">Add</string>
+    <string name="menu_cancel_run">Cancel run</string>
+
 </resources>

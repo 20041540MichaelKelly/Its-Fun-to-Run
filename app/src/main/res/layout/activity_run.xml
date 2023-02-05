@@ -23,7 +23,7 @@
             app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
 
             <androidx.appcompat.widget.Toolbar
-                android:id="@+id/toolbarAdd"
+                android:id="@+id/toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:titleTextColor="@color/white" />
@@ -33,7 +33,6 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_below="@id/appBarLayout"
-            android:background="@color/pale_blue"
             android:fillViewport="true">
 
             <LinearLayout
@@ -73,7 +72,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="16dp"
-                    android:background="@color/blue"
+                    android:background="#3F51B5"
                     android:paddingTop="8dp"
                     android:paddingBottom="8dp"
                     android:stateListAnimator="@null"
