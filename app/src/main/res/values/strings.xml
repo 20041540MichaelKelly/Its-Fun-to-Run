@@ -5,5 +5,7 @@
     <string name="hint_run_time">Run Time</string>
     <string name="menu_addRun">Add</string>
     <string name="menu_cancel_run">Cancel run</string>
+    <string name="enter_a_run_error">Please enter a run</string>
+    <string name="save_run">Save Run</string>
 
 </resources>

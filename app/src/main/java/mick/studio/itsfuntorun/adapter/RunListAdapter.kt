@@ -6,7 +6,10 @@ import androidx.recyclerview.widget.RecyclerView
 import mick.studio.itsfuntorun.databinding.CardRunBinding
 import mick.studio.itsfuntorun.models.RunModel
 
-class RunListAdapter constructor(private var runs: List<RunModel>) :
+interface RunListener {
+    fun onRunClick(run: RunModel)
+}
+class RunListAdapter constructor(private var runs: List<RunModel>, private val listener: RunListener) :
                                 RecyclerView.Adapter<RunListAdapter.MainHolder>() {
        override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MainHolder {
            val binding = CardRunBinding.inflate(LayoutInflater.from(parent.context), parent, false)
@@ -16,7 +19,7 @@ class RunListAdapter constructor(private var runs: List<RunModel>) :
 
     override fun onBindViewHolder(holder: MainHolder, position: Int) {
         val run = runs[holder.adapterPosition]
-        holder.bind(run)
+        holder.bind(run, listener)
     }
 
     override fun getItemCount(): Int = runs.size
@@ -24,9 +27,10 @@ class RunListAdapter constructor(private var runs: List<RunModel>) :
     class MainHolder(private val binding : CardRunBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(run: RunModel) {
+        fun bind(run: RunModel, listener: RunListener) {
             binding.runInKms.text = run.runInKms
             binding.runInTime.text = run.runInTime
+            binding.root.setOnClickListener { listener.onRunClick(run) }
         }
     }
 }
