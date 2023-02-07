@@ -10,12 +10,15 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.recyclerview.widget.LinearLayoutManager
 import mick.studio.itsfuntorun.R
 import mick.studio.itsfuntorun.adapter.RunListAdapter
+import mick.studio.itsfuntorun.adapter.RunListener
 import mick.studio.itsfuntorun.main.MainApp
 import mick.studio.itsfuntorun.databinding.ActivityRunListBinding
+import mick.studio.itsfuntorun.models.RunModel
 
-class RunListActivity : AppCompatActivity() {
+class RunListActivity : AppCompatActivity(), RunListener {
     lateinit var app: MainApp
     private lateinit var binding: ActivityRunListBinding
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityRunListBinding.inflate(layoutInflater)
@@ -27,7 +30,7 @@ class RunListActivity : AppCompatActivity() {
 
         val layoutManager= LinearLayoutManager(this)
         binding.recyclerView.layoutManager = layoutManager
-        binding.recyclerView.adapter = RunListAdapter(app.runs)
+        binding.recyclerView.adapter = RunListAdapter(app.runs.findAll(), this)
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -48,7 +51,23 @@ class RunListActivity : AppCompatActivity() {
     private val getResult = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
             if (it.resultCode == Activity.RESULT_OK) {
                 (binding.recyclerView.adapter)?.
-                notifyItemRangeChanged(0,app.runs.size)
+                notifyItemRangeChanged(0,app.runs.findAll().size)
+            }
+        }
+
+    override fun onRunClick(run: RunModel) {
+        val launcherIntent = Intent(this, RunActivity::class.java)
+        launcherIntent.putExtra("run_edit", run)
+        getClickResult.launch(launcherIntent)
+    }
+
+    private val getClickResult =
+        registerForActivityResult(
+            ActivityResultContracts.StartActivityForResult()
+        ) {
+            if (it.resultCode == Activity.RESULT_OK) {
+                (binding.recyclerView.adapter)?.
+                notifyItemRangeChanged(0,app.runs.findAll().size)
             }
         }
 }
