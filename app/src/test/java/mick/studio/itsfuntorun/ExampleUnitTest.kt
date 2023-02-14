@@ -23,6 +23,6 @@ class ExampleUnitTest {
 
     @Test
     fun if_intent_do_not_have_extra() {
-       // assertTrue(RunActivity.checkHasIntentData("name@email.com"))
+        //assertTrue(RunActivity("name@email.com"))
     }
 }
