@@ -1,19 +1,26 @@
 package mick.studio.itsfuntorun.activities
 
 import android.content.Intent
+import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
 import com.google.android.material.snackbar.Snackbar
+import com.squareup.picasso.Picasso
 import mick.studio.itsfuntorun.R
 import mick.studio.itsfuntorun.main.MainApp
 import mick.studio.itsfuntorun.models.RunModel
 import mick.studio.itsfuntorun.databinding.ActivityRunBinding
+import mick.studio.itsfuntorun.helpers.showImagePicker
 import timber.log.Timber
 import timber.log.Timber.i
 
 class RunActivity : AppCompatActivity() {
+
+    private lateinit var imageIntentLauncher : ActivityResultLauncher<Intent>
     private lateinit var binding: ActivityRunBinding
     var run = RunModel()
     val runs = ArrayList<RunModel>()
@@ -35,10 +42,15 @@ class RunActivity : AppCompatActivity() {
 
         checkHasIntentData(intent)
 
+        binding.chooseImage.setOnClickListener {
+            showImagePicker(imageIntentLauncher)
+        }
+
         binding.btnAdd.setOnClickListener() {
             addButtonClicked()
         }
 
+        registerImagePickerCallback()
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -61,6 +73,12 @@ class RunActivity : AppCompatActivity() {
             binding.runKms.setText(run.runInKms)
             binding.runTime.setText(run.runInTime)
             binding.btnAdd.text = getString(R.string.save_run)
+            Picasso.get()
+                .load(run.image)
+                .into(binding.runImage)
+            if (run.image != Uri.EMPTY) {
+                binding.chooseImage.setText(R.string.change_run_image)
+            }
         }
     }
 
@@ -83,5 +101,25 @@ class RunActivity : AppCompatActivity() {
                 .make(binding.btnAdd,getString(R.string.enter_a_run_error), Snackbar.LENGTH_LONG)
                 .show()
         }
+    }
+
+    private fun registerImagePickerCallback() {
+        imageIntentLauncher =
+            registerForActivityResult(ActivityResultContracts.StartActivityForResult())
+            { result ->
+                when(result.resultCode){
+                    RESULT_OK -> {
+                        if (result.data != null) {
+                            i("Got Result ${result.data!!.data}")
+                            run.image = result.data!!.data!!
+                            Picasso.get()
+                                .load(run.image)
+                                .into(binding.runImage)
+                            binding.chooseImage.setText(R.string.change_run_image)
+                        } // end of if
+                    }
+                    RESULT_CANCELED -> { } else -> { }
+                }
+            }
     }
 }
