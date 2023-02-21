@@ -3,6 +3,7 @@ package mick.studio.itsfuntorun.adapter
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.squareup.picasso.Picasso
 import mick.studio.itsfuntorun.databinding.CardRunBinding
 import mick.studio.itsfuntorun.models.RunModel
 
@@ -30,6 +31,7 @@ class RunListAdapter constructor(private var runs: List<RunModel>, private val l
         fun bind(run: RunModel, listener: RunListener) {
             binding.runInKms.text = run.runInKms
             binding.runInTime.text = run.runInTime
+            Picasso.get().load(run.image).resize(200,200).into(binding.imageIcon)
             binding.root.setOnClickListener { listener.onRunClick(run) }
         }
     }

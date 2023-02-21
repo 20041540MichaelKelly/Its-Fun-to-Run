@@ -25,6 +25,7 @@ class RunMemStore : RunStore {
         if (runExists != null) {
             runExists.runInKms = run.runInKms
             runExists.runInTime = run.runInTime
+            runExists.image = run.image
             logAll()
         }
     }

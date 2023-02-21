@@ -2,4 +2,5 @@
 <resources>
     <string name="menu_cancel_run">Cancel run</string>
     <string name="save_run">Save Run</string>
+    <string name="select_run_image">Select an Image</string>
 </resources>
