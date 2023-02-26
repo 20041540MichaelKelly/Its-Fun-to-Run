@@ -10,7 +10,8 @@
     <string name="button_addImage"> Add Image </string>
     <string name="select_run_image">Select an Image</string>
     <string name="change_run_image">Change run image</string>
-
+    <string name="button_location">Time to Run</string>
+    <string name="title_activity_maps">MapsActivity</string>
 
 
 </resources>
