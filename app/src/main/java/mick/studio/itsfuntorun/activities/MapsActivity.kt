@@ -14,6 +14,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.google.android.gms.location.*
+import com.google.android.gms.location.Priority.PRIORITY_HIGH_ACCURACY
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
@@ -25,12 +26,17 @@ import mick.studio.itsfuntorun.models.Location
 
 class MapsActivity : AppCompatActivity(), OnMapReadyCallback,
     GoogleMap.OnMarkerDragListener,
-    GoogleMap.OnMarkerClickListener{
+    GoogleMap.OnMarkerClickListener {
     var locationRequest = createLocationRequest()
 
     var requestingLocationUpdates = false
     var isMapReady = false
     val polylineOptions = PolylineOptions()
+    //this will be used for the current location and live stream of location NO.1
+    private lateinit var fusedLocationClient: FusedLocationProviderClient
+    val builder = LocationSettingsRequest.Builder()
+
+
 
     // globally declare LocationCallback
     private lateinit var locationCallback: LocationCallback
@@ -49,21 +55,21 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback,
      * A Lazy method is used here so it is only called when needed
      * No.1
      */
-    private val fusedLocationClient: FusedLocationProviderClient by lazy {
+    /*private val fusedLocationClient: FusedLocationProviderClient by lazy {
         LocationServices.getFusedLocationProviderClient(applicationContext)
-    }
+    }*/
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMapsBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        getContinousLocation()
-
+        fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
         //location = intent.extras?.getParcelable<Location>("location")
         //No.2
-        if (checkUserPermission()) { // I call this to ensure that permission have been accepted
-            mapSetup()
-            startLocationUpdates()
+        if(checkUserPermission()) { // I call this to ensure that permission have been accepted
+           mapSetup()
+           getContinousLocation()
+           startLocationUpdates()
         }
     }
 
@@ -89,9 +95,9 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback,
 
     //No.5
     override fun onMapReady(googleMap: GoogleMap) {
-        val lat_lng = LatLng(location.lat, location.lng)
+        val latLng = LatLng(location.lat, location.lng)
         map = googleMap
-        moveMarker(lat_lng)
+        moveMarker(latLng)
     }
 
         //override fun onStatusChanged(provider: String, status: Int, extras: Bundle) {}
@@ -117,12 +123,12 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback,
     @SuppressLint("MissingPermission")
     private fun mapSetup() {
         fusedLocationClient.lastLocation.addOnSuccessListener { task ->
+            setUpTheMap()
             location.lat = task.latitude
             location.lng = task.longitude
             location.zoom = 15f
 
             locations.add(LatLng(task.latitude, task.longitude))
-            setUpTheMap()
         }
     }
 
@@ -135,10 +141,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback,
 
     //No.3
     fun checkUserPermission(): Boolean {
-        if (ActivityCompat.checkSelfPermission(
-                this,
-                Manifest.permission.ACCESS_FINE_LOCATION
-            ) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
                 this,
                 Manifest.permission.ACCESS_COARSE_LOCATION
             ) != PackageManager.PERMISSION_GRANTED
@@ -148,7 +151,6 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback,
                 arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
                 LOCATION_REQUEST_CODE
             )
-            return false
         }
         requestingLocationUpdates= true
         return true
@@ -156,11 +158,11 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback,
 
     //first bp
     fun createLocationRequest() : LocationRequest {
-         val locationRequest = LocationRequest.create()
+        locationRequest = LocationRequest.create()
         //Instantiating the Location request and setting the priority and the interval I need to update the location.
-        locationRequest.setInterval(1000);
-        locationRequest.setFastestInterval(500);
-        locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
+        locationRequest.setInterval(3000)
+        locationRequest.setFastestInterval(1000)
+        locationRequest.setPriority(PRIORITY_HIGH_ACCURACY)
 
         return locationRequest
     }
@@ -197,6 +199,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback,
         when (requestCode) {
             LOCATION_REQUEST_CODE -> if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 mapSetup()
+                getContinousLocation()
                 startLocationUpdates()
             }
         }
