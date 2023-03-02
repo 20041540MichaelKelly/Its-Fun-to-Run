@@ -8,6 +8,7 @@ import android.view.Menu
 import android.view.MenuItem
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
+import com.google.android.gms.maps.model.Marker
 import com.google.android.material.snackbar.Snackbar
 import com.squareup.picasso.Picasso
 import mick.studio.itsfuntorun.R
@@ -15,17 +16,20 @@ import mick.studio.itsfuntorun.main.MainApp
 import mick.studio.itsfuntorun.models.RunModel
 import mick.studio.itsfuntorun.databinding.ActivityRunBinding
 import mick.studio.itsfuntorun.helpers.showImagePicker
+import mick.studio.itsfuntorun.models.Location
 import timber.log.Timber
 import timber.log.Timber.i
 
 class RunActivity : AppCompatActivity() {
 
     private lateinit var imageIntentLauncher : ActivityResultLauncher<Intent>
+    private lateinit var mapIntentLauncher : ActivityResultLauncher<Intent>
     private lateinit var binding: ActivityRunBinding
     var run = RunModel()
     val runs = ArrayList<RunModel>()
     lateinit var app : MainApp
     var edit = false
+    var location = Location(52.245696, -7.139102, 15f)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -50,7 +54,14 @@ class RunActivity : AppCompatActivity() {
             addButtonClicked()
         }
 
+        binding.runLocation.setOnClickListener {
+            val launcherIntent = Intent(this, MapsActivity::class.java)
+                .putExtra("location", location)
+            mapIntentLauncher.launch(launcherIntent)
+        }
+
         registerImagePickerCallback()
+        registerMapCallback()
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -122,4 +133,22 @@ class RunActivity : AppCompatActivity() {
                 }
             }
     }
+
+    private fun registerMapCallback() {
+        mapIntentLauncher =
+            registerForActivityResult(ActivityResultContracts.StartActivityForResult())
+            { result ->
+                when (result.resultCode) {
+                    RESULT_OK -> {
+                        if (result.data != null) {
+                            i("Got Location ${result.data.toString()}")
+                            location = result.data!!.extras?.getParcelable("location")!!
+                            i("Location == $location")
+                        } // end of if
+                    }
+                    RESULT_CANCELED -> { } else -> { }
+                }
+            }
+    }
+
 }
