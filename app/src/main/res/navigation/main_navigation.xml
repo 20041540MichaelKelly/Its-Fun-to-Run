@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main_navigation"
+    app:startDestination="@id/runListFragment">
+
+    <fragment
+        android:id="@+id/runListFragment"
+        android:name="mick.studio.itsfuntorun.ui.runlist.RunListFragment"
+        android:label="fragment_run_list"
+        tools:layout="@layout/fragment_run_list" >
+        <action
+            android:id="@+id/action_runListFragment_to_runFragment"
+            app:destination="@id/runFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/runFragment"
+        android:name="mick.studio.itsfuntorun.ui.run.RunFragment"
+        android:label="fragment_run"
+        tools:layout="@layout/fragment_run" >
+        <action
+            android:id="@+id/action_runFragment_to_runListFragment"
+            app:destination="@id/runListFragment" />
+        <action
+            android:id="@+id/action_runFragment_to_mapsActivity"
+            app:destination="@id/mapsActivity" />
+    </fragment>
+    <activity
+        android:id="@+id/mapsActivity"
+        android:name="mick.studio.itsfuntorun.activities.MapsActivity"
+        android:label="activity_maps"
+        tools:layout="@layout/activity_maps" />
+</navigation>

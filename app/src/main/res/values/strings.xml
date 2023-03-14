@@ -12,6 +12,11 @@
     <string name="change_run_image">Change run image</string>
     <string name="button_location">Time to Run</string>
     <string name="title_activity_maps">MapsActivity</string>
+    <string name="record_a_run">Record a Run</string>
+    <string name="runs_not_found">No Runs Yet...\nGet Out and Run!</string>
+    <string name="runError">Error : Couldn\'t Record a Run...</string>
+
+
 
 
 </resources>

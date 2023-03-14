@@ -17,6 +17,7 @@ import mick.studio.itsfuntorun.models.RunModel
 import mick.studio.itsfuntorun.databinding.ActivityRunBinding
 import mick.studio.itsfuntorun.helpers.showImagePicker
 import mick.studio.itsfuntorun.models.Location
+import mick.studio.itsfuntorun.ui.run.RunViewModel
 import timber.log.Timber
 import timber.log.Timber.i
 

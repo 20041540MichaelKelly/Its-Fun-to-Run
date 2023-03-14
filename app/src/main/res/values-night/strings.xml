@@ -3,4 +3,5 @@
     <string name="menu_cancel_run">Cancel run</string>
     <string name="save_run">Save Run</string>
     <string name="select_run_image">Select an Image</string>
+    <string name="record_a_run">Record a Run</string>
 </resources>

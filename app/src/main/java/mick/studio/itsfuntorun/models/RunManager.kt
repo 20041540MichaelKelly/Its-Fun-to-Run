@@ -8,7 +8,7 @@ internal fun getId(): Long {
     return lastId++
 }
 
-class RunMemStore : RunStore {
+object RunManager : RunStore {
     val runs = ArrayList<RunModel>()
 
     override fun findAll(): List<RunModel> {
