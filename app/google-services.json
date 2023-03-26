@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "219586749332",
+    "project_id": "its-fun-to-run",
+    "storage_bucket": "its-fun-to-run.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:219586749332:android:faecc3e9cfb99d79d1e581",
+        "android_client_info": {
+          "package_name": "mick.studio.itsfuntorun"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "219586749332-mkqd9qei01fhk39ocer5ci0g68t6f5d8.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD_-J4I3Ab5vRUH0CMFknBujfeDCcQFZ48"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "219586749332-mkqd9qei01fhk39ocer5ci0g68t6f5d8.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
