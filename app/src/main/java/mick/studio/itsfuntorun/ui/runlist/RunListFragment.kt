@@ -11,12 +11,12 @@ import androidx.lifecycle.Observer
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.NavigationUI
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import mick.studio.itsfuntorun.R
 import mick.studio.itsfuntorun.adapter.RunListAdapter
 import mick.studio.itsfuntorun.adapter.RunListener
 import mick.studio.itsfuntorun.databinding.FragmentRunListBinding
-import mick.studio.itsfuntorun.models.RunManager.runs
 import mick.studio.itsfuntorun.models.RunModel
 
 class RunListFragment : Fragment(), RunListener {
@@ -37,7 +37,7 @@ class RunListFragment : Fragment(), RunListener {
         _fragBinding = FragmentRunListBinding.inflate(inflater, container, false)
         val root = fragBinding.root
         setupMenu()
-        fragBinding.recyclerView.adapter = RunListAdapter(runs, this)
+        fragBinding.recyclerView.layoutManager = LinearLayoutManager(activity)
 
         runListViewModel = ViewModelProvider(this).get(RunListViewModel::class.java)
         runListViewModel.observableRunsList.observe(viewLifecycleOwner, Observer {

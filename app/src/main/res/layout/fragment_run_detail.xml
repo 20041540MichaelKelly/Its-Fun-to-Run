@@ -11,7 +11,7 @@
         android:id="@+id/runTimeTV"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="40dp"
+        android:layout_marginTop="75dp"
         android:layout_marginEnd="8dp"
         android:text="@string/time"
         android:textAlignment="textEnd"
@@ -20,14 +20,14 @@
         app:layout_constraintEnd_toStartOf="@+id/editRunDistance"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintBottom_toTopOf="@+id/runKMTV" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/runKMTV"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="40dp"
         android:layout_marginEnd="8dp"
+        android:layout_marginTop="25dp"
         android:text="@string/distance"
         android:textAlignment="textEnd"
         android:textColor="@color/black"
@@ -41,12 +41,12 @@
         android:id="@+id/editRunDistance"
         android:layout_width="210dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="60dp"
         android:layout_marginEnd="4dp"
         android:textAlignment="viewStart"
         android:textSize="24sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editRunTime" />
+        app:layout_constraintTop_toTopOf="@+id/editRunTime" />
 
 
 
@@ -54,13 +54,13 @@
         android:id="@+id/editRunTime"
         android:layout_width="210dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="60dp"
         android:layout_marginEnd="4dp"
         android:ems="10"
         android:inputType="number"
         android:textSize="24sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editRunDistance" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <Button
         android:id="@+id/editDonationButton"

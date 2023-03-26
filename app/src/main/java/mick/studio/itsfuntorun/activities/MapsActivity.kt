@@ -64,7 +64,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback,
         binding = ActivityMapsBinding.inflate(layoutInflater)
         setContentView(binding.root)
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
-        //location = intent.extras?.getParcelable<Location>("location")
+        location = intent.extras?.getParcelable<Location>("location")!!
         //No.2
         if(checkUserPermission()) { // I call this to ensure that permission have been accepted
            mapSetup()

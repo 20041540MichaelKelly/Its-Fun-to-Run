@@ -2,7 +2,7 @@ package mick.studio.itsfuntorun.models
 
 import timber.log.Timber.i
 
-var lastId = 0L
+var lastId = 1L
 
 internal fun getId(): Long {
     return lastId++
