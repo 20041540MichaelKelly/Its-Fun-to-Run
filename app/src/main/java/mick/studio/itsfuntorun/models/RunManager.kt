@@ -2,13 +2,13 @@ package mick.studio.itsfuntorun.models
 
 import timber.log.Timber.i
 
-var lastId = 0L
+var lastId = 1L
 
 internal fun getId(): Long {
     return lastId++
 }
 
-class RunMemStore : RunStore {
+object RunManager : RunStore {
     val runs = ArrayList<RunModel>()
 
     override fun findAll(): List<RunModel> {

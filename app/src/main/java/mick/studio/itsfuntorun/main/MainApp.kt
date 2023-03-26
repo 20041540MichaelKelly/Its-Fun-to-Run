@@ -1,13 +1,12 @@
 package mick.studio.itsfuntorun.main
 
 import android.app.Application
-import mick.studio.itsfuntorun.models.RunMemStore
-import mick.studio.itsfuntorun.models.RunModel
+import mick.studio.itsfuntorun.models.RunManager
 import timber.log.Timber
 import timber.log.Timber.i
 
 class MainApp : Application() {
-    val runs = RunMemStore()
+    //val runs = RunManager()
 
     override fun onCreate() {
         super.onCreate()

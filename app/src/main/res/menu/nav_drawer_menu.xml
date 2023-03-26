@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/runFragment"
+            android:icon="@drawable/baseline_run_circle_24"
+            android:title="@string/action_run" />
+        <item
+            android:id="@+id/runListFragment"
+            android:icon="@drawable/baseline_format_list_numbered_24"
+            android:title="@string/action_run_list" />
+    </group>
+
+    <item android:title="@string/group_communicate">
+        <menu>
+            <item
+                android:id="@+id/nav_share"
+                android:icon="@drawable/baseline_share_24"
+                android:title="@string/action_share" />
+            <item
+                android:id="@+id/nav_send"
+                android:icon="@drawable/baseline_send_24"
+                android:title="@string/action_send" />
+        </menu>
+    </item>
+</menu>

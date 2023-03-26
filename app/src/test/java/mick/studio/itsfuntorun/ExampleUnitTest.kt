@@ -1,6 +1,5 @@
 package mick.studio.itsfuntorun
 
-import mick.studio.itsfuntorun.activities.RunActivity
 import org.junit.Test
 
 import org.junit.Assert.*
