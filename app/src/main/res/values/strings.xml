@@ -15,8 +15,15 @@
     <string name="record_a_run">Record a Run</string>
     <string name="runs_not_found">No Runs Yet...\nGet Out and Run!</string>
     <string name="runError">Error : Couldn\'t Record a Run...</string>
-
-
-
-
+    <string name="action_run_list">Run List</string>
+    <string name="action_share">Share</string>
+    <string name="action_send">Send</string>
+    <string name="group_communicate">Communicate</string>
+    <string name="action_run">Run</string>
+    <string name="nav_header_title">Its Fun to Run</string>
+    <string name="nav_header_subtitle">mickkelly@android.com</string>
+    <string name="nav_header_desc">Navigation header</string>
+    <string name="runDetails">Run Details</string>
+    <string name="distance">Distance :</string>
+    <string name="time">Time :</string>
 </resources>

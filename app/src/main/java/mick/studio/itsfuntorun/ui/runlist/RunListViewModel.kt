@@ -7,16 +7,16 @@ import mick.studio.itsfuntorun.models.RunManager
 import mick.studio.itsfuntorun.models.RunModel
 
 class RunListViewModel : ViewModel() {
-    private val donationsList = MutableLiveData<List<RunModel>>()
+    private val runsList = MutableLiveData<List<RunModel>>()
 
-    val observableDonationsList: LiveData<List<RunModel>>
-        get() = donationsList
+    val observableRunsList: LiveData<List<RunModel>>
+        get() = runsList
 
     init {
         load()
     }
 
     fun load() {
-        donationsList.value = RunManager.findAll()
+        runsList.value = RunManager.findAll()
     }
 }

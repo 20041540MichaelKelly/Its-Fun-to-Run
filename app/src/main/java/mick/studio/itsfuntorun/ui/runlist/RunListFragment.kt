@@ -8,13 +8,15 @@ import androidx.core.view.MenuHost
 import androidx.core.view.MenuProvider
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.Observer
+import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
-import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.navigation.ui.NavigationUI
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import mick.studio.itsfuntorun.R
 import mick.studio.itsfuntorun.adapter.RunListAdapter
 import mick.studio.itsfuntorun.adapter.RunListener
 import mick.studio.itsfuntorun.databinding.FragmentRunListBinding
+import mick.studio.itsfuntorun.models.RunManager.runs
 import mick.studio.itsfuntorun.models.RunModel
 
 class RunListFragment : Fragment(), RunListener {
@@ -35,12 +37,12 @@ class RunListFragment : Fragment(), RunListener {
         _fragBinding = FragmentRunListBinding.inflate(inflater, container, false)
         val root = fragBinding.root
         setupMenu()
-        fragBinding.recyclerView.layoutManager = LinearLayoutManager(activity)
+        fragBinding.recyclerView.adapter = RunListAdapter(runs, this)
 
         runListViewModel = ViewModelProvider(this).get(RunListViewModel::class.java)
-        runListViewModel.observableDonationsList.observe(viewLifecycleOwner, Observer {
-                donations ->
-            donations?.let { render(donations) }
+        runListViewModel.observableRunsList.observe(viewLifecycleOwner, Observer {
+                runs ->
+            runs?.let { render(runs) }
         })
 
         val fab: FloatingActionButton = fragBinding.fab
@@ -89,6 +91,7 @@ class RunListFragment : Fragment(), RunListener {
     }
 
     override fun onRunClick(run: RunModel) {
-        TODO("Not yet implemented")
+        val action = RunListFragmentDirections.actionRunListFragmentToRunDetailFragment(run.id)
+        findNavController().navigate(action)
     }
 }

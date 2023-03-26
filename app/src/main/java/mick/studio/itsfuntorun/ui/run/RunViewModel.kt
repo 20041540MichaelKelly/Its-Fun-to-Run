@@ -13,9 +13,9 @@ class RunViewModel : ViewModel() {
     val observableStatus: LiveData<Boolean>
         get() = status
 
-    fun addDonation(donation: RunModel) {
+    fun addRun(run: RunModel) {
         status.value = try {
-            RunManager.create(donation)
+            RunManager.create(run)
             true
         } catch (e: IllegalArgumentException) {
             false
