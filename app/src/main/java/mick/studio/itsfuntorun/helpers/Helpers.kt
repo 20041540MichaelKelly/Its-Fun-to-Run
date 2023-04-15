@@ -4,6 +4,8 @@ import android.app.AlertDialog
 import android.widget.Toast
 import androidx.fragment.app.FragmentActivity
 import mick.studio.itsfuntorun.R
+import mick.studio.itsfuntorun.firebase.FirebaseAuthManager
+import java.util.concurrent.Executor
 
 fun createLoader(activity: FragmentActivity) : AlertDialog {
     val loaderBuilder = AlertDialog.Builder(activity)

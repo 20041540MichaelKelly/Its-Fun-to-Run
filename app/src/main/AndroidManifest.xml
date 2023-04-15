@@ -30,7 +30,7 @@
                 android:value="" />
         </activity>
         <activity
-            android:name=".activities.Home"
+            android:name=".ui.home.Home"
             android:exported="true">
         </activity>
 
@@ -39,7 +39,7 @@
             android:value="${MAPS_API_KEY}" />
 
         <activity
-            android:name=".activities.MapsActivity"
+            android:name=".ui.map.MapsActivity"
             android:exported="false"
             android:label="@string/title_activity_maps" />
     </application>

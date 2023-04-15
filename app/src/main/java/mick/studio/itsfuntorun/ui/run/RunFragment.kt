@@ -1,6 +1,5 @@
 package mick.studio.itsfuntorun.ui.run
 
-import android.app.Activity
 import android.app.Activity.RESULT_CANCELED
 import android.app.Activity.RESULT_OK
 import android.content.Intent
@@ -13,17 +12,15 @@ import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.view.MenuHost
 import androidx.core.view.MenuProvider
-import androidx.fragment.app.setFragmentResult
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.Observer
-import androidx.navigation.Navigation
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.NavigationUI
 import com.google.android.material.snackbar.Snackbar
 import com.squareup.picasso.Picasso
 import mick.studio.itsfuntorun.R
-import mick.studio.itsfuntorun.activities.MapsActivity
+import mick.studio.itsfuntorun.ui.map.MapsActivity
 import mick.studio.itsfuntorun.databinding.FragmentRunBinding
 import mick.studio.itsfuntorun.helpers.showImagePicker
 import mick.studio.itsfuntorun.models.Location

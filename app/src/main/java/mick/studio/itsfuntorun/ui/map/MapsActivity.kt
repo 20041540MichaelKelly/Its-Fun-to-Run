@@ -1,4 +1,4 @@
-package mick.studio.itsfuntorun.activities
+package mick.studio.itsfuntorun.ui.map
 
 import android.Manifest
 import android.annotation.SuppressLint
