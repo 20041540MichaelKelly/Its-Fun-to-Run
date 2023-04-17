@@ -1,5 +1,6 @@
 package mick.studio.itsfuntorun.ui.runlist
 
+import android.app.AlertDialog
 import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
 import android.view.*
@@ -17,13 +18,19 @@ import mick.studio.itsfuntorun.R
 import mick.studio.itsfuntorun.adapter.RunListAdapter
 import mick.studio.itsfuntorun.adapter.RunListener
 import mick.studio.itsfuntorun.databinding.FragmentRunListBinding
+import mick.studio.itsfuntorun.helpers.createLoader
+import mick.studio.itsfuntorun.helpers.showLoader
 import mick.studio.itsfuntorun.models.RunModel
+import mick.studio.itsfuntorun.ui.auth.LoggedInViewModel
 
 class RunListFragment : Fragment(), RunListener {
 
     private var _fragBinding: FragmentRunListBinding? = null
     private val fragBinding get() = _fragBinding!!
     private lateinit var runListViewModel: RunListViewModel
+    private lateinit var loggedInViewModel: LoggedInViewModel
+
+    lateinit var loader: AlertDialog
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -38,10 +45,12 @@ class RunListFragment : Fragment(), RunListener {
         val root = fragBinding.root
         setupMenu()
         fragBinding.recyclerView.layoutManager = LinearLayoutManager(activity)
+        loader = createLoader(requireActivity())
 
         runListViewModel = ViewModelProvider(this).get(RunListViewModel::class.java)
-        runListViewModel.observableRunsList.observe(viewLifecycleOwner, Observer {
-                runs ->
+        showLoader(loader, "Downloading Runs")
+
+        runListViewModel.observableRunsList.observe(viewLifecycleOwner, Observer { runs ->
             runs?.let { render(runs) }
         })
 
@@ -62,11 +71,15 @@ class RunListFragment : Fragment(), RunListener {
             override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
                 menuInflater.inflate(R.menu.menu_run, menu)
             }
+
             override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
                 // Validate and handle the selected menu item
-                return NavigationUI.onNavDestinationSelected(menuItem,
-                    requireView().findNavController())
-            }     }, viewLifecycleOwner, Lifecycle.State.RESUMED)
+                return NavigationUI.onNavDestinationSelected(
+                    menuItem,
+                    requireView().findNavController()
+                )
+            }
+        }, viewLifecycleOwner, Lifecycle.State.RESUMED)
     }
 
     private fun render(runList: List<RunModel>) {
@@ -91,7 +104,11 @@ class RunListFragment : Fragment(), RunListener {
     }
 
     override fun onRunClick(run: RunModel) {
-        val action = RunListFragmentDirections.actionRunListFragmentToRunDetailFragment(run.id)
-        findNavController().navigate(action)
+        if (loggedInViewModel.liveFirebaseUser.value!!.uid == run.uid) {
+
+            val action =
+                RunListFragmentDirections.actionRunListFragmentToRunDetailFragment(run.runid)
+            findNavController().navigate(action)
+        }
     }
 }

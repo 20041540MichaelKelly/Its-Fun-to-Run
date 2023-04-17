@@ -43,16 +43,23 @@
                 <EditText
                     android:id="@+id/runKms"
                     android:layout_width="match_parent"
-                    android:layout_height="45dp"
-                    android:layout_margin="8dp"
-                    android:autofillHints="hint"
-                    android:hint="@string/hint_run_kms"
-                    android:inputType="text"
-                    android:maxLength="25"
-                    android:maxLines="1"
-                    android:padding="8dp"
-                    android:textColor="@color/black"
-                    android:textSize="14sp" />
+                    android:layout_height="wrap_content"
+                    android:ems="10"
+                    android:inputType="number" />
+
+<!--                <EditText-->
+<!--                    android:id="@+id/runKms"-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="45dp"-->
+<!--                    android:layout_margin="8dp"-->
+<!--                    android:autofillHints="hint"-->
+<!--                    android:hint="@string/hint_run_kms"-->
+<!--                    android:inputType="numberDecimal"-->
+<!--                    android:maxLength="25"-->
+<!--                    android:maxLines="1"-->
+<!--                    android:padding="8dp"-->
+<!--                    android:textColor="@color/black"-->
+<!--                    android:textSize="14sp" />-->
 
                 <EditText
                     android:id="@+id/runTime"

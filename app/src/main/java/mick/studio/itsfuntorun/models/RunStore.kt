@@ -1,7 +1,18 @@
 package mick.studio.itsfuntorun.models
 
+import androidx.lifecycle.MutableLiveData
+import com.google.firebase.auth.FirebaseUser
+
 interface RunStore {
-    fun findAll(): List<RunModel>
-    fun create(run: RunModel)
-    fun update(run: RunModel)
+    fun findAll(runsList:
+                MutableLiveData<List<RunModel>>
+    )
+    fun findAll(userid:String,
+                runsList:
+                MutableLiveData<List<RunModel>>)
+    fun findById(userid:String, runid: String,
+                 donation: MutableLiveData<RunModel>)
+    fun create(firebaseUser: MutableLiveData<FirebaseUser>, run: RunModel)
+    fun delete(userid:String, runid: String)
+    fun update(userid:String, runid: String, run: RunModel)
 }

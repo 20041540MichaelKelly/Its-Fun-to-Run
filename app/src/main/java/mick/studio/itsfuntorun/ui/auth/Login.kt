@@ -46,6 +46,7 @@ class Login : AppCompatActivity() {
         loginRegisterViewModel = ViewModelProvider(this).get(LoginRegisterViewModel::class.java)
         loginRegisterViewModel.liveFirebaseUser.observe(this, Observer
         { firebaseUser -> if (firebaseUser != null)
+            hideLoader(loader)
             startActivity(Intent(this, Home::class.java)) })
 
         loginRegisterViewModel.firebaseAuthManager.errorStatus.observe(this, Observer
@@ -70,6 +71,7 @@ class Login : AppCompatActivity() {
         Timber.d("signIn:$email")
         if (!validateForm()) { return }
 
+        showLoader(loader,"Signing in...")
         loginRegisterViewModel.login(email,password)
     }
 

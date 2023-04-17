@@ -50,6 +50,6 @@
             app:destination="@id/runListFragment" />
         <argument
             android:name="runid"
-            app:argType="long" />
+            app:argType="string" />
     </fragment>
 </navigation>

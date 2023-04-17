@@ -17,6 +17,6 @@ class RunListViewModel : ViewModel() {
     }
 
     fun load() {
-        runsList.value = RunManager.findAll()
+       // runsList.value = RunManager.findAll()
     }
 }
