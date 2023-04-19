@@ -11,8 +11,8 @@ import java.sql.Time
 @IgnoreExtraProperties
 @Parcelize
 data class RunModel(
-    var uid: String = "",
-    var runid: String = "",
+    var uid: String? = "",
+    var runid: String? = "",
     var lat: Double = 0.0,
     var lng: Double = 0.0,
     var runTime: String? = "",
@@ -21,13 +21,14 @@ data class RunModel(
     var finishTime: String? = "",
     var amountOfCals: Int = 0,
     var image: String? = "",
-    var zoom: Float = 0f,
+    var zoom: Float = 15f,
     var email: String? = "joe@bloggs.com"
 ) : Parcelable {
     @Exclude
     fun toMap(): Map<String, Any?> {
         return mapOf(
             "uid" to uid,
+            "runid" to runid,
             "lat" to lat,
             "lng" to lng,
             "runTime" to runTime,

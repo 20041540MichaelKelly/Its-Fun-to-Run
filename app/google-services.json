@@ -1,34 +1,34 @@
 {
   "project_info": {
-    "project_number": "219586749332",
-    "firebase_url": "https://its-fun-to-run-default-rtdb.europe-west1.firebasedatabase.app",
-    "project_id": "its-fun-to-run",
-    "storage_bucket": "its-fun-to-run.appspot.com"
+    "project_number": "759987561783",
+    "firebase_url": "https://fun-to-run-4c00f-default-rtdb.europe-west1.firebasedatabase.app",
+    "project_id": "fun-to-run-4c00f",
+    "storage_bucket": "fun-to-run-4c00f.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:219586749332:android:faecc3e9cfb99d79d1e581",
+        "mobilesdk_app_id": "1:759987561783:android:a163eda4bc521e63b966b2",
         "android_client_info": {
           "package_name": "mick.studio.itsfuntorun"
         }
       },
       "oauth_client": [
         {
-          "client_id": "219586749332-mkqd9qei01fhk39ocer5ci0g68t6f5d8.apps.googleusercontent.com",
+          "client_id": "759987561783-h756v3fdqmjf5ffacdm5i4s6e3agn310.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyD_-J4I3Ab5vRUH0CMFknBujfeDCcQFZ48"
+          "current_key": "AIzaSyBYM1YA-P3KHN6mc8N4pghgrRdwgfgUSHk"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "219586749332-mkqd9qei01fhk39ocer5ci0g68t6f5d8.apps.googleusercontent.com",
+              "client_id": "759987561783-h756v3fdqmjf5ffacdm5i4s6e3agn310.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

@@ -2,8 +2,7 @@ package mick.studio.itsfuntorun.firebase
 
 import androidx.lifecycle.MutableLiveData
 import com.google.firebase.auth.FirebaseUser
-import com.google.firebase.database.DatabaseReference
-import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.*
 import mick.studio.itsfuntorun.models.RunModel
 import mick.studio.itsfuntorun.models.RunStore
 import timber.log.Timber
@@ -16,10 +15,30 @@ object FirebaseDBManager: RunStore {
     }
 
     override fun findAll(userid: String, runsList: MutableLiveData<List<RunModel>>) {
-        TODO("Not yet implemented")
+
+        database.child("user-runs").child(userid)
+            .addValueEventListener(object : ValueEventListener {
+                override fun onCancelled(error: DatabaseError) {
+                    Timber.i("Firebase Its Fun To Run error : ${error.message}")
+                }
+
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    val localList = ArrayList<RunModel>()
+                    val children = snapshot.children
+                    children.forEach {
+                        val run = it.getValue(RunModel::class.java)
+                        localList.add(run!!)
+                    }
+                    database.child("user-runs").child(userid)
+                        .removeEventListener(this)
+
+                    runsList.value = localList
+                }
+            })
     }
 
-    override fun findById(userid: String, runid: String, donation: MutableLiveData<RunModel>) {
+
+    override fun findById(userid: String, runid: String, run: MutableLiveData<RunModel>) {
         TODO("Not yet implemented")
     }
 
@@ -27,24 +46,34 @@ object FirebaseDBManager: RunStore {
         Timber.i("Firebase DB Reference : $database")
 
         val uid = firebaseUser.value!!.uid
-        val key = database.child("run-data").push().key
+        val key = database.child("runs").push().key
         if (key == null) {
             Timber.i("Firebase Error : Key Empty")
             return
         }
-        run.uid = key
+        run.runid = key
+        run.uid = uid
+
         val runValues = run.toMap()
 
         val childAdd = HashMap<String, Any>()
-        childAdd["/run-data/$key"] = runValues
-        childAdd["/user-run-data/$uid/$key"] = runValues
+        childAdd["/runs/$key"] = runValues
+        childAdd["/user-runs/$uid/$key"] = runValues
 
         database.updateChildren(childAdd)
+        Timber.i("completed childAdd : $childAdd")
+
+
     }
 
 
     override fun delete(userid: String, runid: String) {
-        TODO("Not yet implemented")
+
+        val childDelete : MutableMap<String, Any?> = HashMap()
+        childDelete["/runs/$runid"] = null
+        childDelete["/user-runs/$userid/$runid"] = null
+
+        database.updateChildren(childDelete)
     }
 
     override fun update(userid: String, runid: String, run: RunModel) {

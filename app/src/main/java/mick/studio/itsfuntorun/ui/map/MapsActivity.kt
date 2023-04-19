@@ -24,7 +24,6 @@ import com.google.android.gms.maps.model.*
 import mick.studio.itsfuntorun.R
 import mick.studio.itsfuntorun.databinding.ActivityMapsBinding
 import mick.studio.itsfuntorun.models.RunModel
-import org.chromium.base.Promise
 
 class MapsActivity : AppCompatActivity(), OnMapReadyCallback,
     GoogleMap.OnMarkerDragListener,

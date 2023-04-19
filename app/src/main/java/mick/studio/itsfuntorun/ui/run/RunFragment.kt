@@ -59,6 +59,8 @@ class RunFragment : Fragment() {
         activity?.title = getString(R.string.record_a_run)
         setupMenu()
         runViewModel = ViewModelProvider(this).get(RunViewModel::class.java)
+        loggedInViewModel = ViewModelProvider(this).get(LoggedInViewModel::class.java)
+
         runViewModel.observableStatus.observe(viewLifecycleOwner, Observer {
             status -> status?.let { render(status)}
         })
@@ -73,25 +75,26 @@ class RunFragment : Fragment() {
         layout: FragmentRunBinding
     ){
         layout.btnAdd.setOnClickListener() {
-            run.distance = fragBinding.runKms.text.toString().toDouble()
-            run.finishTime = fragBinding.runTime.text.toString()
+            run.distance = layout.runKms.text.toString().toDouble()
+            run.finishTime = layout.runTime.text.toString()
             run.runTime = LocalDateTime.now().format(DateTimeFormatter.ofPattern("M/d/y H:m:ss"))
            // run.amountOfCals =
             if (run.finishTime!!.isNotEmpty()) {
-            if (edit) {
+           // if (edit) {
                 runViewModel.addRun(
                     loggedInViewModel.liveFirebaseUser,
                     RunModel(
-                        speed = run.speed, lat = run.lat, lng = run.lng, runTime = run.runTime,
-                        email = loggedInViewModel.liveFirebaseUser.value?.email!!
+                        lat = run.lat, lng = run.lng, runTime = run.runTime,speed = run.speed,  distance = run.distance , finishTime = run.finishTime,
+                         amountOfCals = run.amountOfCals,image = run.image, zoom = run.zoom, email = loggedInViewModel.liveFirebaseUser.value?.email!!
                     )
+
                 )
 
+
                 i("add Button Pressed: ${run.distance}")
-            }
+          //  }
 
             
-         //   finish()
             } else {
                 Snackbar
                     .make(

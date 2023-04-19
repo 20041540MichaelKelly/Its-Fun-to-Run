@@ -77,7 +77,7 @@ class Home : AppCompatActivity() {
         return navController.navigateUp(appBarConfiguration) || super.onSupportNavigateUp()
     }
 
-    fun signOut() {
+    fun signOut(item: MenuItem) {
         loggedInViewModel.logOut()
         //Launch Login activity and clear the back stack to stop navigating back to the Home activity
         val intent = Intent(this, Login::class.java)

@@ -11,7 +11,7 @@ interface RunStore {
                 runsList:
                 MutableLiveData<List<RunModel>>)
     fun findById(userid:String, runid: String,
-                 donation: MutableLiveData<RunModel>)
+                 run: MutableLiveData<RunModel>)
     fun create(firebaseUser: MutableLiveData<FirebaseUser>, run: RunModel)
     fun delete(userid:String, runid: String)
     fun update(userid:String, runid: String, run: RunModel)

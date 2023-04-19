@@ -7,6 +7,7 @@ import com.google.firebase.auth.FirebaseUser
 import mick.studio.itsfuntorun.firebase.FirebaseDBManager
 import mick.studio.itsfuntorun.models.RunManager
 import mick.studio.itsfuntorun.models.RunModel
+import timber.log.Timber
 
 class RunViewModel : ViewModel() {
 
@@ -21,6 +22,8 @@ class RunViewModel : ViewModel() {
     ) {
         status.value = try {
             FirebaseDBManager.create(firebaseUser, run)
+            Timber.d("completed ${run}")
+
             true
         } catch (e: IllegalArgumentException) {
             false
