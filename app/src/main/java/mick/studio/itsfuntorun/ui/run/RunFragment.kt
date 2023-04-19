@@ -1,9 +1,9 @@
 package mick.studio.itsfuntorun.ui.run
 
-import android.app.Activity
 import android.app.Activity.RESULT_CANCELED
 import android.app.Activity.RESULT_OK
 import android.content.Intent
+import android.location.Location
 import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
 import android.view.*
@@ -13,22 +13,23 @@ import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.view.MenuHost
 import androidx.core.view.MenuProvider
-import androidx.fragment.app.setFragmentResult
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.Observer
-import androidx.navigation.Navigation
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.NavigationUI
+import com.google.android.gms.maps.model.LatLng
 import com.google.android.material.snackbar.Snackbar
 import com.squareup.picasso.Picasso
 import mick.studio.itsfuntorun.R
-import mick.studio.itsfuntorun.activities.MapsActivity
+import mick.studio.itsfuntorun.ui.map.MapsActivity
 import mick.studio.itsfuntorun.databinding.FragmentRunBinding
 import mick.studio.itsfuntorun.helpers.showImagePicker
-import mick.studio.itsfuntorun.models.Location
 import mick.studio.itsfuntorun.models.RunModel
+import mick.studio.itsfuntorun.ui.auth.LoggedInViewModel
 import timber.log.Timber.i
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 
 class RunFragment : Fragment() {
 
@@ -40,8 +41,9 @@ class RunFragment : Fragment() {
     // This property is only valid between onCreateView and onDestroyView.
     private val fragBinding get() = _fragBinding!!
     private lateinit var runViewModel: RunViewModel
+    private lateinit var loggedInViewModel: LoggedInViewModel
+
     var edit = false
-    var location = Location(52.245696, -7.139102, 15f)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -57,6 +59,8 @@ class RunFragment : Fragment() {
         activity?.title = getString(R.string.record_a_run)
         setupMenu()
         runViewModel = ViewModelProvider(this).get(RunViewModel::class.java)
+        loggedInViewModel = ViewModelProvider(this).get(LoggedInViewModel::class.java)
+
         runViewModel.observableStatus.observe(viewLifecycleOwner, Observer {
             status -> status?.let { render(status)}
         })
@@ -71,15 +75,26 @@ class RunFragment : Fragment() {
         layout: FragmentRunBinding
     ){
         layout.btnAdd.setOnClickListener() {
-            run.runInKms = fragBinding.runKms.text.toString()
-            run.runInTime = fragBinding.runTime.text.toString()
+            run.distance = layout.runKms.text.toString().toDouble()
+            run.finishTime = layout.runTime.text.toString()
+            run.runTime = LocalDateTime.now().format(DateTimeFormatter.ofPattern("M/d/y H:m:ss"))
+           // run.amountOfCals =
+            if (run.finishTime!!.isNotEmpty()) {
+           // if (edit) {
+                runViewModel.addRun(
+                    loggedInViewModel.liveFirebaseUser,
+                    RunModel(
+                        lat = run.lat, lng = run.lng, runTime = run.runTime,speed = run.speed,  distance = run.distance , finishTime = run.finishTime,
+                         amountOfCals = run.amountOfCals,image = run.image, zoom = run.zoom, email = loggedInViewModel.liveFirebaseUser.value?.email!!
+                    )
 
-            if (run.runInKms.isNotEmpty() && run.runInTime.isNotEmpty()) {
-            if (edit) runViewModel.addRun(run.copy()) else runViewModel.addRun(run.copy())
-            i("add Button Pressed: ${run.runInKms}")
+                )
+
+
+                i("add Button Pressed: ${run.distance}")
+          //  }
 
             
-         //   finish()
             } else {
                 Snackbar
                     .make(
@@ -93,7 +108,7 @@ class RunFragment : Fragment() {
 
         layout.runLocation.setOnClickListener {
             val launcherIntent = Intent(this.requireActivity(), MapsActivity::class.java)
-                .putExtra("location", location)
+                .putExtra("location", LatLng(52.4720715,-6.8861582))
             mapIntentLauncher.launch(launcherIntent)
         }
 
@@ -110,7 +125,7 @@ class RunFragment : Fragment() {
                     RESULT_OK -> {
                         if (result.data != null) {
                             i("Got Result ${result.data!!.data}")
-                            run.image = result.data!!.data!!
+                            run.image = result.data!!.data!!.toString()
                             Picasso.get()
                                 .load(run.image)
                                 .into(fragBinding.runImage)
@@ -130,9 +145,16 @@ class RunFragment : Fragment() {
                     RESULT_OK -> {
                         if (result.data != null) {
                             i("Got Location ${result.data.toString()}")
-                            location = result.data!!.extras?.getParcelable("location")!!
-                            i("Location == $location")
-                        } // end of if
+                            val runLoc = result.data!!.extras?.getParcelable<RunModel>("location")!!
+                        if(runLoc.lat == 0.0) {
+                            i("Location == $runLoc")
+                        }else {
+                            i("Location == $runLoc")
+                            run.lat = runLoc.lat
+                            run.lng = runLoc.lng
+                            run.zoom = runLoc.zoom
+                        }
+                        }
                     }
                     RESULT_CANCELED -> { } else -> { }
                 }

@@ -1,4 +1,4 @@
-package mick.studio.itsfuntorun.activities
+package mick.studio.itsfuntorun.ui.map
 
 import android.Manifest
 import android.annotation.SuppressLint
@@ -8,6 +8,7 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.graphics.Canvas
+import android.location.Location
 import android.os.Bundle
 import android.os.Looper
 import androidx.appcompat.app.AppCompatActivity
@@ -22,7 +23,7 @@ import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.*
 import mick.studio.itsfuntorun.R
 import mick.studio.itsfuntorun.databinding.ActivityMapsBinding
-import mick.studio.itsfuntorun.models.Location
+import mick.studio.itsfuntorun.models.RunModel
 
 class MapsActivity : AppCompatActivity(), OnMapReadyCallback,
     GoogleMap.OnMarkerDragListener,
@@ -32,10 +33,10 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback,
     var requestingLocationUpdates = false
     var isMapReady = false
     val polylineOptions = PolylineOptions()
+
     //this will be used for the current location and live stream of location NO.1
     private lateinit var fusedLocationClient: FusedLocationProviderClient
     val builder = LocationSettingsRequest.Builder()
-
 
 
     // globally declare LocationCallback
@@ -46,10 +47,10 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback,
 
     private lateinit var map: GoogleMap
     private lateinit var binding: ActivityMapsBinding
-    private var location = Location()
+    private  var runModel= RunModel()
     private var listOfLatLng = mutableListOf<LatLng>()
     private var LOCATION_REQUEST_CODE = 101
-    private var myMarker : Marker? = null
+    private var myMarker: Marker? = null
 
     /**
      * A Lazy method is used here so it is only called when needed
@@ -64,12 +65,12 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback,
         binding = ActivityMapsBinding.inflate(layoutInflater)
         setContentView(binding.root)
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
-        location = intent.extras?.getParcelable<Location>("location")!!
+        //location = intent.extras?.getParcelable<Location>("location")!!
         //No.2
-        if(checkUserPermission()) { // I call this to ensure that permission have been accepted
-           mapSetup()
-           getContinousLocation()
-           startLocationUpdates()
+        if (checkUserPermission()) { // I call this to ensure that permission have been accepted
+            mapSetup()
+            getContinousLocation()
+            startLocationUpdates()
         }
     }
 
@@ -95,12 +96,12 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback,
 
     //No.5
     override fun onMapReady(googleMap: GoogleMap) {
-        val latLng = LatLng(location.lat, location.lng)
+        val latLng = LatLng(runModel.lat, runModel.lng)
         map = googleMap
         moveMarker(latLng)
     }
 
-        //override fun onStatusChanged(provider: String, status: Int, extras: Bundle) {}
+    //override fun onStatusChanged(provider: String, status: Int, extras: Bundle) {}
     private fun moveMarker(latLng: LatLng) {
         val options = MarkerOptions()
             .title("Run")
@@ -111,7 +112,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback,
 
         myMarker = map.addMarker(options)
         map.setOnMarkerDragListener(this)
-        map.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, location.zoom))
+        map.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, runModel.zoom))
     }
 
     //No.3
@@ -123,25 +124,30 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback,
     @SuppressLint("MissingPermission")
     private fun mapSetup() {
         fusedLocationClient.lastLocation.addOnSuccessListener { task ->
-            setUpTheMap()
-            location.lat = task.latitude
-            location.lng = task.longitude
-            location.zoom = 15f
+                setUpTheMap()
+                runModel.lat = task.latitude
+                runModel.lng = task.longitude
+                runModel.zoom = 15f
+
 
             locations.add(LatLng(task.latitude, task.longitude))
         }
     }
 
-    private fun setUpTheMap() {
+    private fun setUpTheMap(): Boolean {
         val mapFragment = supportFragmentManager
             .findFragmentById(R.id.map) as SupportMapFragment
         mapFragment.getMapAsync(this)
         isMapReady = true
+        return true
     }
 
     //No.3
     fun checkUserPermission(): Boolean {
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
+        if (ActivityCompat.checkSelfPermission(
+                this,
+                Manifest.permission.ACCESS_FINE_LOCATION
+            ) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
                 this,
                 Manifest.permission.ACCESS_COARSE_LOCATION
             ) != PackageManager.PERMISSION_GRANTED
@@ -152,12 +158,12 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback,
                 LOCATION_REQUEST_CODE
             )
         }
-        requestingLocationUpdates= true
+        requestingLocationUpdates = true
         return true
     }
 
     //first bp
-    fun createLocationRequest() : LocationRequest {
+    fun createLocationRequest(): LocationRequest {
         locationRequest = LocationRequest.create()
         //Instantiating the Location request and setting the priority and the interval I need to update the location.
         locationRequest.setInterval(3000)
@@ -174,9 +180,11 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback,
 
     @SuppressLint("MissingPermission")
     private fun startLocationUpdates() {
-        fusedLocationClient.requestLocationUpdates(locationRequest,
+        fusedLocationClient.requestLocationUpdates(
+            locationRequest,
             locationCallback,
-            Looper.getMainLooper())
+            Looper.getMainLooper()
+        )
     }
 
     override fun onPause() {
@@ -222,25 +230,27 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback,
     }
 
     override fun onMarkerDragEnd(marker: Marker) {
-        location.lat = marker.position.latitude
-        location.lng = marker.position.longitude
-        location.zoom = map.cameraPosition.zoom
+        runModel.lat = marker.position.latitude
+        runModel.lng = marker.position.longitude
+        runModel.zoom = map.cameraPosition.zoom
     }
 
     override fun onMarkerDragStart(marker: Marker) {
-        location.lat += marker.position.latitude
-        location.lng += marker.position.longitude
-        location.zoom = map.cameraPosition.zoom
+        runModel.lat += marker.position.latitude
+        runModel.lng += marker.position.longitude
+        runModel.zoom = map.cameraPosition.zoom
         listOfLatLng.add(LatLng(marker.position.latitude, marker.position.longitude))
     }
 
     private fun drawRoute(lat_lng: LatLng) {
-        polylineOptions.points+=lat_lng
-        if(isMapReady){ map.addPolyline(polylineOptions)}
+        polylineOptions.points += lat_lng
+        if (isMapReady) {
+            map.addPolyline(polylineOptions)
+        }
     }
 
     override fun onMarkerClick(marker: Marker): Boolean {
-        val loc = LatLng(location.lat, location.lng)
+        val loc = LatLng(runModel.lat, runModel.lng)
         val option = PolylineOptions().add(loc)
         map.addPolyline(option)
         marker.snippet = "GPS : $loc"
@@ -250,7 +260,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback,
     @Deprecated("Deprecated in Java")
     override fun onBackPressed() {
         val resultIntent = Intent()
-        resultIntent.putExtra("location", location)
+        resultIntent.putExtra("location", runModel)
         setResult(Activity.RESULT_OK, resultIntent)
         finish()
         super.onBackPressed()

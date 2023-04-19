@@ -37,7 +37,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
             android:textSize="30sp"
-            android:text="@{run.runInKms}"
+            android:text="@{run.distance.toString()}"
             android:layout_marginTop="4dp"
             android:textAlignment="viewStart"
             app:layout_constraintEnd_toEndOf="parent"
@@ -56,7 +56,7 @@
             app:layout_constraintHorizontal_bias="0.052"
             app:layout_constraintStart_toEndOf="@+id/imageIcon"
             app:layout_constraintTop_toBottomOf="@id/runInKms"
-            android:text="@{run.runInTime}"
+            android:text="@{run.finishTime}"
             />
 
 

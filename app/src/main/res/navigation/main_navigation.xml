@@ -37,7 +37,7 @@
     </fragment>
     <activity
         android:id="@+id/mapsActivity"
-        android:name="mick.studio.itsfuntorun.activities.MapsActivity"
+        android:name="mick.studio.itsfuntorun.ui.map.MapsActivity"
         android:label="activity_maps"
         tools:layout="@layout/activity_maps" />
     <fragment
@@ -50,6 +50,6 @@
             app:destination="@id/runListFragment" />
         <argument
             android:name="runid"
-            app:argType="long" />
+            app:argType="string" />
     </fragment>
 </navigation>
