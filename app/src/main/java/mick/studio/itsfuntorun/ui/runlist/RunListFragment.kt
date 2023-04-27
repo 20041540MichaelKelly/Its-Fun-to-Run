@@ -53,7 +53,7 @@ class RunListFragment : Fragment(), RunListener {
         fragBinding.recyclerView.layoutManager = LinearLayoutManager(activity)
 
         runListViewModel = ViewModelProvider(this).get(RunListViewModel::class.java)
-        showLoader(loader, "Downloading Runs")
+//        showLoader(loader, "Downloading Runs")
 
         runListViewModel.observableRunsList.observe(viewLifecycleOwner, Observer {
                 runs ->

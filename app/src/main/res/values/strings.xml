@@ -52,5 +52,10 @@
     <string name="messageLoading">Please Wait while the Run info is Loading...</string>
     <string name="start_run">START</string>
     <string name="stop_run">STOP</string>
+    <string name="title_activity_create_run">CreateRunActivity</string>
+    <string name="title_home">Home</string>
+    <string name="title_dashboard">Dashboard</string>
+    <string name="title_notifications">Notifications</string>
+    <string name="map_a_run">Map a Run</string>
 
 </resources>

@@ -11,19 +11,24 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.appcompat.widget.Toolbar
 import androidx.core.view.MenuHost
 import androidx.core.view.MenuProvider
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.Observer
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.NavigationUI
+import androidx.navigation.ui.setupActionBarWithNavController
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.material.snackbar.Snackbar
 import com.squareup.picasso.Picasso
 import mick.studio.itsfuntorun.R
-import mick.studio.itsfuntorun.ui.map.MapsActivity
+import mick.studio.itsfuntorun.databinding.BottomNavBarBinding
+//import mick.studio.itsfuntorun.ui.map.MapsActivity
 import mick.studio.itsfuntorun.databinding.FragmentRunBinding
+import mick.studio.itsfuntorun.databinding.NavHeaderBinding
 import mick.studio.itsfuntorun.helpers.showImagePicker
 import mick.studio.itsfuntorun.models.RunModel
 import mick.studio.itsfuntorun.ui.auth.LoggedInViewModel
@@ -33,6 +38,8 @@ import java.time.format.DateTimeFormatter
 
 class RunFragment : Fragment() {
 
+    private lateinit var navBarBinding: BottomNavBarBinding
+    private lateinit var appBarConfiguration: AppBarConfiguration
     private lateinit var imageIntentLauncher : ActivityResultLauncher<Intent>
     private lateinit var mapIntentLauncher : ActivityResultLauncher<Intent>
     var run = RunModel()
@@ -65,7 +72,6 @@ class RunFragment : Fragment() {
             status -> status?.let { render(status)}
         })
         setButtonOnClickListeners(fragBinding)
-
         registerImagePickerCallback()
         registerMapCallback()
         return root
@@ -106,11 +112,11 @@ class RunFragment : Fragment() {
             }
         }
 
-        layout.runLocation.setOnClickListener {
-            val launcherIntent = Intent(this.requireActivity(), MapsActivity::class.java)
-                .putExtra("location", LatLng(52.4720715,-6.8861582))
-            mapIntentLauncher.launch(launcherIntent)
-        }
+//        layout.runLocation.setOnClickListener {
+//            val launcherIntent = Intent(this.requireActivity(), MapsActivity::class.java)
+//                .putExtra("location", LatLng(52.4720715,-6.8861582))
+//            mapIntentLauncher.launch(launcherIntent)
+//        }
 
         layout.chooseImage.setOnClickListener {
             showImagePicker(imageIntentLauncher)

@@ -26,7 +26,7 @@ class RunListViewModel : ViewModel() {
     fun load() {
         try {
             readOnly.value = false
-            val userid = liveFirebaseUser.value?.uid!!
+            //val userid = liveFirebaseUser.value?.uid!!
             FirebaseDBManager.findAll(liveFirebaseUser.value?.uid!!, runsList)
             Timber.i("Run List Load Success : ${runsList.value.toString()}")
 

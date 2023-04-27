@@ -1,3 +1,4 @@
+/*
 package mick.studio.itsfuntorun.ui.map
 
 import android.Manifest
@@ -52,13 +53,17 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback,
     private var LOCATION_REQUEST_CODE = 101
     private var myMarker: Marker? = null
 
-    /**
+    */
+/**
      * A Lazy method is used here so it is only called when needed
      * No.1
-     */
-    /*private val fusedLocationClient: FusedLocationProviderClient by lazy {
+     *//*
+
+    */
+/*private val fusedLocationClient: FusedLocationProviderClient by lazy {
         LocationServices.getFusedLocationProviderClient(applicationContext)
-    }*/
+    }*//*
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -89,6 +94,10 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback,
                         )
                     )
                     drawRoute(LatLng(location.latitude, location.longitude))
+                    buildRunModel(location.speed, location.time)
+                   // location.elapsedRealtimeMillis,
+                    //location.elapsedRealtimeAgeMillis, //this is how long you have stopped moving at 1 spot
+
                 }
             }
         }
@@ -125,12 +134,11 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback,
     private fun mapSetup() {
         fusedLocationClient.lastLocation.addOnSuccessListener { task ->
                 setUpTheMap()
-                runModel.lat = task.latitude
-                runModel.lng = task.longitude
+                runModel.lat = task?.latitude ?: 52.3955671
+                runModel.lng = task?.longitude ?: -6.9446066
                 runModel.zoom = 15f
 
-
-            locations.add(LatLng(task.latitude, task.longitude))
+            locations.add(LatLng(runModel.lat, runModel.lng))
         }
     }
 
@@ -249,6 +257,10 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback,
         }
     }
 
+    private fun buildRunModel(speed: Float, time: Long) {
+
+    }
+
     override fun onMarkerClick(marker: Marker): Boolean {
         val loc = LatLng(runModel.lat, runModel.lng)
         val option = PolylineOptions().add(loc)
@@ -266,3 +278,4 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback,
         super.onBackPressed()
     }
 }
+*/

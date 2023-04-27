@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="wine">#e63946</color>
-    <color name="pale_blue">#f1faee</color>
-    <color name="blue">#3F51B5</color>
+    <color name="pale_blue">#f7f7f2</color>
+    <color name="green">#c5d86d</color>
     <!--<color name="green_300">#047513</color>
     <color name="teal_700">#FF018786</color> -->
-    <color name="black">#FF000000</color>
+    <color name="black">#261c15</color>
     <color name="white">#FFFFFFFF</color>
     <color name="deep_blue">#3F51B5</color>
 

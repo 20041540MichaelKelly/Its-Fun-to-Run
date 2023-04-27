@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/runFragment"
+        android:title="RUN"
+        android:icon="@drawable/baseline_run_circle_24"
+        />
+    <item
+        android:id="@+id/runListFragment"
+        android:title="RUN LIST"
+        android:icon="@drawable/baseline_format_list_numbered_24"
+        />
+<!--    <item-->
+<!--        android:id="@+id/mapsActivity"-->
+<!--        android:icon="@drawable/baseline_map_24"-->
+<!--        android:title="MAP" />-->
+    <!--<item
+        android:id="@+id/cameraActivity"
+        android:icon="@drawable/baseline_photo_camera_24"
+        android:title="MAP" />-->
+</menu>

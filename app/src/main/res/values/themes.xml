@@ -2,13 +2,15 @@
     <!-- Base application theme. -->
     <style name="Theme.ItsFunToRun" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <!-- Primary brand color. -->
-        <item name="colorPrimary">@color/blue</item>
+        <item name="colorPrimary">@color/green</item>
         <item name="colorPrimaryVariant">@color/black</item>
         <item name="colorOnPrimary">@color/white</item>
         <!-- Secondary brand color. -->
         <item name="colorSecondary">@color/pale_blue</item>
         <item name="colorSecondaryVariant">@color/pale_blue</item>
         <item name="colorOnSecondary">@color/black</item>
+        <item name="android:windowBackground">@color/pale_blue</item>
+
         <!-- Status bar color. -->
         <item name="android:statusBarColor">?attr/colorPrimaryVariant</item>
     </style>

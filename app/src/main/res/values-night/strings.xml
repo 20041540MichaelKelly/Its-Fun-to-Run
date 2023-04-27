@@ -34,4 +34,5 @@
     <string name="emailpassword_title_text">Please Login Below</string>
     <string name="start_run">Start</string>
     <string name="stop_run">STOP</string>
+    <string name="map_a_run">Map a Run</string>
 </resources>
