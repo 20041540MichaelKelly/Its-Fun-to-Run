@@ -39,7 +39,13 @@ object FirebaseDBManager: RunStore {
 
 
     override fun findById(userid: String, runid: String, run: MutableLiveData<RunModel>) {
-        TODO("Not yet implemented")
+        database.child("user-runs").child(userid)
+            .child(runid).get().addOnSuccessListener {
+                run.value = it.getValue(RunModel::class.java)
+                Timber.i("firebase Got value ${it.value}")
+            }.addOnFailureListener{
+                Timber.e("firebase Error getting data $it")
+            }
     }
 
     override fun create(firebaseUser: MutableLiveData<FirebaseUser>, run: RunModel) {
@@ -77,7 +83,14 @@ object FirebaseDBManager: RunStore {
     }
 
     override fun update(userid: String, runid: String, run: RunModel) {
-        TODO("Not yet implemented")
+
+        val runValues = run.toMap()
+
+        val childUpdate : MutableMap<String, Any?> = HashMap()
+        childUpdate["runs/$runid"] = runValues
+        childUpdate["user-runs/$userid/$runid"] = runValues
+
+        database.updateChildren(childUpdate)
     }
 
 }

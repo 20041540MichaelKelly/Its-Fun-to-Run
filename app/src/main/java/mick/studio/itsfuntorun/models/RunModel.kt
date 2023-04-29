@@ -1,12 +1,10 @@
 package mick.studio.itsfuntorun.models
 
-import android.location.Location
 import android.net.Uri
 import android.os.Parcelable
 import com.google.firebase.database.Exclude
 import com.google.firebase.database.IgnoreExtraProperties
 import kotlinx.parcelize.Parcelize
-import java.sql.Time
 
 @IgnoreExtraProperties
 @Parcelize

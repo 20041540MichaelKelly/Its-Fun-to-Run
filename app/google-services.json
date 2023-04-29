@@ -15,6 +15,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "759987561783-a1cuso16mscnl05phq8803cmh37qr9tu.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "mick.studio.itsfuntorun",
+            "certificate_hash": "f2f0cf6fa9b593ac004c58ef3a1e6d293caf7258"
+          }
+        },
+        {
           "client_id": "759987561783-h756v3fdqmjf5ffacdm5i4s6e3agn310.apps.googleusercontent.com",
           "client_type": 3
         }

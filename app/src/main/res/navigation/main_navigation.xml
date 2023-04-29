@@ -8,7 +8,7 @@
     <fragment
         android:id="@+id/runListFragment"
         android:name="mick.studio.itsfuntorun.ui.runlist.RunListFragment"
-        android:label="fragment_run_list"
+        android:label="List of Runs"
         tools:layout="@layout/fragment_run_list" >
         <action
             android:id="@+id/action_runListFragment_to_runFragment"
@@ -22,7 +22,7 @@
     <fragment
         android:id="@+id/runFragment"
         android:name="mick.studio.itsfuntorun.ui.run.RunFragment"
-        android:label="fragment_run"
+        android:label="Add a Run"
         tools:layout="@layout/fragment_run" >
         <action
             android:id="@+id/action_runFragment_to_runListFragment"
@@ -30,20 +30,19 @@
             app:enterAnim="@anim/nav_default_enter_anim"
             app:exitAnim="@anim/nav_default_exit_anim" />
         <action
-            android:id="@+id/action_runFragment_to_mapsActivity"
-            app:destination="@id/mapsActivity"
+            android:id="@+id/action_runFragment_to_imagePickerFragment"
+            app:destination="@id/imagePickerFragment"
             app:enterAnim="@anim/nav_default_enter_anim"
             app:exitAnim="@anim/nav_default_exit_anim" />
+        <argument
+            android:name="run"
+            app:argType="mick.studio.itsfuntorun.models.RunModel"
+             />
     </fragment>
-    <activity
-        android:id="@+id/mapsActivity"
-        android:name="mick.studio.itsfuntorun.ui.map.MapsActivity"
-        android:label="activity_maps"
-        tools:layout="@layout/activity_maps" />
     <fragment
         android:id="@+id/runDetailFragment"
         android:name="mick.studio.itsfuntorun.ui.details.RunDetailFragment"
-        android:label="fragment_run_detail"
+        android:label="Run Details"
         tools:layout="@layout/fragment_run_detail" >
         <action
             android:id="@+id/action_runDetailFragment_to_runListFragment"
@@ -51,5 +50,26 @@
         <argument
             android:name="runid"
             app:argType="string" />
+    </fragment>
+    <fragment
+        android:id="@+id/mapsFragment"
+        android:name="mick.studio.itsfuntorun.ui.map.MapsFragment"
+        android:label="Time to Run"
+        tools:layout="@layout/fragment_maps" >
+        <action
+            android:id="@+id/action_mapsFragment_to_runDetailFragment"
+            app:destination="@id/runDetailFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/imagePickerFragment"
+        android:name="mick.studio.itsfuntorun.ui.camera.ImagePickerFragment"
+        android:label="Choose an Image"
+        tools:layout="@layout/fragment_image_picker" >
+        <action
+            android:id="@+id/action_imagePickerFragment_to_runFragment"
+            app:destination="@id/runFragment" />
+        <!--<argument
+            android:name="runid"
+            app:argType="string" />-->
     </fragment>
 </navigation>
