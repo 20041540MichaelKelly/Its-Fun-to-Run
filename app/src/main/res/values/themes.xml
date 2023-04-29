@@ -16,7 +16,7 @@
     </style>
 
     <style name="Theme.ItsFunToRun.NoActionBar">
-        <item name="windowActionBar">false</item>
+        <item name="windowActionBar">true</item>
         <item name="windowNoTitle">true</item>
     </style>
 
@@ -61,6 +61,8 @@
     <style name="ThemeOverlay.MyTitleText" parent="Theme.ItsFunToRun">
         <item name="android:gravity">center</item>
         <item name="android:textSize">30sp</item>
+        <item name="android:color">@color/black</item>
+
     </style>
     <!-- END Firebase Resources-->
 

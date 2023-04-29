@@ -7,19 +7,19 @@
     android:layout_height="match_parent"
     tools:context=".ui.home.Home">
 
-<!--    <com.google.android.material.appbar.AppBarLayout-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:theme="@style/Theme.ItsFunToRun.AppBarOverlay">-->
+    <com.google.android.material.appbar.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:theme="@style/Theme.ItsFunToRun.AppBarOverlay">
 
-<!--        <androidx.appcompat.widget.Toolbar-->
-<!--            android:id="@+id/toolbar"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="?attr/actionBarSize"-->
-<!--            android:background="@color/black"-->
-<!--            app:popupTheme="@style/Theme.ItsFunToRun.PopupOverlay" />-->
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="@color/black"
+            app:popupTheme="@style/Theme.ItsFunToRun.PopupOverlay" />
 
-<!--    </com.google.android.material.appbar.AppBarLayout>-->
+    </com.google.android.material.appbar.AppBarLayout>
 
     <include layout="@layout/content_home" />
 

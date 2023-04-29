@@ -43,8 +43,8 @@ class Home : AppCompatActivity() {
         homeBinding = HomeBinding.inflate(layoutInflater)
         setContentView(homeBinding.root)
         drawerLayout = homeBinding.drawerLayout
-//        val toolbar = findViewById<Toolbar>(R.id.toolbar)
-//        setSupportActionBar(toolbar)
+        val toolbar = findViewById<Toolbar>(R.id.toolbar)
+        setSupportActionBar(toolbar)
 
         val navController = findNavController(R.id.nav_host_fragment)
         if(checkLocationPermissions(this)) {
@@ -61,7 +61,7 @@ class Home : AppCompatActivity() {
         //}
 
         appBarConfiguration = AppBarConfiguration(setOf(
-            R.id.runFragment, R.id.runListFragment, R.id.mapsFragment), drawerLayout)
+            R.id.runFragment, R.id.runListFragment, R.id.mapsFragment, R.id.imagePickerFragment), drawerLayout)
         setupActionBarWithNavController(navController, appBarConfiguration)
 
         val navView = homeBinding.navView

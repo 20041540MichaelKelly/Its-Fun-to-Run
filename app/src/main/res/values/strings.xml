@@ -57,5 +57,7 @@
     <string name="title_dashboard">Dashboard</string>
     <string name="title_notifications">Notifications</string>
     <string name="map_a_run">Map a Run</string>
+    <string name="hint_lng">Longtitude</string>
+    <string name="hint_lat">Lattitude</string>
 
 </resources>

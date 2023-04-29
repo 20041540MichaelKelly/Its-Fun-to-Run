@@ -35,4 +35,6 @@
     <string name="start_run">Start</string>
     <string name="stop_run">STOP</string>
     <string name="map_a_run">Map a Run</string>
+    <string name="hint_lng">Longtitude</string>
+    <string name="hint_lat">Lattitude</string>
 </resources>

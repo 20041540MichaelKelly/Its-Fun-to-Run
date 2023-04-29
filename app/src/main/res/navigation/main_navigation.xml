@@ -29,6 +29,15 @@
             app:destination="@id/runListFragment"
             app:enterAnim="@anim/nav_default_enter_anim"
             app:exitAnim="@anim/nav_default_exit_anim" />
+        <action
+            android:id="@+id/action_runFragment_to_imagePickerFragment"
+            app:destination="@id/imagePickerFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim" />
+        <argument
+            android:name="run"
+            app:argType="mick.studio.itsfuntorun.models.RunModel"
+             />
     </fragment>
     <fragment
         android:id="@+id/runDetailFragment"
@@ -50,5 +59,17 @@
         <action
             android:id="@+id/action_mapsFragment_to_runDetailFragment"
             app:destination="@id/runDetailFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/imagePickerFragment"
+        android:name="mick.studio.itsfuntorun.ui.camera.ImagePickerFragment"
+        android:label="Choose an Image"
+        tools:layout="@layout/fragment_image_picker" >
+        <action
+            android:id="@+id/action_imagePickerFragment_to_runFragment"
+            app:destination="@id/runFragment" />
+        <!--<argument
+            android:name="runid"
+            app:argType="string" />-->
     </fragment>
 </navigation>

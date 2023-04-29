@@ -31,8 +31,8 @@ class RunListAdapter constructor(private var runs: List<RunModel>, private val l
 
         fun bind(run: RunModel, listener: RunListener) {
             binding.run = run
-            binding.imageIcon.setImageResource(R.mipmap.ic_launcher_round)
-            if(run.image != "") {
+            binding.imageIcon.setImageResource(R.drawable.baseline_image_not_supported_24)
+            if(run.image != null) {
                 Picasso.get().load(run.image).resize(200,200).into(binding.imageIcon)
             }
             binding.root.setOnClickListener { listener.onRunClick(run) }
