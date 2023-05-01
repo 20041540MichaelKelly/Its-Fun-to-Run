@@ -2,18 +2,26 @@ package mick.studio.itsfuntorun.ui.map
 
 import android.annotation.SuppressLint
 import android.app.Application
+import android.graphics.Color
 import android.location.Location
 import android.os.Looper
 import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import com.google.android.gms.location.*
 import com.google.android.gms.maps.GoogleMap
+import com.google.android.gms.maps.model.LatLng
 import timber.log.Timber
 
 @SuppressLint("MissingPermission")
 class MapsViewModel(application: Application) : AndroidViewModel(application) {
+
     lateinit var map : GoogleMap
+    private val latLngs = MutableLiveData<ArrayList<LatLng>>()
+
+    val observableLatLngs: LiveData<ArrayList<LatLng>>
+        get() = latLngs
+
     var currentLocation = MutableLiveData<Location>()
     var locationClient : FusedLocationProviderClient
     val locationRequest = LocationRequest.Builder(Priority.PRIORITY_HIGH_ACCURACY, 10000)
@@ -48,5 +56,10 @@ class MapsViewModel(application: Application) : AndroidViewModel(application) {
             }
         Timber.i("MAP VM LOC : %s", currentLocation.value)
     }
+
+    fun addToPolyLineLatLng(latLng: LatLng) {
+        latLngs.value?.add(latLng)
+    }
+
 }
 
