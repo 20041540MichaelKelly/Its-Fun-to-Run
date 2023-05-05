@@ -66,7 +66,6 @@ class RunListFragment : Fragment(), RunListener {
             }
         })
 
-
         val fab: FloatingActionButton = fragBinding.fab
         fab.setOnClickListener {
 //            val action = RunListFragmentDirections.actionRunListFragmentToRunFragment(null)

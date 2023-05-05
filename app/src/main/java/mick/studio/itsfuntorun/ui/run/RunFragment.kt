@@ -4,18 +4,13 @@ import android.app.Activity.RESULT_CANCELED
 import android.app.Activity.RESULT_OK
 import android.app.AlertDialog
 import android.content.Intent
-import android.location.Location
-import android.net.Uri
 import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
-import android.provider.MediaStore
 import android.view.*
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.appcompat.widget.Toolbar
-import androidx.core.content.FileProvider
 import androidx.core.view.MenuHost
 import androidx.core.view.MenuProvider
 import androidx.fragment.app.activityViewModels
@@ -26,27 +21,18 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.NavigationUI
-import androidx.navigation.ui.setupActionBarWithNavController
-import com.google.android.gms.maps.model.LatLng
 import com.google.android.material.snackbar.Snackbar
-import com.google.firebase.storage.FirebaseStorage
 import com.squareup.picasso.Picasso
 import mick.studio.itsfuntorun.R
 import mick.studio.itsfuntorun.databinding.BottomNavBarBinding
 //import mick.studio.itsfuntorun.ui.map.MapsActivity
 import mick.studio.itsfuntorun.databinding.FragmentRunBinding
-import mick.studio.itsfuntorun.databinding.NavHeaderBinding
 import mick.studio.itsfuntorun.helpers.createLoader
-import mick.studio.itsfuntorun.helpers.showImagePicker
 import mick.studio.itsfuntorun.models.RunModel
 import mick.studio.itsfuntorun.ui.auth.LoggedInViewModel
 import mick.studio.itsfuntorun.ui.camera.ImagePickerViewModel
-import mick.studio.itsfuntorun.ui.details.RunDetailFragmentArgs
 import mick.studio.itsfuntorun.ui.map.MapsViewModel
-import timber.log.Timber
 import timber.log.Timber.i
-import java.io.File
-import java.io.IOException
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
@@ -72,6 +58,13 @@ class RunFragment : Fragment() {
 
     private val args by navArgs<RunFragmentArgs>()
     var argsImage : String?= ""
+    var lat: Double ?= 0.0
+    var lng: Double ?= 0.0
+    var runTime: String? = ""
+    var speed: Double? = 0.0
+    var distance: Double? = 0.0
+    var finishTime: String? = ""
+    var amountOfCals: Double = 0.0
 
 
 

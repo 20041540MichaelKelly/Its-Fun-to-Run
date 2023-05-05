@@ -37,7 +37,7 @@
         <argument
             android:name="run"
             app:argType="mick.studio.itsfuntorun.models.RunModel"
-             />
+        />
     </fragment>
     <fragment
         android:id="@+id/runDetailFragment"
@@ -57,8 +57,15 @@
         android:label="Time to Run"
         tools:layout="@layout/fragment_maps" >
         <action
-            android:id="@+id/action_mapsFragment_to_runDetailFragment"
-            app:destination="@id/runDetailFragment" />
+            android:id="@+id/action_mapsFragment_to_imagePickerFragment"
+            app:destination="@id/imagePickerFragment" />
+        <action
+            android:id="@+id/action_mapsFragment_to_runFragment"
+            app:destination="@id/runFragment" />
+        <argument
+            android:name="run"
+            app:argType="mick.studio.itsfuntorun.models.RunModel"
+       />
     </fragment>
     <fragment
         android:id="@+id/imagePickerFragment"
@@ -68,8 +75,5 @@
         <action
             android:id="@+id/action_imagePickerFragment_to_runFragment"
             app:destination="@id/runFragment" />
-        <!--<argument
-            android:name="runid"
-            app:argType="string" />-->
     </fragment>
 </navigation>

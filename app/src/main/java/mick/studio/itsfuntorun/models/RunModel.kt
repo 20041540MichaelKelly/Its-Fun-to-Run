@@ -1,6 +1,5 @@
 package mick.studio.itsfuntorun.models
 
-import android.net.Uri
 import android.os.Parcelable
 import com.google.firebase.database.Exclude
 import com.google.firebase.database.IgnoreExtraProperties
@@ -17,7 +16,7 @@ data class RunModel(
     var speed: Double? = 0.0,
     var distance: Double? = 0.0,
     var finishTime: String? = "",
-    var amountOfCals: Int = 0,
+    var amountOfCals: Double = 0.0,
     var image: String? = "",
     var zoom: Float = 15f,
     var email: String? = "joe@bloggs.com"

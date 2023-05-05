@@ -3,7 +3,6 @@ package mick.studio.itsfuntorun.ui.camera
 import android.app.Activity
 import android.app.AlertDialog
 import android.content.Intent
-import android.net.Uri
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -13,17 +12,13 @@ import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
-import com.google.android.gms.maps.SupportMapFragment
 import com.squareup.picasso.Picasso
-import mick.studio.itsfuntorun.R
 import mick.studio.itsfuntorun.databinding.FragmentImagePickerBinding
 import mick.studio.itsfuntorun.helpers.createLoader
 import mick.studio.itsfuntorun.helpers.hideLoader
 import mick.studio.itsfuntorun.helpers.showImagePicker
 import mick.studio.itsfuntorun.helpers.showLoader
 import mick.studio.itsfuntorun.models.RunModel
-import mick.studio.itsfuntorun.ui.run.RunViewModel
-import mick.studio.itsfuntorun.ui.runlist.RunListFragmentDirections
 import timber.log.Timber
 
 class ImagePickerFragment : Fragment() {

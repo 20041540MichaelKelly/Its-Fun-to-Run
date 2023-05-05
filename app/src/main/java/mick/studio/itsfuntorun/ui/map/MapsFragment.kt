@@ -5,7 +5,6 @@ import android.app.AlertDialog
 import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.Canvas
-import android.graphics.Color
 import android.graphics.drawable.Drawable
 import android.location.Location
 import android.os.Build
@@ -18,6 +17,8 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
@@ -31,8 +32,9 @@ import mick.studio.itsfuntorun.helpers.hideLoader
 import mick.studio.itsfuntorun.helpers.showLoader
 import mick.studio.itsfuntorun.models.RunModel
 import mick.studio.itsfuntorun.ui.auth.LoggedInViewModel
+import mick.studio.itsfuntorun.ui.camera.ImagePickerFragmentDirections
+import mick.studio.itsfuntorun.ui.run.RunViewModel
 import mick.studio.itsfuntorun.ui.runlist.RunListViewModel
-import timber.log.Timber
 import java.util.concurrent.TimeUnit
 
 
@@ -42,6 +44,8 @@ class MapsFragment : Fragment() {
     private val mapsViewModel: MapsViewModel by activityViewModels()
     private val runListViewModel: RunListViewModel by activityViewModels()
     private val loggedInViewModel: LoggedInViewModel by activityViewModels()
+    private lateinit var runViewModel: RunViewModel
+
     lateinit var loader: AlertDialog
     private var isActive = false
     private var startTime: Long = 0L
@@ -54,6 +58,7 @@ class MapsFragment : Fragment() {
     private lateinit var map: GoogleMap
     private var _fragBinding: FragmentMapsBinding? = null
     private var isMapReady: Boolean = false
+    private var isStopped: Boolean = false
 
     // This property is only valid between onCreateView and onDestroyView.
     private val fragBinding get() = _fragBinding!!
@@ -102,6 +107,21 @@ class MapsFragment : Fragment() {
                     String.format("%.2f", distanceTravelled).toFloat().toString()
                 startLat = mapsViewModel.currentLocation.value!!.latitude
                 startLng = mapsViewModel.currentLocation.value!!.longitude
+
+                if(isStopped){
+                        runModel = RunModel(
+                            lat = mapsViewModel.currentLocation.value!!.latitude,
+                            lng = mapsViewModel.currentLocation.value!!.longitude,
+                            runTime = fragBinding.runInTime.text.toString(),
+                            speed = fragBinding.runSpeed.text.toString().toDouble(),
+                            distance = fragBinding.runInKms.text.toString().toDouble(),
+                            finishTime = fragBinding.runInTime.text.toString(),
+                            amountOfCals = fragBinding.runInKms.text.toString().toDouble() * 0.06
+                        )
+                    val action = MapsFragmentDirections.actionMapsFragmentToRunFragment(runModel)
+                    findNavController().navigate(action)
+                }
+
             }
 
             val loc = LatLng(
@@ -151,7 +171,6 @@ class MapsFragment : Fragment() {
         return BitmapDescriptorFactory.fromBitmap(bitmap)
     }
 
-
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -162,16 +181,27 @@ class MapsFragment : Fragment() {
         _fragBinding = FragmentMapsBinding.inflate(inflater, container, false)
         val root = fragBinding.root
         activity?.title = getString(R.string.record_a_run)
+        runViewModel = ViewModelProvider(this).get(mick.studio.itsfuntorun.ui.run.RunViewModel::class.java)
 
+        fragBinding.stopButton.setOnCheckedChangeListener { _, isChecked ->
+                if (isChecked) {
+                    isStopped = true
+                    // The switch is checked.
+                } else {
+                    isStopped = false
+                    // The switch isn't checked.
+                }
+            }
         val fab: FloatingActionButton = fragBinding.fab
         fab.setOnClickListener {
             if (isActive) {
                 isActive = false
                 fab.setImageResource(R.drawable.baseline_cancel_24)
-//
+                fragBinding.stopButton.visibility = View.INVISIBLE
             } else {
                 isActive = true
                 fab.setImageResource(R.drawable.baseline_play_circle_filled_24)
+                fragBinding.stopButton.visibility = View.VISIBLE
 
             }
 
