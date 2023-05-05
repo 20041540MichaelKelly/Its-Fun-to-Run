@@ -53,16 +53,16 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback,
     private var LOCATION_REQUEST_CODE = 101
     private var myMarker: Marker? = null
 
-    */
-/**
+*/
+/*
      * A Lazy method is used here so it is only called when needed
-     * No.1
-     *//*
+     * No.1 **//*
 
-    */
-/*private val fusedLocationClient: FusedLocationProviderClient by lazy {
+
+
+private val fusedLocationClient: FusedLocationProviderClient by lazy {
         LocationServices.getFusedLocationProviderClient(applicationContext)
-    }*//*
+    }
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
