@@ -37,4 +37,7 @@
     <string name="map_a_run">Map a Run</string>
     <string name="hint_lng">Longtitude</string>
     <string name="hint_lat">Lattitude</string>
+    <string name="calories_tv">"Calories: "</string>
+    <string name="save_image">SAVE</string>
+    <string name="calories_burned">Calories Burned</string>
 </resources>

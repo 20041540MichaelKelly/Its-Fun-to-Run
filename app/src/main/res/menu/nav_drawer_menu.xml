@@ -16,6 +16,11 @@
             android:id="@+id/mapsFragment"
             android:icon="@drawable/baseline_map_24"
             android:title="@string/map_a_run" />
+
+        <item
+            android:id="@+id/imagePickerFragment"
+            android:icon="@drawable/baseline_photo_camera_24"
+            android:title="CAMERA" />
     </group>
 
     <item android:title="@string/group_communicate">

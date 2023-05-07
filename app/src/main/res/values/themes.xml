@@ -6,7 +6,7 @@
         <item name="colorPrimaryVariant">@color/black</item>
         <item name="colorOnPrimary">@color/white</item>
         <!-- Secondary brand color. -->
-        <item name="colorSecondary">@color/pale_blue</item>
+        <item name="colorSecondary">@color/black</item>
         <item name="colorSecondaryVariant">@color/pale_blue</item>
         <item name="colorOnSecondary">@color/black</item>
         <item name="android:windowBackground">@color/pale_blue</item>

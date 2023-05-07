@@ -27,7 +27,7 @@ class RunDetailViewModel : ViewModel() {
 
     fun updateRun(userid:String, id: String,run: RunModel) {
         try {
-            FirebaseDBManager.update(userid, id, run)
+            FirebaseDBManager.updateRun(userid, id, run)
             Timber.i("Detail update() Success : $run")
         }
         catch (e: Exception) {

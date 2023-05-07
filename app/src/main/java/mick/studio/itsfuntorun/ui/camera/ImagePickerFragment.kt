@@ -10,15 +10,20 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import com.squareup.picasso.Picasso
+import mick.studio.itsfuntorun.R
 import mick.studio.itsfuntorun.databinding.FragmentImagePickerBinding
 import mick.studio.itsfuntorun.helpers.createLoader
 import mick.studio.itsfuntorun.helpers.hideLoader
 import mick.studio.itsfuntorun.helpers.showImagePicker
 import mick.studio.itsfuntorun.helpers.showLoader
 import mick.studio.itsfuntorun.models.RunModel
+import mick.studio.itsfuntorun.models.SharedViewModel
+import mick.studio.itsfuntorun.ui.run.RunFragmentArgs
 import timber.log.Timber
 
 class ImagePickerFragment : Fragment() {
@@ -31,6 +36,11 @@ class ImagePickerFragment : Fragment() {
     // This property is only valid between onCreateView and onDestroyView.
     private val fragBinding get() = _fragBinding!!
     lateinit var loader: AlertDialog
+    private val args by navArgs<ImagePickerFragmentArgs>()
+    private var isImageSaved = false
+    private val sharedViewModel: SharedViewModel by activityViewModels()
+
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -40,10 +50,15 @@ class ImagePickerFragment : Fragment() {
         val root = fragBinding.root
         loader = createLoader(requireActivity())
 
+
         imagePickerViewModel = ViewModelProvider(this).get(ImagePickerViewModel::class.java)
 
         registerImagePickerCallback()
         setButtonOnClickListeners(fragBinding)
+        if(isImageSaved){
+            val action = ImagePickerFragmentDirections.actionImagePickerFragmentToRunFragment(run)
+            findNavController().navigate(action)
+        }
 
         return root
     }
@@ -56,6 +71,8 @@ class ImagePickerFragment : Fragment() {
     ) {
         layout.chooseImage.setOnClickListener {
             showImagePicker(imageIntentLauncher)
+            isImageSaved = true
+            layout.chooseImage.setText(getString(R.string.save_image))
         }
     }
 
@@ -73,13 +90,14 @@ class ImagePickerFragment : Fragment() {
                             showLoader(loader, "Uploading Image...")
                             imagePickerViewModel.image.observe(viewLifecycleOwner) { img ->
                                 if (img != null) {
-                                    hideLoader(loader)
+                                sharedViewModel.observableRunModel.observe(viewLifecycleOwner) { run ->
                                     run.image = img.toString()
+                                    hideLoader(loader)
+                                }
                                     Picasso.get()
                                         .load(img)
                                         .into(fragBinding.runImage)
-                                    val action = ImagePickerFragmentDirections.actionImagePickerFragmentToRunFragment(run)
-                                    findNavController().navigate(action)
+
                                 }
                             }
 

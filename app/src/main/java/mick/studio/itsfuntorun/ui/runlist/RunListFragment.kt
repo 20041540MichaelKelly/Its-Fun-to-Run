@@ -3,6 +3,7 @@ package mick.studio.itsfuntorun.ui.runlist
 import android.app.AlertDialog
 import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
+import android.transition.TransitionInflater
 import android.view.*
 import androidx.fragment.app.Fragment
 import androidx.core.view.MenuHost
@@ -39,6 +40,8 @@ class RunListFragment : Fragment(), RunListener {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setHasOptionsMenu(true)
+        val inflater = TransitionInflater.from(requireContext())
+        exitTransition = inflater.inflateTransition(R.transition.fade)
     }
 
     override fun onCreateView(

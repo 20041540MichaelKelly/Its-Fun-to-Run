@@ -8,14 +8,14 @@ import kotlinx.parcelize.Parcelize
 @IgnoreExtraProperties
 @Parcelize
 data class RunModel(
-    var uid: String? = "",
-    var runid: String? = "",
-    var lat: Double = 0.0,
-    var lng: Double = 0.0,
-    var runTime: String? = "",
-    var speed: Double? = 0.0,
-    var distance: Double? = 0.0,
-    var finishTime: String? = "",
+    var uid: String ?= "",
+    var runid: String ?= "",
+    var lat: Double ?= 0.0 ,
+    var lng: Double ?= 0.0 ,
+    var runTime: String ?= "",
+    var speed: Double ?= 0.0,
+    var distance: Double ?= 0.0,
+    var finishTime: String ?= "",
     var amountOfCals: Double = 0.0,
     var image: String? = "",
     var zoom: Float = 15f,

@@ -27,17 +27,16 @@
         <action
             android:id="@+id/action_runFragment_to_runListFragment"
             app:destination="@id/runListFragment"
-            app:enterAnim="@anim/nav_default_enter_anim"
-            app:exitAnim="@anim/nav_default_exit_anim" />
+             />
         <action
             android:id="@+id/action_runFragment_to_imagePickerFragment"
             app:destination="@id/imagePickerFragment"
-            app:enterAnim="@anim/nav_default_enter_anim"
-            app:exitAnim="@anim/nav_default_exit_anim" />
+             />
         <argument
             android:name="run"
             app:argType="mick.studio.itsfuntorun.models.RunModel"
-        />
+            app:nullable="true"
+            android:defaultValue="@null" />
     </fragment>
     <fragment
         android:id="@+id/runDetailFragment"
@@ -61,11 +60,13 @@
             app:destination="@id/imagePickerFragment" />
         <action
             android:id="@+id/action_mapsFragment_to_runFragment"
-            app:destination="@id/runFragment" />
+            app:destination="@id/runFragment" >
+        </action>
         <argument
             android:name="run"
             app:argType="mick.studio.itsfuntorun.models.RunModel"
-       />
+            app:nullable="true"
+            android:defaultValue="@null" />
     </fragment>
     <fragment
         android:id="@+id/imagePickerFragment"
@@ -75,5 +76,10 @@
         <action
             android:id="@+id/action_imagePickerFragment_to_runFragment"
             app:destination="@id/runFragment" />
+        <argument
+            android:name="run"
+            app:argType="mick.studio.itsfuntorun.models.RunModel"
+            app:nullable="true"
+            android:defaultValue="@null" />
     </fragment>
 </navigation>

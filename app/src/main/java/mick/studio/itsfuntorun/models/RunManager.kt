@@ -56,7 +56,7 @@ object RunManager : RunStore {
         TODO("Not yet implemented")
     }
 
-    override fun update(userid: String, runid: String, run: RunModel) {
+    override fun updateRun(userid: String, runid: String, run: RunModel) {
         TODO("Not yet implemented")
     }
 }

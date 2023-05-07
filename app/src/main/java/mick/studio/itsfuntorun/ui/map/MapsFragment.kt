@@ -31,6 +31,7 @@ import mick.studio.itsfuntorun.helpers.createLoader
 import mick.studio.itsfuntorun.helpers.hideLoader
 import mick.studio.itsfuntorun.helpers.showLoader
 import mick.studio.itsfuntorun.models.RunModel
+import mick.studio.itsfuntorun.models.SharedViewModel
 import mick.studio.itsfuntorun.ui.auth.LoggedInViewModel
 import mick.studio.itsfuntorun.ui.camera.ImagePickerFragmentDirections
 import mick.studio.itsfuntorun.ui.run.RunViewModel
@@ -44,6 +45,8 @@ class MapsFragment : Fragment() {
     private val mapsViewModel: MapsViewModel by activityViewModels()
     private val runListViewModel: RunListViewModel by activityViewModels()
     private val loggedInViewModel: LoggedInViewModel by activityViewModels()
+    private val sharedViewModel: SharedViewModel by activityViewModels()
+
     private lateinit var runViewModel: RunViewModel
 
     lateinit var loader: AlertDialog
@@ -85,14 +88,6 @@ class MapsFragment : Fragment() {
                     String.format("%.2f", mapsViewModel.currentLocation.value!!.speed).toDouble()
                         .toString()
 
-                polylineOptions.points += LatLng(
-                    mapsViewModel.currentLocation.value!!.latitude,
-                    mapsViewModel.currentLocation.value!!.longitude
-                )
-
-                mapsViewModel.map.addPolyline(polylineOptions)
-
-                pLines += LatLng(mapsViewModel.currentLocation.value!!.latitude, mapsViewModel.currentLocation.value!!.longitude)
 
                 isMapReady = true
 
@@ -118,8 +113,7 @@ class MapsFragment : Fragment() {
                             finishTime = fragBinding.runInTime.text.toString(),
                             amountOfCals = fragBinding.runInKms.text.toString().toDouble() * 0.06
                         )
-                    val action = MapsFragmentDirections.actionMapsFragmentToRunFragment(runModel)
-                    findNavController().navigate(action)
+                    sharedViewModel.setRunModel(runModel)
                 }
 
             }
@@ -193,30 +187,19 @@ class MapsFragment : Fragment() {
                 }
             }
         val fab: FloatingActionButton = fragBinding.fab
+
         fab.setOnClickListener {
             if (isActive) {
                 isActive = false
-                fab.setImageResource(R.drawable.baseline_cancel_24)
-                fragBinding.stopButton.visibility = View.INVISIBLE
+                fab.setImageResource(R.drawable.baseline_pause_circle_24)
+                fragBinding.stopButton.visibility = View.VISIBLE
             } else {
                 isActive = true
                 fab.setImageResource(R.drawable.baseline_play_circle_filled_24)
-                fragBinding.stopButton.visibility = View.VISIBLE
-
+                fragBinding.stopButton.visibility = View.INVISIBLE
             }
-
         }
-//        mapsViewModel.observableLatLngs.observe(
-//            viewLifecycleOwner,
-//            Observer { latLngs ->
-//                latLngs?.let {
-//                    drawRoute(latLngs as ArrayList<LatLng>)
-//                    hideLoader(loader)
-//                }
-//            }
-//        )
         return root
-
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -230,11 +213,11 @@ class MapsFragment : Fragment() {
             mapsViewModel.map.clear()
             runList.forEach {
                 mapsViewModel.map.addMarker(
-                    MarkerOptions().position(LatLng(it.lat, it.lng))
+                    MarkerOptions().position(LatLng(it.lat!!, it.lng!!))
                         .title("${it.distance}kms ${it.email}")
                         .snippet(it.email)
                         .icon(
-                            BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE)
+                            BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN)
                         )
                 )
             }

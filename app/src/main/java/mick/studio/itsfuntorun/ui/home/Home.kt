@@ -12,6 +12,7 @@ import androidx.drawerlayout.widget.DrawerLayout
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
@@ -24,7 +25,9 @@ import mick.studio.itsfuntorun.databinding.HomeBinding
 import mick.studio.itsfuntorun.databinding.NavHeaderBinding
 import mick.studio.itsfuntorun.helpers.checkLocationPermissions
 import mick.studio.itsfuntorun.helpers.isPermissionGranted
+import mick.studio.itsfuntorun.models.RunModel
 import mick.studio.itsfuntorun.ui.auth.LoggedInViewModel
+import mick.studio.itsfuntorun.ui.camera.ImagePickerFragmentDirections
 import mick.studio.itsfuntorun.ui.map.MapsViewModel
 import timber.log.Timber
 
@@ -36,6 +39,7 @@ class Home : AppCompatActivity() {
     private lateinit var appBarConfiguration: AppBarConfiguration
     private lateinit var loggedInViewModel : LoggedInViewModel
     private val mapsViewModel : MapsViewModel by viewModels()
+    var run = RunModel()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -56,7 +60,6 @@ class Home : AppCompatActivity() {
 
         //Initialize the bottom navigation view
         //create bottom navigation view object
-       // if(bottomNavigationView != null) {
            val bottomNavigationView = findViewById<BottomNavigationView>(R.id.bottom_navigation_view)
         //}
 
@@ -69,8 +72,10 @@ class Home : AppCompatActivity() {
         navView.setupWithNavController(navController)
         bottomNavigationView?.setupWithNavController(navController)
 
-    }
 
+
+    }
+    
     public override fun onStart() {
         super.onStart()
         loggedInViewModel = ViewModelProvider(this).get(LoggedInViewModel::class.java)
