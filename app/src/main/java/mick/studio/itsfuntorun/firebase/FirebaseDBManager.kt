@@ -82,7 +82,7 @@ object FirebaseDBManager: RunStore {
         database.updateChildren(childDelete)
     }
 
-    override fun update(userid: String, runid: String, run: RunModel) {
+    override fun updateRun(userid: String, runid: String, run: RunModel) {
 
         val runValues = run.toMap()
 

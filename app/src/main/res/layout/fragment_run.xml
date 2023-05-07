@@ -2,16 +2,16 @@
 <layout xmlns:tools="http://schemas.android.com/tools"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
-    <data>
-        <variable
-            name="run"
-            type="mick.studio.itsfuntorun.models.RunModel" />
-    </data>
+<!--    <data>-->
+<!--        <variable-->
+<!--            name="sharedViewModel"-->
+<!--            type="mick.studio.itsfuntorun.models.SharedViewModel" />-->
+<!--    </data>-->
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context="ui.run.RunFragment">
+        android:layout_height="match_parent"
+        tools:context="ui.run.RunFragment">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -29,48 +29,58 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 
-                <EditText
+               <androidx.appcompat.widget.AppCompatEditText
                     android:id="@+id/runKms"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="@string/hint_run_kms"
                     android:ems="10"
-                    android:inputType="number" />
+                    android:textColor="@color/black"
+                    android:hint="@string/hint_run_kms"
+                    android:inputType="numberDecimal"
+                   android:backgroundTint="@color/deep_blue"
+                   />
 
-                <EditText
+                <androidx.appcompat.widget.AppCompatEditText
                     android:id="@+id/lng"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/hint_lng"
                     android:ems="10"
+                    android:textColor="@color/black"
                     android:inputType="numberDecimal"
-                    android:text="@{Double.toString(run.lng)}"/>
+                    android:backgroundTint="@color/deep_blue"
 
-                <EditText
+                    />
+
+                <androidx.appcompat.widget.AppCompatEditText
                     android:id="@+id/lat"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/hint_lat"
                     android:ems="10"
+                    android:textColor="@color/black"
                     android:inputType="numberDecimal"
-                    android:text="@{Double.toString(run.lat)}"
+                    android:backgroundTint="@color/deep_blue"
                     />
 
-<!--                <EditText-->
-<!--                    android:id="@+id/runKms"-->
-<!--                    android:layout_width="match_parent"-->
-<!--                    android:layout_height="45dp"-->
-<!--                    android:layout_margin="8dp"-->
-<!--                    android:autofillHints="hint"-->
-<!--                    android:hint="@string/hint_run_kms"-->
-<!--                    android:inputType="numberDecimal"-->
-<!--                    android:maxLength="25"-->
-<!--                    android:maxLines="1"-->
-<!--                    android:padding="8dp"-->
-<!--                    android:textColor="@color/black"-->
-<!--                    android:textSize="14sp" />-->
+                <androidx.appcompat.widget.AppCompatEditText
+                    android:id="@+id/runCalories"
+                    style="@style/Widget.MaterialComponents.MaterialCalendar"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="8dp"
+                    android:hint="@string/calories_burned"
+                    android:inputType="date"
+                    android:maxLength="25"
+                    android:maxLines="1"
+                    android:padding="8dp"
+                    android:textColor="@color/black"
+                    android:textSize="14sp"
+                    android:backgroundTint="@color/deep_blue"
 
-                <EditText
+                    />
+
+                <androidx.appcompat.widget.AppCompatEditText
                     android:id="@+id/runTime"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -81,8 +91,9 @@
                     android:maxLines="1"
                     android:padding="8dp"
                     android:textColor="@color/black"
-                    android:textSize="14sp" />
-
+                    android:textSize="14sp"
+                    android:backgroundTint="@color/deep_blue"
+                    />
 <!--                <Button-->
 <!--                    android:id="@+id/chooseImage"-->
 <!--                    android:layout_width="match_parent"-->
@@ -112,21 +123,8 @@
                     android:paddingBottom="8dp"
                     android:stateListAnimator="@null"
                     android:text="@string/button_addRun"
-                    android:textColor="@color/white"
+                    android:textColor="@color/black"
                     android:textSize="16sp" />
-
-<!--                <Button-->
-<!--                    android:id="@+id/runLocation"-->
-<!--                    android:layout_width="match_parent"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:layout_margin="16dp"-->
-<!--                    android:background="@color/deep_blue"-->
-<!--                    android:paddingTop="8dp"-->
-<!--                    android:paddingBottom="8dp"-->
-<!--                    android:stateListAnimator="@null"-->
-<!--                    android:text="@string/button_location"-->
-<!--                    android:textColor="@color/white"-->
-<!--                    android:textSize="16sp" />-->
 
             </LinearLayout>
         </ScrollView>

@@ -6,7 +6,7 @@
     <!--<color name="green_300">#047513</color>
     <color name="teal_700">#FF018786</color> -->
     <color name="black">#261c15</color>
-    <color name="white">#FFFFFFFF</color>
+    <color name="white">#000000</color>
     <color name="deep_blue">#3F51B5</color>
 
     <color name="colorAccent">#034F8F</color>

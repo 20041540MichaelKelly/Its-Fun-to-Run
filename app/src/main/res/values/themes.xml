@@ -6,9 +6,9 @@
         <item name="colorPrimaryVariant">@color/black</item>
         <item name="colorOnPrimary">@color/white</item>
         <!-- Secondary brand color. -->
-        <item name="colorSecondary">@color/pale_blue</item>
+        <item name="colorSecondary">@color/material_dynamic_secondary100</item>
         <item name="colorSecondaryVariant">@color/pale_blue</item>
-        <item name="colorOnSecondary">@color/black</item>
+        <item name="colorOnSecondary">@color/material_dynamic_primary70</item>
         <item name="android:windowBackground">@color/pale_blue</item>
 
         <!-- Status bar color. -->
@@ -40,7 +40,7 @@
     </style>
 
     <!-- Light EditTexts -->
-    <style name="ThemeOverlay.MyLightEditText" parent="ThemeOverlay.AppCompat.Dark"/>
+    <style name="ThemeOverlay.MyLightEditText" parent="ThemeOverlay.AppCompat.Dark" />
 
     <style name="ThemeOverlay.MyTextDetail" parent="Theme.ItsFunToRun">
         <item name="android:layout_width">wrap_content</item>
