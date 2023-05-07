@@ -65,7 +65,6 @@
 
                 <androidx.appcompat.widget.AppCompatEditText
                     android:id="@+id/runCalories"
-                    style="@style/Widget.MaterialComponents.MaterialCalendar"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="8dp"

@@ -32,15 +32,11 @@ class ImagePickerFragment : Fragment() {
     private lateinit var imageIntentLauncher: ActivityResultLauncher<Intent>
     var run = RunModel()
     private var _fragBinding: FragmentImagePickerBinding? = null
-
     // This property is only valid between onCreateView and onDestroyView.
     private val fragBinding get() = _fragBinding!!
     lateinit var loader: AlertDialog
-    private val args by navArgs<ImagePickerFragmentArgs>()
     private var isImageSaved = false
     private val sharedViewModel: SharedViewModel by activityViewModels()
-
-
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

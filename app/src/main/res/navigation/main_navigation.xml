@@ -18,6 +18,12 @@
         <action
             android:id="@+id/action_runListFragment_to_runDetailFragment"
             app:destination="@id/runDetailFragment" />
+        <action
+            android:id="@+id/action_runListFragment_to_barChartFragment"
+            app:destination="@id/barChartFragment" />
+        <action
+            android:id="@+id/action_runListFragment_to_statisticsFragment"
+            app:destination="@id/statisticsFragment" />
     </fragment>
     <fragment
         android:id="@+id/runFragment"
@@ -37,6 +43,12 @@
             app:argType="mick.studio.itsfuntorun.models.RunModel"
             app:nullable="true"
             android:defaultValue="@null" />
+        <action
+            android:id="@+id/action_runFragment_to_barChartFragment"
+            app:destination="@id/barChartFragment" />
+        <action
+            android:id="@+id/action_runFragment_to_statisticsFragment"
+            app:destination="@id/statisticsFragment" />
     </fragment>
     <fragment
         android:id="@+id/runDetailFragment"
@@ -81,5 +93,28 @@
             app:argType="mick.studio.itsfuntorun.models.RunModel"
             app:nullable="true"
             android:defaultValue="@null" />
+    </fragment>
+    <fragment
+        android:id="@+id/barChartFragment"
+        android:name="mick.studio.itsfuntorun.ui.analysis.BarChartFragment"
+        android:label="fragment_bar_chart"
+        tools:layout="@layout/fragment_bar_chart" />
+    <fragment
+        android:id="@+id/statisticsFragment"
+        android:name="mick.studio.itsfuntorun.ui.analysis.StatisticsFragment"
+        android:label="fragment_statistics"
+        tools:layout="@layout/fragment_statistics" >
+        <action
+            android:id="@+id/action_statisticsFragment_to_runFragment"
+            app:destination="@id/runFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/pieChartFragment"
+        android:name="mick.studio.itsfuntorun.ui.analysis.PieChartFragment"
+        android:label="fragment_pie_chart"
+        tools:layout="@layout/fragment_pie_chart" >
+        <action
+            android:id="@+id/action_pieChartFragment_to_barChartFragment"
+            app:destination="@id/barChartFragment" />
     </fragment>
 </navigation>
