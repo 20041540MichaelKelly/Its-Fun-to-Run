@@ -42,7 +42,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentTop="true"
                 android:textSize="30sp"
-                android:text="0.0Kms"
+                android:text="@string/_0_0_kms"
                 android:layout_marginTop="4dp"
                 android:textAlignment="viewStart"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -74,7 +74,7 @@
                 app:layout_constraintHorizontal_bias="0.052"
                 app:layout_constraintStart_toEndOf="@+id/imageIcon"
                 app:layout_constraintTop_toBottomOf="@id/runInTime"
-                android:text="0:00:00"
+                android:text="@string/digital_time"
                 />
 
             <androidx.appcompat.widget.AppCompatToggleButton
@@ -83,8 +83,10 @@
                 android:layout_height="wrap_content"
                 android:text=""
                 android:textAllCaps="false"
-                android:textOff="Save Run"
-                android:textOn="Saved"
+                android:backgroundTint="@color/wine"
+                android:textOff="@string/save_run"
+                android:textOn="@string/saved"
+                android:visibility="invisible"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@id/runSpeed"
                 app:layout_constraintTop_toTopOf="parent"
@@ -102,7 +104,7 @@
         android:layout_margin="@dimen/fab_margin"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:srcCompat="@android:drawable/ic_input_add"
-        android:contentDescription="TODO" />
+        app:srcCompat="@android:drawable/ic_media_play"
+        />
 
 </RelativeLayout>

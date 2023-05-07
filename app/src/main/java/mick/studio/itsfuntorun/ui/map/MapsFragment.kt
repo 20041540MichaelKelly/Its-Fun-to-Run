@@ -5,6 +5,7 @@ import android.app.AlertDialog
 import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.Canvas
+import android.graphics.Color
 import android.graphics.drawable.Drawable
 import android.location.Location
 import android.os.Build
@@ -74,18 +75,21 @@ class MapsFragment : Fragment() {
 
         mapsViewModel.currentLocation.observe(viewLifecycleOwner) {
             if (isActive) {
+                var elapsedTime : Long ?=0L
                 if (startTime == 0L) {
                     startTime = mapsViewModel.currentLocation.value!!.elapsedRealtimeMillis
                     startLat = mapsViewModel.currentLocation.value!!.latitude
                     startLng = mapsViewModel.currentLocation.value!!.longitude
 
                 }
+                if(elapsedTime == 0L) {
+                    elapsedTime =
+                        mapsViewModel.currentLocation.value!!.elapsedRealtimeMillis - startTime
+                }
 
-                var elapsedTime =
-                    mapsViewModel.currentLocation.value!!.elapsedRealtimeMillis - startTime
-                fragBinding.runInTime.text = formatToDigitalClock(elapsedTime)
+                fragBinding.runInTime.text = elapsedTime?.let { it1 -> formatToDigitalClock(it1) }
                 fragBinding.runSpeed.text =
-                    String.format("%.2f", mapsViewModel.currentLocation.value!!.speed).toDouble()
+                    String.format("%.2f", mapsViewModel.currentLocation.value!!.speedAccuracyMetersPerSecond).toDouble()
                         .toString()
 
 
@@ -103,28 +107,28 @@ class MapsFragment : Fragment() {
                 startLat = mapsViewModel.currentLocation.value!!.latitude
                 startLng = mapsViewModel.currentLocation.value!!.longitude
 
-                if(isStopped){
-                        runModel = RunModel(
-                            lat = mapsViewModel.currentLocation.value!!.latitude,
-                            lng = mapsViewModel.currentLocation.value!!.longitude,
-                            runTime = fragBinding.runInTime.text.toString(),
-                            speed = fragBinding.runSpeed.text.toString().toDouble(),
-                            distance = fragBinding.runInKms.text.toString().toDouble(),
-                            finishTime = fragBinding.runInTime.text.toString(),
-                            amountOfCals = fragBinding.runInKms.text.toString().toDouble() * 0.06
-                        )
-                    sharedViewModel.setRunModel(runModel)
-                }
+            }
 
+            if (isStopped) {
+                runModel = RunModel(
+                    lat = mapsViewModel.currentLocation.value!!.latitude,
+                    lng = mapsViewModel.currentLocation.value!!.longitude,
+                    runTime = fragBinding.runInTime.text.toString(),
+                    speed = fragBinding.runSpeed.text.toString().toDouble(),
+                    distance = fragBinding.runInKms.text.toString().toDouble(),
+                    finishTime = fragBinding.runInTime.text.toString(),
+                    amountOfCals = fragBinding.runInKms.text.toString().toDouble() * 0.06
+                )
+                sharedViewModel.setRunModel(runModel)
+                findNavController().navigate(R.id.runFragment)
             }
 
             val loc = LatLng(
                 mapsViewModel.currentLocation.value!!.latitude,
                 mapsViewModel.currentLocation.value!!.longitude
             )
-            val marker=MarkerOptions().position(loc).title("Marker in bbw")
+            val marker = MarkerOptions().position(loc).title("Marker in bbw")
             //set custom icon
-            marker.icon(BitmapFromVector(requireContext(), R.drawable.baseline_run_circle_24))
             //add marker
             mapsViewModel.map.addMarker(marker)
 
@@ -143,26 +147,7 @@ class MapsFragment : Fragment() {
             )
 
 
-
         }
-    }
-
-    private fun BitmapFromVector(context:Context,vectorResId:Int): BitmapDescriptor? {
-        //drawable generator
-        var vectorDrawable: Drawable
-        vectorDrawable= ContextCompat.getDrawable(context,vectorResId)!!
-        vectorDrawable.setBounds(0,0,vectorDrawable.intrinsicWidth,vectorDrawable.intrinsicHeight)
-        //bitmap genarator
-        var bitmap:Bitmap
-        bitmap= Bitmap.createBitmap(vectorDrawable.intrinsicWidth,vectorDrawable.intrinsicHeight,Bitmap.Config.ARGB_8888)
-        //canvas genaret
-        var canvas:Canvas
-        //pass bitmap in canvas constructor
-        canvas= Canvas(bitmap)
-        //pass canvas in drawable
-        vectorDrawable.draw(canvas)
-        //return BitmapDescriptorFactory
-        return BitmapDescriptorFactory.fromBitmap(bitmap)
     }
 
     override fun onCreateView(
@@ -175,28 +160,31 @@ class MapsFragment : Fragment() {
         _fragBinding = FragmentMapsBinding.inflate(inflater, container, false)
         val root = fragBinding.root
         activity?.title = getString(R.string.record_a_run)
-        runViewModel = ViewModelProvider(this).get(mick.studio.itsfuntorun.ui.run.RunViewModel::class.java)
+        runViewModel =
+            ViewModelProvider(this).get(mick.studio.itsfuntorun.ui.run.RunViewModel::class.java)
 
         fragBinding.stopButton.setOnCheckedChangeListener { _, isChecked ->
-                if (isChecked) {
-                    isStopped = true
-                    // The switch is checked.
-                } else {
-                    isStopped = false
-                    // The switch isn't checked.
-                }
+            if (isChecked) {
+                isStopped = true
+                // The switch is checked.
+            } else {
+                isStopped = false
+                // The switch isn't checked.
             }
+        }
         val fab: FloatingActionButton = fragBinding.fab
 
         fab.setOnClickListener {
             if (isActive) {
                 isActive = false
-                fab.setImageResource(R.drawable.baseline_pause_circle_24)
+                fab.setImageResource(R.drawable.baseline_play_circle_filled_24)
                 fragBinding.stopButton.visibility = View.VISIBLE
+                fab.setRippleColor(Color.parseColor("#00DD00"))
             } else {
                 isActive = true
-                fab.setImageResource(R.drawable.baseline_play_circle_filled_24)
+                fab.setImageResource(R.drawable.baseline_pause_circle_24)
                 fragBinding.stopButton.visibility = View.INVISIBLE
+                fab.setRippleColor(Color.parseColor("#FFA500"))
             }
         }
         return root

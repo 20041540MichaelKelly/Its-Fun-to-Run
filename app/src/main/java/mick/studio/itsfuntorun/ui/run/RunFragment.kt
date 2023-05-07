@@ -41,24 +41,13 @@ import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
 class RunFragment : Fragment() {
-
-    private lateinit var navBarBinding: BottomNavBarBinding
-    private lateinit var appBarConfiguration: AppBarConfiguration
-
-    //    private lateinit var imageIntentLauncher : ActivityResultLauncher<Intent>
     private lateinit var mapIntentLauncher: ActivityResultLauncher<Intent>
-    var run = RunModel()
-
-    //lateinit var app : MainApp
+    var runModel = RunModel()
     private var _fragBinding: FragmentRunBinding? = null
-
-    // This property is only valid between onCreateView and onDestroyView.
     private val fragBinding get() = _fragBinding!!
     private lateinit var runViewModel: RunViewModel
     private lateinit var loggedInViewModel: LoggedInViewModel
-    private val imagePickerViewModel: ImagePickerViewModel by activityViewModels()
     private val sharedViewModel: SharedViewModel by activityViewModels()
-
     private val mapsViewModel: MapsViewModel by activityViewModels()
     lateinit var loader: AlertDialog
     private val args by navArgs<RunFragmentArgs>()
@@ -71,9 +60,6 @@ class RunFragment : Fragment() {
         val inflater = TransitionInflater.from(requireContext())
         enterTransition = inflater.inflateTransition(R.transition.slide_right)
     }
-
-
-
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -94,25 +80,21 @@ class RunFragment : Fragment() {
 
         //if(args.run != null) {
         sharedViewModel.observableRunModel.observe(viewLifecycleOwner, Observer { run ->
-            //run = args.run!!
-//            fragBinding.runKms.setText(args.run!!.distance.toString())
-//            fragBinding.runTime.setText(args.run!!.finishTime)
-//            fragBinding.lat.setText(args.run!!.lat.toString())
-//            fragBinding.lng.setText(args.run!!.lng.toString())
-//            fragBinding.runCalories.setText(args.run!!.amountOfCals.toString())
-
+            runModel = updateRunModel(run)
             fragBinding.runKms.setText(run!!.distance.toString())
             fragBinding.runTime.setText(run.finishTime)
             fragBinding.lat.setText(run.lat.toString())
             fragBinding.lng.setText(run.lng.toString())
             fragBinding.runCalories.setText(run.amountOfCals.toString())
+            if(run.image != ""){
             Picasso.get()
                 .load(run.image)
                 .into(fragBinding.runImage)
+        }
         })
 
         setButtonOnClickListeners(fragBinding)
-        registerMapCallback()
+        //registerMapCallback()
         return root
     }
 
@@ -120,29 +102,18 @@ class RunFragment : Fragment() {
         layout: FragmentRunBinding
     ) {
         layout.btnAdd.setOnClickListener() {
-             run.distance = layout.runKms.text.toString().toDouble()
-             run.finishTime = layout.runTime.text.toString()
-             run.runTime = LocalDateTime.now().format(DateTimeFormatter.ofPattern("M/d/y H:m:ss"))
-             run.amountOfCals = layout.runKms.text.toString().toDouble()
-            if (run.finishTime!!.isNotEmpty()) {
+            runModel.distance = layout.runKms.text.toString().toDouble()
+            runModel.finishTime = layout.runTime.text.toString()
+            runModel.runTime = LocalDateTime.now().format(DateTimeFormatter.ofPattern("M/d/y H:m:ss"))
+            runModel.amountOfCals = layout.runKms.text.toString().toDouble()
+            runModel.lat = layout.lat.text.toString().toDouble()
+            runModel.lng = layout.lng.text.toString().toDouble()
+            if (runModel.finishTime!!.isNotEmpty()) {
                 // if (edit) {
                 runViewModel.addRun(
                     loggedInViewModel.liveFirebaseUser,
-                    RunModel(
-                        lat = run.lat,
-                        lng = run.lng,
-                        runTime = run.runTime,
-                        speed = run.speed,
-                        distance = run.distance,
-                        finishTime = run.finishTime,
-                        amountOfCals = run.amountOfCals,
-                        image = argsImage ?: run.image,
-                        zoom = run.zoom,
-                        email = run.email!!
-                    )
+                    updateRunModel(runModel)
                 )
-
-                i("add Button Pressed: ${run.distance}")
             } else {
                 Snackbar
                     .make(
@@ -156,31 +127,46 @@ class RunFragment : Fragment() {
 
     }
 
-    private fun registerMapCallback() {
-        mapIntentLauncher =
-            registerForActivityResult(ActivityResultContracts.StartActivityForResult())
-            { result ->
-                when (result.resultCode) {
-                    RESULT_OK -> {
-                        if (result.data != null) {
-                            i("Got Location ${result.data.toString()}")
-                            val runLoc =
-                                result.data!!.extras?.getParcelable<RunModel>("location")!!
-                            if (runLoc.lat == 0.0) {
-                                i("Location == $runLoc")
-                            } else {
-                                i("Location == $runLoc")
-                                run.lat = runLoc.lat
-                                run.lng = runLoc.lng
-                                run.zoom = runLoc.zoom
-                            }
-                        }
-                    }
-                    RESULT_CANCELED -> {}
-                    else -> {}
-                }
-            }
+    private fun updateRunModel(run: RunModel): RunModel{
+        return RunModel(
+            lat = run.lat,
+            lng = run.lng,
+            runTime = run.runTime,
+            speed = run.speed,
+            distance = run.distance,
+            finishTime = run.finishTime,
+            amountOfCals = run.amountOfCals,
+            image = run.image,
+            zoom = 15f,
+            email = run.email //Need to update with logged in observer to get the email
+        )
     }
+
+//    private fun registerMapCallback() {
+//        mapIntentLauncher =
+//            registerForActivityResult(ActivityResultContracts.StartActivityForResult())
+//            { result ->
+//                when (result.resultCode) {
+//                    RESULT_OK -> {
+//                        if (result.data != null) {
+//                            i("Got Location ${result.data.toString()}")
+//                            val runLoc =
+//                                result.data!!.extras?.getParcelable<RunModel>("location")!!
+//                            if (runLoc.lat == 0.0) {
+//                                i("Location == $runLoc")
+//                            } else {
+//                                i("Location == $runLoc")
+//                                run.lat = runLoc.lat
+//                                run.lng = runLoc.lng
+//                                run.zoom = runLoc.zoom
+//                            }
+//                        }
+//                    }
+//                    RESULT_CANCELED -> {}
+//                    else -> {}
+//                }
+//            }
+//    }
 
 
     private fun setupMenu() {
@@ -195,14 +181,6 @@ class RunFragment : Fragment() {
 
             override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
                 // Validate and handle the selected menu item
-                val action: NavDirections
-                when (menuItem.itemId) {
-                    R.id.imagePickerFragment -> {
-                        action =
-                            ImagePickerFragmentDirections.actionImagePickerFragmentToRunFragment(run)
-                        findNavController().navigate(action)
-                    }
-                }
                 return NavigationUI.onNavDestinationSelected(
                     menuItem,
                     requireView().findNavController()

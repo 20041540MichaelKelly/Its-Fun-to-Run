@@ -2,11 +2,11 @@
 <layout xmlns:tools="http://schemas.android.com/tools"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
-    <data>
-        <variable
-            name="run"
-            type="mick.studio.itsfuntorun.models.RunModel" />
-    </data>
+<!--    <data>-->
+<!--        <variable-->
+<!--            name="sharedViewModel"-->
+<!--            type="mick.studio.itsfuntorun.models.SharedViewModel" />-->
+<!--    </data>-->
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
