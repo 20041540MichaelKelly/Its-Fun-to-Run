@@ -18,6 +18,9 @@
         <action
             android:id="@+id/action_runListFragment_to_runDetailFragment"
             app:destination="@id/runDetailFragment" />
+        <action
+            android:id="@+id/action_runListFragment_to_userListFragment"
+            app:destination="@id/userListFragment" />
     </fragment>
     <fragment
         android:id="@+id/runFragment"
@@ -37,6 +40,9 @@
             app:argType="mick.studio.itsfuntorun.models.RunModel"
             app:nullable="true"
             android:defaultValue="@null" />
+        <action
+            android:id="@+id/action_runFragment_to_userListFragment"
+            app:destination="@id/userListFragment" />
     </fragment>
     <fragment
         android:id="@+id/runDetailFragment"
@@ -82,4 +88,9 @@
             app:nullable="true"
             android:defaultValue="@null" />
     </fragment>
+    <fragment
+        android:id="@+id/userListFragment"
+        android:name="mick.studio.itsfuntorun.ui.userlist.UserListFragment"
+        android:label="fragment_user_list"
+        tools:layout="@layout/fragment_user_list" />
 </navigation>

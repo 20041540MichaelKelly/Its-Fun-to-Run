@@ -41,18 +41,13 @@ import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
 class RunFragment : Fragment() {
-    private lateinit var mapIntentLauncher: ActivityResultLauncher<Intent>
     var runModel = RunModel()
     private var _fragBinding: FragmentRunBinding? = null
     private val fragBinding get() = _fragBinding!!
     private lateinit var runViewModel: RunViewModel
     private lateinit var loggedInViewModel: LoggedInViewModel
     private val sharedViewModel: SharedViewModel by activityViewModels()
-    private val mapsViewModel: MapsViewModel by activityViewModels()
     lateinit var loader: AlertDialog
-    private val args by navArgs<RunFragmentArgs>()
-    var argsImage: String? = ""
-    var edit = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -83,8 +78,6 @@ class RunFragment : Fragment() {
             runModel = updateRunModel(run)
             fragBinding.runKms.setText(run!!.distance.toString())
             fragBinding.runTime.setText(run.finishTime)
-            fragBinding.lat.setText(run.lat.toString())
-            fragBinding.lng.setText(run.lng.toString())
             fragBinding.runCalories.setText(run.amountOfCals.toString())
             if(run.image != ""){
             Picasso.get()
@@ -94,7 +87,6 @@ class RunFragment : Fragment() {
         })
 
         setButtonOnClickListeners(fragBinding)
-        //registerMapCallback()
         return root
     }
 
@@ -106,8 +98,6 @@ class RunFragment : Fragment() {
             runModel.finishTime = layout.runTime.text.toString()
             runModel.runTime = LocalDateTime.now().format(DateTimeFormatter.ofPattern("M/d/y H:m:ss"))
             runModel.amountOfCals = layout.runKms.text.toString().toDouble()
-            runModel.lat = layout.lat.text.toString().toDouble()
-            runModel.lng = layout.lng.text.toString().toDouble()
             if (runModel.finishTime!!.isNotEmpty()) {
                 // if (edit) {
                 runViewModel.addRun(

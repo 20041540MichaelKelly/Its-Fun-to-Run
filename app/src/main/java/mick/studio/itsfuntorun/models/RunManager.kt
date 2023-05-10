@@ -59,4 +59,8 @@ object RunManager : RunStore {
     override fun updateRun(userid: String, runid: String, run: RunModel) {
         TODO("Not yet implemented")
     }
+
+    override fun findUser(userid: String, user: MutableLiveData<RunModel>) {
+        TODO("Not yet implemented")
+    }
 }

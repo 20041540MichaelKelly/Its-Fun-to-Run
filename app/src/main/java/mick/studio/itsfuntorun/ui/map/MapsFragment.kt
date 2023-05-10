@@ -111,10 +111,8 @@ class MapsFragment : Fragment() {
 
             if (isStopped) {
                 runModel = RunModel(
-                    lat = mapsViewModel.currentLocation.value!!.latitude,
-                    lng = mapsViewModel.currentLocation.value!!.longitude,
                     runTime = fragBinding.runInTime.text.toString(),
-                    speed = fragBinding.runSpeed.text.toString().toDouble(),
+                    speed = fragBinding.runSpeed?.text.toString().toDouble(),
                     distance = fragBinding.runInKms.text.toString().toDouble(),
                     finishTime = fragBinding.runInTime.text.toString(),
                     amountOfCals = fragBinding.runInKms.text.toString().toDouble() * 0.06
@@ -202,8 +200,8 @@ class MapsFragment : Fragment() {
             runList.forEach {
                 mapsViewModel.map.addMarker(
                     MarkerOptions().position(LatLng(it.lat!!, it.lng!!))
-                        .title("${it.distance}kms ${it.email}")
-                        .snippet(it.email)
+                        .title("${it.distance}kms ${it.uid}")
+                        .snippet(it.uid)
                         .icon(
                             BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN)
                         )
