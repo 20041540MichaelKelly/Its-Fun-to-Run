@@ -72,5 +72,10 @@
     <string name="register_user">Register</string>
     <string name="enter_a_user_info">Enter your details...</string>
     <string name="button_capture_image">Capture</string>
+    <string name="user_email">"Email: "</string>
+    <string name="user_name">"Name: "</string>
+    <string name="member_tv">"Joined: "</string>
+    <string name="add_friend">Add</string>
+    <string name="hint_name">Name</string>
 
 </resources>

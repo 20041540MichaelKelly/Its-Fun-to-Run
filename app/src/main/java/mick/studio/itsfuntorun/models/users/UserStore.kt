@@ -13,4 +13,14 @@ interface UserStore {
         MutableLiveData<List<UserModel>>
     )
 
+    fun findUser(
+        userid: String,
+        user:
+        MutableLiveData<UserModel>
+    )
+
+    fun updateUserFriends(
+        user:UserModel
+    )
+
 }

@@ -23,15 +23,4 @@ interface RunStore {
     fun create(firebaseUser: MutableLiveData<FirebaseUser>, run: RunModel)
     fun delete(userid: String, runid: String)
     fun updateRun(userid: String, runid: String, run: RunModel)
-
-    /**
-     * Users section
-     */
-
-    fun findUser(
-        userid: String,
-        user:
-        MutableLiveData<RunModel>
-    )
-
 }

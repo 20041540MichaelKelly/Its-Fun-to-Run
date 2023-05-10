@@ -16,21 +16,16 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.NavigationUI
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.floatingactionbutton.FloatingActionButton
-import com.google.android.material.snackbar.Snackbar
 import mick.studio.itsfuntorun.R
-import mick.studio.itsfuntorun.adapter.RunListAdapter
 import mick.studio.itsfuntorun.adapter.UserListAdapter
 import mick.studio.itsfuntorun.adapter.UserListener
-import mick.studio.itsfuntorun.databinding.FragmentRunListBinding
 import mick.studio.itsfuntorun.databinding.FragmentUserListBinding
 import mick.studio.itsfuntorun.helpers.createLoader
 import mick.studio.itsfuntorun.helpers.hideLoader
 import mick.studio.itsfuntorun.helpers.showLoader
-import mick.studio.itsfuntorun.models.RunModel
 import mick.studio.itsfuntorun.models.users.UserModel
 import mick.studio.itsfuntorun.ui.auth.LoggedInViewModel
-import mick.studio.itsfuntorun.ui.runlist.RunListFragmentDirections
-import mick.studio.itsfuntorun.ui.runlist.RunListViewModel
+import mick.studio.itsfuntorun.ui.userdetails.UserDetailsViewModel
 import timber.log.Timber
 
 class UserListFragment : Fragment(), UserListener {
@@ -38,6 +33,7 @@ class UserListFragment : Fragment(), UserListener {
     private var _fragBinding: FragmentUserListBinding? = null
     private val fragBinding get() = _fragBinding!!
     private lateinit var userListViewModel: UserListViewModel
+    private lateinit var userDetailsViewModel: UserDetailsViewModel
     private val loggedInViewModel: LoggedInViewModel by activityViewModels()
 
     lateinit var loader: AlertDialog
@@ -61,6 +57,7 @@ class UserListFragment : Fragment(), UserListener {
         fragBinding.recyclerView.layoutManager = LinearLayoutManager(activity)
 
         userListViewModel = ViewModelProvider(this).get(UserListViewModel::class.java)
+        userDetailsViewModel = ViewModelProvider(this).get(UserDetailsViewModel::class.java)
         showLoader(loader, "Loading Users")
 
         userListViewModel.observableUsersList.observe(viewLifecycleOwner, Observer {
@@ -168,7 +165,11 @@ class UserListFragment : Fragment(), UserListener {
     }
 
     override fun onUserClick(user: UserModel) {
-        TODO("Not yet implemented")
+        val action = UserListFragmentDirections.actionUserListFragmentToUserDetailsFragment(user)
+
+        if (action != null) {
+            findNavController().navigate(action)
+        }
     }
 
 }

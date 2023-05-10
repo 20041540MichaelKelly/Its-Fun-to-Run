@@ -5,11 +5,13 @@ import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.database.*
 import mick.studio.itsfuntorun.models.RunModel
 import mick.studio.itsfuntorun.models.RunStore
+import mick.studio.itsfuntorun.models.friends.FriendsModel
+import mick.studio.itsfuntorun.models.friends.FriendsStore
 import mick.studio.itsfuntorun.models.users.UserModel
 import mick.studio.itsfuntorun.models.users.UserStore
 import timber.log.Timber
 
-object FirebaseDBManager: RunStore, UserStore{
+object FirebaseDBManager: RunStore, UserStore, FriendsStore{
     var database: DatabaseReference = FirebaseDatabase.getInstance().reference
 
     override fun findAll(runsList: MutableLiveData<List<RunModel>>) {
@@ -95,14 +97,41 @@ object FirebaseDBManager: RunStore, UserStore{
         database.updateChildren(childUpdate)
     }
 
-    override fun findUser(userid: String, user: MutableLiveData<RunModel>) {
+    override fun addFriend(firebaseUser: MutableLiveData<FirebaseUser>, friend: FriendsModel) {
+
+        Timber.i("Firebase DB Reference : $database")
+
+        val uid = firebaseUser.value!!.uid
+        val key = database.child("friends").push().key
+        if (key == null) {
+            Timber.i("Firebase Error : Key Empty")
+            return
+        }
+        friend.fid = key
+        friend.uid = uid
+
+        val friendValues = friend.toMap()
+
+        val childAdd = HashMap<String, Any>()
+        childAdd["/friends/$key"] = friendValues
+        childAdd["/user-runs/$uid/$key"] = friendValues
+
+        database.updateChildren(childAdd)
+        Timber.i("completed childAdd : $childAdd")
+    }
+
+    override fun findUser(userid: String, user: MutableLiveData<UserModel>) {
         database.child("user-runs").child(userid)
             .get().addOnSuccessListener {
-                user.value = it.getValue(RunModel::class.java)
+                user.value = it.getValue(UserModel::class.java)
                 Timber.i("firebase Got value ${it.value}")
             }.addOnFailureListener{
                 Timber.e("firebase Error getting data $it")
             }
+    }
+
+    override fun updateUserFriends(user: UserModel) {
+        TODO("Not yet implemented")
     }
 
     override fun createUser( user: UserModel) {
@@ -114,15 +143,16 @@ object FirebaseDBManager: RunStore, UserStore{
             return
         }
 
-        val userValues = user.toMap()
 
+        user.pid = key
         val uid = user.uid
+        val userValues = user.toMap()
 
         val childAdd = HashMap<String, Any>()
         childAdd["/user-info/$key"] = userValues
         childAdd["/user-runs/$uid/$key"] = userValues
 
-        FirebaseDBManager.database.updateChildren(childAdd)
+        database.updateChildren(childAdd)
         Timber.i("completed childAdd : $childAdd")
     }
 
@@ -148,5 +178,4 @@ object FirebaseDBManager: RunStore, UserStore{
                 }
             })
     }
-
 }

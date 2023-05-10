@@ -6,17 +6,20 @@ import kotlinx.parcelize.Parcelize
 
 @Parcelize
 data class UserModel(
-    var uid: String ?= "",
+    var uid: String? = "",
+    var pid: String? = "",
     var registerDate: String ?= "",
     var name: String? = "",
     var image: String? = "",
     var password: String = "",
-    var email: String = "john@doe.com"
+    var email: String = "john@doe.com",
+    var privateBio: Boolean = false
     ) : Parcelable {
         @Exclude
         fun toMap(): Map<String, Any?> {
             return mapOf(
                 "uid" to uid,
+                "pid" to pid,
                 "registerDate" to registerDate,
                 "name" to name,
                 "email" to email,

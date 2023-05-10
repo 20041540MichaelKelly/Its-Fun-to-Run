@@ -14,14 +14,20 @@ import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.FileProvider
+import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.snackbar.Snackbar
 import com.squareup.picasso.Picasso
 import mick.studio.itsfuntorun.R
 import mick.studio.itsfuntorun.databinding.ActivityRegisterBinding
 import mick.studio.itsfuntorun.helpers.createLoader
+import mick.studio.itsfuntorun.helpers.hideLoader
 import mick.studio.itsfuntorun.helpers.showImagePicker
+import mick.studio.itsfuntorun.helpers.showLoader
+import mick.studio.itsfuntorun.models.SharedViewModel
 import mick.studio.itsfuntorun.models.users.UserModel
+import mick.studio.itsfuntorun.ui.camera.ImagePickerViewModel
+import mick.studio.itsfuntorun.ui.userlist.UserListViewModel
 import timber.log.Timber
 import java.io.File
 import java.io.IOException
@@ -40,8 +46,10 @@ class Register : AppCompatActivity() {
     val REQUEST_IMAGE_CAPTURE = 1
     lateinit var currentPhotoPath: String
     private lateinit var requestPermissionLauncher: ActivityResultLauncher<String>
-
+    private lateinit var imagePickerViewModel: ImagePickerViewModel
     var user = UserModel()
+    private lateinit var sharedViewModel: SharedViewModel
+
     public override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         registerBinding = ActivityRegisterBinding.inflate(layoutInflater)
@@ -75,6 +83,8 @@ class Register : AppCompatActivity() {
         // Check if user is signed in (non-null) and update UI accordingly.
         loginRegisterViewModel = ViewModelProvider(this).get(LoginRegisterViewModel::class.java)
         loggedInViewModel = ViewModelProvider(this).get(LoggedInViewModel::class.java)
+        sharedViewModel = ViewModelProvider(this).get(SharedViewModel::class.java)
+        imagePickerViewModel = ViewModelProvider(this).get(ImagePickerViewModel::class.java)
 
         //        loginRegisterViewModel.liveFirebaseUser.observe(this, Observer
 //        { firebaseUser -> if (firebaseUser != null)
@@ -142,111 +152,126 @@ class Register : AppCompatActivity() {
             registerForActivityResult(ActivityResultContracts.StartActivityForResult())
             { result ->
                 when (result.resultCode) {
-                    AppCompatActivity.RESULT_OK -> {
+                    Activity.RESULT_OK -> {
                         if (result.data != null) {
                             Timber.i("Got Result ${result.data!!.data}")
-                            user.image = result.data!!.data!!.toString()
-                            Picasso.get()
-                                .load(user.image)
-                                .into(registerBinding.runImage)
+                            imagePickerViewModel.uploadImage(result.data!!.data!!.toString())
+                            showLoader(loader, "Uploading Image...")
+                            imagePickerViewModel.image.observe(this) { img ->
+                                if (img != null) {
+//                                    sharedViewModel.observableUserModel.observe(this) { user ->
+                                        user.image = img.toString()
+                                        hideLoader(loader)
+                                    //}
+                                    Picasso.get()
+                                        .load(user.image)
+                                        .into(registerBinding.runImage)
 
-                            registerBinding.chooseImage.setText(R.string.change_image)
-                        } // end of if
+                                    registerBinding.chooseImage.setText(R.string.change_image)
+                                } // end of if
+                            }
+                        }
                     }
-                    AppCompatActivity.RESULT_CANCELED -> {}
-                    else -> {}
+
+                            Activity.RESULT_CANCELED -> {}
+                            else -> {}
+                        }
+                    }
+                }
+
+
+
+
+
+
+                private fun setButtonOnClickListeners(
+                    layout: ActivityRegisterBinding
+                ) {
+                    layout.btnRegister.setOnClickListener() {
+                        user.name = layout.registerFullName.text.toString()
+                        user.email = layout.registerEmail.text.toString()
+                        user.registerDate =
+                            LocalDateTime.now().format(DateTimeFormatter.ofPattern("M/d/y H:m:ss"))
+                        user.password = layout.registerPassword.text.toString()
+                        if (user.password != "" || user.email != "") {
+                            loginRegisterViewModel.registerUserCreate(
+                                UserModel(
+                                    name = user.name,
+                                    password = user.password,
+                                    image = user.image,
+                                    registerDate = user.registerDate,
+                                    email = user.email
+                                )
+                            )
+                        } else {
+                            Snackbar
+                                .make(
+                                    registerBinding.btnRegister,
+                                    getString(R.string.enter_a_user_info),
+                                    Snackbar.LENGTH_LONG
+                                )
+                                .show()
+                        }
+
+
+                        layout.chooseImage.setOnClickListener {
+                            showImagePicker(imageIntentLauncher)
+                        }
+
+                        layout.captureImage.setOnClickListener {
+                            dispatchTakePictureIntent()
+                        }
+                    }
+
+                }
+
+                @SuppressLint("SimpleDateFormat")
+                @Throws(IOException::class)
+                private fun createImageFile(): File {
+                    // Create an image file name
+                    val timeStamp: String = SimpleDateFormat("yyyyMMdd_HHmmss").format(Date())
+                    val storageDir: File? = getExternalFilesDir(Environment.DIRECTORY_PICTURES)
+                    return File.createTempFile(
+                        "JPEG_${timeStamp}_", /* prefix */
+                        ".jpg", /* suffix */
+                        storageDir /* directory */
+                    ).apply {
+                        // Save a file: path for use with ACTION_VIEW intents
+                        currentPhotoPath = absolutePath
+                    }
+                }
+
+                private fun dispatchTakePictureIntent() {
+                    Intent(MediaStore.ACTION_IMAGE_CAPTURE).also { takePictureIntent ->
+                        // Ensure that there's a camera activity to handle the intent
+
+                        takePictureIntent.resolveActivity(this.packageManager)?.also {
+                            // Create the File where the photo should go
+                            val photoFile: File? = try {
+                                createImageFile()
+                            } catch (ex: IOException) {
+                                // Error occurred while creating the File
+                                Timber.i("Take Picture Error : $ex.message")
+                                null
+                            }
+                            // Continue only if the File was successfully created
+                            photoFile?.also {
+                                val photoURI: Uri = FileProvider.getUriForFile(
+                                    this,
+                                    "mick.studio.itsfuntorun.fileprovider",
+                                    it
+                                )
+                                user.image = photoURI.toString()
+                                Picasso.get()
+                                    .load(user.image)
+                                    .into(registerBinding.runImage)
+
+                                takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI)
+                                startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE)
+                            }
+                        }
+                    }
+
                 }
             }
-    }
-
-    private fun setButtonOnClickListeners(
-        layout: ActivityRegisterBinding
-    ) {
-        layout.btnRegister.setOnClickListener() {
-            user.name = layout.registerFullName.text.toString()
-            user.email = layout.registerEmail.text.toString()
-            user.registerDate =
-                LocalDateTime.now().format(DateTimeFormatter.ofPattern("M/d/y H:m:ss"))
-            user.password = layout.registerPassword.text.toString()
-            if (user.password != "" || user.email != "") {
-                loginRegisterViewModel.registerUserCreate(
-                    UserModel(
-                        name = user.name,
-                        password = user.password,
-                        image = user.image,
-                        registerDate = user.registerDate,
-                        email = user.email
-                    )
-                )
-            } else {
-                Snackbar
-                    .make(
-                        registerBinding.btnRegister,
-                        getString(R.string.enter_a_user_info),
-                        Snackbar.LENGTH_LONG
-                    )
-                    .show()
-            }
-
-
-            layout.chooseImage.setOnClickListener {
-                showImagePicker(imageIntentLauncher)
-            }
-
-            layout.captureImage.setOnClickListener {
-                dispatchTakePictureIntent()
-            }
-    }
-
-}
-
-@SuppressLint("SimpleDateFormat")
-@Throws(IOException::class)
-private fun createImageFile(): File {
-    // Create an image file name
-    val timeStamp: String = SimpleDateFormat("yyyyMMdd_HHmmss").format(Date())
-    val storageDir: File? = getExternalFilesDir(Environment.DIRECTORY_PICTURES)
-    return File.createTempFile(
-        "JPEG_${timeStamp}_", /* prefix */
-        ".jpg", /* suffix */
-        storageDir /* directory */
-    ).apply {
-        // Save a file: path for use with ACTION_VIEW intents
-        currentPhotoPath = absolutePath
-    }
-}
-
-private fun dispatchTakePictureIntent() {
-    Intent(MediaStore.ACTION_IMAGE_CAPTURE).also { takePictureIntent ->
-        // Ensure that there's a camera activity to handle the intent
-
-        takePictureIntent.resolveActivity(this.packageManager)?.also {
-            // Create the File where the photo should go
-            val photoFile: File? = try {
-                createImageFile()
-            } catch (ex: IOException) {
-                // Error occurred while creating the File
-                Timber.i("Take Picture Error : $ex.message")
-                null
-            }
-            // Continue only if the File was successfully created
-            photoFile?.also {
-                val photoURI: Uri = FileProvider.getUriForFile(
-                    this,
-                    "mick.studio.itsfuntorun.fileprovider",
-                    it
-                )
-                user.image = photoURI.toString()
-                Picasso.get()
-                    .load(user.image)
-                    .into(registerBinding.runImage)
-
-                takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI)
-                startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE)
-            }
-        }
-    }
-
-}
-}
 
