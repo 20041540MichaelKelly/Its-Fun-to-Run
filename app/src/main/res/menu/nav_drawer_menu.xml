@@ -21,6 +21,11 @@
             android:id="@+id/imagePickerFragment"
             android:icon="@drawable/baseline_photo_camera_24"
             android:title="@string/camera" />
+
+        <item
+            android:id="@+id/barChartFragment"
+            android:icon="@drawable/baseline_bar_chart_24"
+            android:title="@string/statistics" />
     </group>
 
     <item android:title="@string/group_communicate">

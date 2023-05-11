@@ -21,6 +21,12 @@
         <action
             android:id="@+id/action_runListFragment_to_userListFragment"
             app:destination="@id/userListFragment" />
+        <action
+            android:id="@+id/action_runListFragment_to_barChartFragment"
+            app:destination="@id/barChartFragment" />
+        <action
+            android:id="@+id/action_runListFragment_to_statisticsFragment"
+            app:destination="@id/statisticsFragment" />
     </fragment>
     <fragment
         android:id="@+id/runFragment"
@@ -35,9 +41,16 @@
             app:destination="@id/imagePickerFragment" />
         <argument
             android:name="run"
-            android:defaultValue="@null"
             app:argType="mick.studio.itsfuntorun.models.RunModel"
-            app:nullable="true" />
+            app:nullable="true"
+            android:defaultValue="@null" />
+        <action
+            android:id="@+id/action_runFragment_to_barChartFragment"
+            app:destination="@id/barChartFragment" />
+        <action
+            android:id="@+id/action_runFragment_to_statisticsFragment"
+            app:destination="@id/statisticsFragment" />
+
         <action
             android:id="@+id/action_runFragment_to_userListFragment"
             app:destination="@id/userListFragment" />
@@ -67,9 +80,9 @@
             app:destination="@id/runFragment"></action>
         <argument
             android:name="run"
-            android:defaultValue="@null"
             app:argType="mick.studio.itsfuntorun.models.RunModel"
-            app:nullable="true" />
+            app:nullable="true"
+            android:defaultValue="@null" />
     </fragment>
     <fragment
         android:id="@+id/imagePickerFragment"
@@ -81,9 +94,32 @@
             app:destination="@id/runFragment" />
         <argument
             android:name="run"
-            android:defaultValue="@null"
             app:argType="mick.studio.itsfuntorun.models.RunModel"
-            app:nullable="true" />
+            app:nullable="true"
+            android:defaultValue="@null" />
+    </fragment>
+    <fragment
+        android:id="@+id/barChartFragment"
+        android:name="mick.studio.itsfuntorun.ui.analysis.BarChartFragment"
+        android:label="fragment_bar_chart"
+        tools:layout="@layout/fragment_bar_chart" />
+    <fragment
+        android:id="@+id/statisticsFragment"
+        android:name="mick.studio.itsfuntorun.ui.analysis.StatisticsFragment"
+        android:label="fragment_statistics"
+        tools:layout="@layout/fragment_statistics" >
+        <action
+            android:id="@+id/action_statisticsFragment_to_runFragment"
+            app:destination="@id/runFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/pieChartFragment"
+        android:name="mick.studio.itsfuntorun.ui.analysis.PieChartFragment"
+        android:label="fragment_pie_chart"
+        tools:layout="@layout/fragment_pie_chart" >
+        <action
+            android:id="@+id/action_pieChartFragment_to_barChartFragment"
+            app:destination="@id/barChartFragment" />
     </fragment>
     <fragment
         android:id="@+id/userListFragment"

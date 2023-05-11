@@ -97,8 +97,8 @@ class RunFragment : Fragment() {
             runModel.distance = layout.runKms.text.toString().toDouble()
             runModel.finishTime = layout.runTime.text.toString()
             runModel.runTime = LocalDateTime.now().format(DateTimeFormatter.ofPattern("M/d/y H:m:ss"))
-            runModel.amountOfCals = layout.runKms.text.toString().toDouble()
-            if (runModel.finishTime!!.isNotEmpty() && runModel.distance == 0.0) {
+            runModel.amountOfCals = layout.runCalories.text.toString().toDouble()
+            if (runModel.finishTime!!.isNotEmpty()) {
                 runViewModel.addRun(
                     loggedInViewModel.liveFirebaseUser,
                     updateRunModel(runModel)
@@ -130,33 +130,6 @@ class RunFragment : Fragment() {
             email = run.email //Need to update with logged in observer to get the email
         )
     }
-
-//    private fun registerMapCallback() {
-//        mapIntentLauncher =
-//            registerForActivityResult(ActivityResultContracts.StartActivityForResult())
-//            { result ->
-//                when (result.resultCode) {
-//                    RESULT_OK -> {
-//                        if (result.data != null) {
-//                            i("Got Location ${result.data.toString()}")
-//                            val runLoc =
-//                                result.data!!.extras?.getParcelable<RunModel>("location")!!
-//                            if (runLoc.lat == 0.0) {
-//                                i("Location == $runLoc")
-//                            } else {
-//                                i("Location == $runLoc")
-//                                run.lat = runLoc.lat
-//                                run.lng = runLoc.lng
-//                                run.zoom = runLoc.zoom
-//                            }
-//                        }
-//                    }
-//                    RESULT_CANCELED -> {}
-//                    else -> {}
-//                }
-//            }
-//    }
-
 
     private fun setupMenu() {
         (requireActivity() as MenuHost).addMenuProvider(object : MenuProvider {
