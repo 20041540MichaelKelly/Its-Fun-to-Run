@@ -22,14 +22,15 @@
         <ScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:fillViewport="true">
+            android:fillViewport="true"
+            android:layout_marginBottom="30dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 
-               <androidx.appcompat.widget.AppCompatEditText
+               <!--<androidx.appcompat.widget.AppCompatEditText
                     android:id="@+id/runKms"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -38,34 +39,29 @@
                     android:hint="@string/hint_run_kms"
                     android:inputType="numberDecimal"
                    android:backgroundTint="@color/deep_blue"
-                   />
-
-                <androidx.appcompat.widget.AppCompatEditText
-                    android:id="@+id/lng"
+                   />-->
+                <com.google.android.material.textfield.TextInputLayout
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="@string/hint_lng"
-                    android:ems="10"
-                    android:textColor="@color/black"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginEnd="16dp"
+                    android:hint="@string/hint_run_kms"
                     android:inputType="numberDecimal"
-                    android:backgroundTint="@color/deep_blue"
+                    android:backgroundTint="@color/black"
+                    app:helperText="Enter in numeric format">
 
-                    />
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/runKms"
+                        android:layout_width="match_parent"
+                        android:textColor="@color/black"
+                        android:layout_height="wrap_content" />
 
-                <androidx.appcompat.widget.AppCompatEditText
-                    android:id="@+id/lat"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="@string/hint_lat"
-                    android:ems="10"
-                    android:textColor="@color/black"
-                    android:inputType="numberDecimal"
-                    android:backgroundTint="@color/deep_blue"
-                    />
+                </com.google.android.material.textfield.TextInputLayout>
 
-                <androidx.appcompat.widget.AppCompatEditText
+                <!--<androidx.appcompat.widget.AppCompatEditText
                     android:id="@+id/runCalories"
-                    style="@style/Widget.MaterialComponents.MaterialCalendar"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="8dp"
@@ -78,22 +74,46 @@
                     android:textSize="14sp"
                     android:backgroundTint="@color/deep_blue"
 
-                    />
+                    />-->
 
-                <androidx.appcompat.widget.AppCompatEditText
-                    android:id="@+id/runTime"
+                <!--this is the material design outlined EditText with helper text-->
+                <com.google.android.material.textfield.TextInputLayout
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_margin="8dp"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginEnd="16dp"
+                    android:hint="@string/calories_burned"
+                    android:backgroundTint="@color/black"
+                    app:helperText="Enter in numeric format">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/runCalories"
+                        android:layout_width="match_parent"
+                        android:textColor="@color/black"
+                        android:layout_height="wrap_content" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginEnd="16dp"
                     android:hint="@string/hint_run_time"
-                    android:inputType="text"
-                    android:maxLength="25"
-                    android:maxLines="1"
-                    android:padding="8dp"
-                    android:textColor="@color/black"
-                    android:textSize="14sp"
-                    android:backgroundTint="@color/deep_blue"
-                    />
+                    android:backgroundTint="@color/black"
+                    app:helperText="Enter in numeric format">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/runTime"
+                        android:layout_width="match_parent"
+                        android:textColor="@color/black"
+                        android:layout_height="wrap_content" />
+
+                </com.google.android.material.textfield.TextInputLayout>
 <!--                <Button-->
 <!--                    android:id="@+id/chooseImage"-->
 <!--                    android:layout_width="match_parent"-->

@@ -43,4 +43,15 @@
     <string name="saved">Saved</string>
     <string name="digital_time">0:00:00</string>
     <string name="_0_0_kms">0.0 Kms</string>
+    <string name="users_not_found">Oops...No Users listed</string>
+    <string name="camera">Camera</string>
+    <string name="access_control">Access Control</string>
+    <string name="register_user">Register</string>
+    <string name="enter_a_user_info">Enter your details...</string>
+    <string name="button_capture_image">Capture</string>
+    <string name="user_email">"Email: "</string>
+    <string name="user_name">"Name: "</string>
+    <string name="member_tv">"Joined: "</string>
+    <string name="add_friend">Add</string>
+    <string name="hint_name">Name</string>
 </resources>

@@ -20,7 +20,7 @@
         <item
             android:id="@+id/imagePickerFragment"
             android:icon="@drawable/baseline_photo_camera_24"
-            android:title="CAMERA" />
+            android:title="@string/camera" />
     </group>
 
     <item android:title="@string/group_communicate">
@@ -30,12 +30,12 @@
                 android:icon="@drawable/baseline_share_24"
                 android:title="@string/action_share" />
             <item
-                android:id="@+id/nav_send"
-                android:icon="@drawable/baseline_send_24"
+                android:id="@+id/userListFragment"
+                android:icon="@drawable/baseline_person_add_24"
                 android:title="@string/action_send" />
         </menu>
     </item>
-    <item android:title="Access Control">
+    <item android:title="@string/access_control">
         <menu>
             <item
                 android:id="@+id/signout"

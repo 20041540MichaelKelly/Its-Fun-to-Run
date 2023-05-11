@@ -1,4 +1,4 @@
-package mick.studio.itsfuntorun.ui.runlist
+package mick.studio.itsfuntorun.ui.userlist
 
 import android.app.AlertDialog
 import androidx.lifecycle.ViewModelProvider
@@ -14,25 +14,26 @@ import androidx.lifecycle.Observer
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.NavigationUI
-import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import mick.studio.itsfuntorun.R
-import mick.studio.itsfuntorun.adapter.RunListAdapter
-import mick.studio.itsfuntorun.adapter.RunListener
-import mick.studio.itsfuntorun.databinding.FragmentRunListBinding
+import mick.studio.itsfuntorun.adapter.UserListAdapter
+import mick.studio.itsfuntorun.adapter.UserListener
+import mick.studio.itsfuntorun.databinding.FragmentUserListBinding
 import mick.studio.itsfuntorun.helpers.createLoader
 import mick.studio.itsfuntorun.helpers.hideLoader
 import mick.studio.itsfuntorun.helpers.showLoader
-import mick.studio.itsfuntorun.models.RunModel
+import mick.studio.itsfuntorun.models.users.UserModel
 import mick.studio.itsfuntorun.ui.auth.LoggedInViewModel
+import mick.studio.itsfuntorun.ui.userdetails.UserDetailsViewModel
 import timber.log.Timber
 
-class RunListFragment : Fragment(), RunListener {
+class UserListFragment : Fragment(), UserListener {
 
-    private var _fragBinding: FragmentRunListBinding? = null
+    private var _fragBinding: FragmentUserListBinding? = null
     private val fragBinding get() = _fragBinding!!
-    private lateinit var runListViewModel: RunListViewModel
+    private lateinit var userListViewModel: UserListViewModel
+    private lateinit var userDetailsViewModel: UserDetailsViewModel
     private val loggedInViewModel: LoggedInViewModel by activityViewModels()
 
     lateinit var loader: AlertDialog
@@ -48,22 +49,23 @@ class RunListFragment : Fragment(), RunListener {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        _fragBinding = FragmentRunListBinding.inflate(inflater, container, false)
+        _fragBinding = FragmentUserListBinding.inflate(inflater, container, false)
         val root = fragBinding.root
         setupMenu()
         loader = createLoader(requireActivity())
 
         fragBinding.recyclerView.layoutManager = LinearLayoutManager(activity)
 
-        runListViewModel = ViewModelProvider(this).get(RunListViewModel::class.java)
-//        showLoader(loader, "Downloading Runs")
+        userListViewModel = ViewModelProvider(this).get(UserListViewModel::class.java)
+        userDetailsViewModel = ViewModelProvider(this).get(UserDetailsViewModel::class.java)
+        showLoader(loader, "Loading Users")
 
-        runListViewModel.observableRunsList.observe(viewLifecycleOwner, Observer {
-                runs ->
-            runs?.let {
-                Timber.i("Retrofit Success : $runs")
+        userListViewModel.observableUsersList.observe(viewLifecycleOwner, Observer {
+                users ->
+            users?.let {
+                Timber.i("Users Load Success : $users")
 
-                render(runs as ArrayList<RunModel>)
+                render(users as ArrayList<UserModel>)
                 hideLoader(loader)
                 //checkSwipeRefresh()
             }
@@ -123,14 +125,14 @@ class RunListFragment : Fragment(), RunListener {
         }, viewLifecycleOwner, Lifecycle.State.RESUMED)
     }
 
-    private fun render(runList: List<RunModel>) {
-        fragBinding.recyclerView.adapter = RunListAdapter(runList, this)
-        if (runList.isEmpty()) {
+    private fun render(userList: List<UserModel>) {
+        fragBinding.recyclerView.adapter = UserListAdapter(userList, this)
+        if (userList.isEmpty()) {
             fragBinding.recyclerView.visibility = View.GONE
-            fragBinding.runsNotFound.visibility = View.VISIBLE
+            fragBinding.usersNotFound.visibility = View.VISIBLE
         } else {
             fragBinding.recyclerView.visibility = View.VISIBLE
-            fragBinding.runsNotFound.visibility = View.GONE
+            fragBinding.usersNotFound.visibility = View.GONE
         }
     }
 
@@ -151,8 +153,8 @@ class RunListFragment : Fragment(), RunListener {
         super.onResume()
         loggedInViewModel.liveFirebaseUser.observe(viewLifecycleOwner, Observer { firebaseUser ->
             if (firebaseUser != null) {
-                runListViewModel.liveFirebaseUser.value = firebaseUser
-                runListViewModel.load()
+                userListViewModel.liveFirebaseUser.value = firebaseUser
+                userListViewModel.load()
             }
         })
     }
@@ -162,20 +164,12 @@ class RunListFragment : Fragment(), RunListener {
         _fragBinding = null
     }
 
-    override fun onRunClick(run: RunModel) {
-        if (loggedInViewModel.liveFirebaseUser.value!!.uid == run.uid) {
+    override fun onUserClick(user: UserModel) {
+        val action = UserListFragmentDirections.actionUserListFragmentToUserDetailsFragment(user)
 
-            val action =
-                run.runid?.let {
-                    RunListFragmentDirections.actionRunListFragmentToRunDetailFragment(
-                        it
-                    )
-                }
-            if (action != null) {
-                findNavController().navigate(action)
-            }
+        if (action != null) {
+            findNavController().navigate(action)
         }
     }
-
 
 }

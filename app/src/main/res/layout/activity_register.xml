@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_centerInParent="true"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginBottom="40dp"
+        app:cardCornerRadius="20dp"
+        app:cardElevation="2dp"
+        app:cardPreventCornerOverlap="false"
+        app:cardUseCompatPadding="true">
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:fillViewport="true"
+            android:layout_marginBottom="30dp">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <ImageView
+                android:id="@+id/registerLogo"
+                android:layout_width="match_parent"
+                android:layout_alignParentTop="true"
+                android:layout_marginTop="80dp"
+                android:layout_height="150dp"
+                app:srcCompat="@drawable/run_login" />
+
+            <EditText
+                android:id="@+id/registerFullName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_marginTop="280dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
+                android:ems="10"
+                android:inputType="textPersonName"
+                android:hint="@string/hint_name" />
+
+            <EditText
+                android:id="@+id/registerEmail"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_marginTop="340dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
+                android:ems="10"
+                android:hint="@string/hint_email"/>
+
+            <EditText
+                android:id="@+id/registerPassword"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_centerVertical="true"
+                android:layout_marginTop="400dp"
+                android:layout_marginBottom="20dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
+                android:ems="10"
+                android:inputType="textPassword"
+                android:hint="@string/hint_password"/>
+
+            <ImageView
+                android:id="@+id/runImage"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_centerVertical="true"
+                android:layout_marginTop="440dp"
+                app:srcCompat="@drawable/baseline_image_not_supported_24" />
+
+            <Button
+                android:id="@+id/chooseImage"
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="5dp"
+                android:layout_below="@id/runImage"
+                android:layout_marginRight="5dp"
+                android:background="@color/deep_blue"
+                android:paddingTop="8dp"
+                android:paddingBottom="8dp"
+                android:text="@string/button_addImage"
+                android:textColor="@color/jet_black"
+                android:textSize="16sp" />
+
+            <Button
+                android:id="@+id/captureImage"
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/runImage"
+                android:layout_alignEnd="@id/runImage"
+                android:background="@color/deep_blue"
+                android:paddingTop="8dp"
+                android:paddingBottom="8dp"
+                android:text="@string/button_capture_image"
+                android:textColor="@color/jet_black"
+                android:textSize="16sp" />
+
+            <Button
+                android:id="@+id/btnRegister"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/deep_blue"
+                android:layout_below="@id/chooseImage"
+                android:layout_centerVertical="true"
+                android:layout_margin="10dp"
+                android:paddingBottom="8dp"
+                android:text="@string/register_user"
+                android:textColor="@color/jet_black"
+                android:textSize="16sp"
+                />
+
+
+        </RelativeLayout>
+    </ScrollView>
+    </androidx.cardview.widget.CardView>
+
+
+
+</RelativeLayout>

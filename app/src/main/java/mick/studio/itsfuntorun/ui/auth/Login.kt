@@ -15,6 +15,7 @@ import mick.studio.itsfuntorun.helpers.createLoader
 import mick.studio.itsfuntorun.helpers.hideLoader
 import mick.studio.itsfuntorun.helpers.showLoader
 import mick.studio.itsfuntorun.ui.auth.LoginRegisterViewModel
+import mick.studio.itsfuntorun.ui.auth.Register
 import mick.studio.itsfuntorun.ui.home.Home
 import timber.log.Timber
 class Login : AppCompatActivity() {
@@ -35,8 +36,11 @@ class Login : AppCompatActivity() {
                 loginBinding.fieldPassword.text.toString())
         }
         loginBinding.emailCreateAccountButton.setOnClickListener {
-            createAccount(loginBinding.fieldEmail.text.toString(),
-                loginBinding.fieldPassword.text.toString())
+            val intent = Intent(this, Register::class.java)
+            // start your next activity
+            startActivity(intent)
+//            createAccount(loginBinding.fieldEmail.text.toString(),
+//                loginBinding.fieldPassword.text.toString())
         }
     }
 
@@ -64,7 +68,7 @@ class Login : AppCompatActivity() {
         Timber.d("createAccount:$email")
         if (!validateForm()) { return }
 
-        loginRegisterViewModel.register(email,password)
+        //loginRegisterViewModel.register(user)
     }
 
     private fun signIn(email: String, password: String) {
@@ -73,6 +77,7 @@ class Login : AppCompatActivity() {
 
         showLoader(loader,"Signing in...")
         loginRegisterViewModel.login(email,password)
+        hideLoader(loader)
     }
 
     private fun checkStatus(error:Boolean) {
