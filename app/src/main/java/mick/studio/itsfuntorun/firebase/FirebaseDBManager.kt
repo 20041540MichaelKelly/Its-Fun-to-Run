@@ -32,11 +32,35 @@ object FirebaseDBManager: RunStore, UserStore, FriendsStore{
                     children.forEach {
                         val run = it.getValue(RunModel::class.java)
                         localList.add(run!!)
-                    }
+                  }
                     database.child("user-runs").child(userid)
                         .removeEventListener(this)
 
                     runsList.value = localList
+                }
+            })
+    }
+
+    override fun findAllFriends(userid: String, friendsList: MutableLiveData<List<FriendsModel>>) {
+        Timber.i("Firebase DB Reference : $database")
+
+        database.child("user-runs").child(userid).child("friends")
+            .addValueEventListener(object : ValueEventListener {
+                override fun onCancelled(error: DatabaseError) {
+                    Timber.i("Firebase Its Fun To Run error : ${error.message}")
+                }
+
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    val localList = ArrayList<FriendsModel>()
+                    val children = snapshot.children
+                    children.forEach {
+                        val friend = it.getValue(FriendsModel::class.java)
+                        localList.add(friend!!)
+                    }
+                    database.child("user-runs").child(userid).child("friends")
+                        .removeEventListener(this)
+
+                    friendsList.value = localList
                 }
             })
     }
@@ -72,8 +96,6 @@ object FirebaseDBManager: RunStore, UserStore, FriendsStore{
 
         database.updateChildren(childAdd)
         Timber.i("completed childAdd : $childAdd")
-
-
     }
 
 
@@ -121,7 +143,7 @@ object FirebaseDBManager: RunStore, UserStore, FriendsStore{
     }
 
     override fun findUser(userid: String, user: MutableLiveData<UserModel>) {
-        database.child("user-runs").child(userid)
+        database.child("user-runs").child(userid).child("user-info")
             .get().addOnSuccessListener {
                 user.value = it.getValue(UserModel::class.java)
                 Timber.i("firebase Got value ${it.value}")
@@ -169,7 +191,9 @@ object FirebaseDBManager: RunStore, UserStore, FriendsStore{
                     val children = snapshot.children
                     children.forEach {
                         val user = it.getValue(UserModel::class.java)
-                        localList.add(user!!)
+                        if(userid != user?.uid) {
+                            localList.add(user!!)
+                        }
                     }
                     database.child("user-info")
                         .removeEventListener(this)

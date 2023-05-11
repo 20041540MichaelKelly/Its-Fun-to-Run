@@ -7,4 +7,5 @@ import mick.studio.itsfuntorun.models.RunModel
 interface FriendsStore {
     fun addFriend(firebaseUser: MutableLiveData<FirebaseUser>,friend: FriendsModel)
 
+    fun findAllFriends(userid: String, friendsList: MutableLiveData<List<FriendsModel>>)
 }

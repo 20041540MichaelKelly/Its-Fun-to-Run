@@ -12,11 +12,19 @@ import timber.log.Timber
 
 class UserDetailsViewModel : ViewModel() {
     private val user = MutableLiveData<UserModel>()
-    private val friend = MutableLiveData<FriendsModel>()
+    private val friendsList = MutableLiveData<List<FriendsModel>>()
+    var liveFirebaseUser = MutableLiveData<FirebaseUser>()
 
     var observableUser: LiveData<UserModel>
         get() = user
         set(value) {user.value = value.value}
+
+    val observableFriends: LiveData<List<FriendsModel>>
+        get() = friendsList
+
+    init {
+        findAllFriends()
+    }
 
     fun getUser(userid:String) {
         try {
@@ -39,6 +47,20 @@ class UserDetailsViewModel : ViewModel() {
             )
         } catch (e: Exception) {
             Timber.i("Detail addFriend() Error : $e.message")
+        }
+    }
+
+    fun findAllFriends() {
+        try {
+//            readOnly.value = false
+            //val userid = liveFirebaseUser.value?.uid!!
+
+            FirebaseDBManager.findAllFriends(liveFirebaseUser.value?.uid!!, friendsList)
+            Timber.i("Run List Load Success : ${friendsList.value.toString()}")
+
+        }
+        catch (e: Exception) {
+            Timber.i("Retrofit Error : $e.message")
         }
     }
 

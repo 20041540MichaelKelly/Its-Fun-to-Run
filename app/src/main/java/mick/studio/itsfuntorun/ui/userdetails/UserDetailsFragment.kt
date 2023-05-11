@@ -47,7 +47,7 @@ class UserDetailsFragment : Fragment() {
         fragBinding.userEmailTV.setText("Email : ${args.user.email}")
         fragBinding.userNameTV.setText("Name : ${args.user.name.toString()}")
         fragBinding.userMemberSinceTV.setText("Joined : ${args.user.registerDate.toString()}")
-        if(args.user.image != ""){
+        if (args.user.image != "") {
             Picasso.get()
                 .load(args.user.image)
                 .into(fragBinding.profileImage)
@@ -67,10 +67,28 @@ class UserDetailsFragment : Fragment() {
         layout: FragmentUserDetailsBinding
     ) {
         layout.addFriendButton.setOnClickListener() {
-                userDetailsViewModel.addFriend( FriendsModel(uid = loggedInViewModel.liveFirebaseUser.value!!.uid, fid = user.uid), loggedInViewModel.liveFirebaseUser)
-
+            userDetailsViewModel.observableFriends.observe(viewLifecycleOwner, Observer { friends ->
+                if(friends.size == 0){
+                    userDetailsViewModel.addFriend(
+                        FriendsModel(
+                            uid = loggedInViewModel.liveFirebaseUser.value!!.uid,
+                            fid = user.uid
+                        ), loggedInViewModel.liveFirebaseUser)
+                }else {
+                    friends.forEach { friend ->
+                        if (friend.uid != user.uid) {
+                            userDetailsViewModel.addFriend(
+                                FriendsModel(
+                                    uid = loggedInViewModel.liveFirebaseUser.value!!.uid,
+                                    fid = user.uid
+                                ), loggedInViewModel.liveFirebaseUser
+                            )
+                        }
+                    }
+                }
+            })
         }
-            //val runid = updateRunSession.runid
+        //val runid = updateRunSession.runid
 //            updateRunSession.runTime = layout.editRunTime.text.toString()
 //            updateRunSession.distance = layout.editRunDistance.text.toString().toDouble()
 //            updateRunSession.amountOfCals = layout.editCalories.text.toString().toDouble()
@@ -80,10 +98,21 @@ class UserDetailsFragment : Fragment() {
 //                    loggedInViewModel.liveFirebaseUser.value!!.uid,
 //                    runid, updateRunSession
 //                )
-                Toast.makeText(context, "Run Updated", Toast.LENGTH_LONG).show()
+        Toast.makeText(context, "Run Updated", Toast.LENGTH_LONG).show()
 
+    }
+
+    override fun onResume() {
+        super.onResume()
+        loggedInViewModel.liveFirebaseUser.observe(viewLifecycleOwner, Observer { firebaseUser ->
+            if (firebaseUser != null) {
+                userDetailsViewModel.liveFirebaseUser.value = firebaseUser
+                userDetailsViewModel.findAllFriends()
             }
-        }
+        })
+    }
+
+}
 
 //        layout.deleteRunButton.setOnClickListener(){
 //            if(updateRunSession.runid != "") {

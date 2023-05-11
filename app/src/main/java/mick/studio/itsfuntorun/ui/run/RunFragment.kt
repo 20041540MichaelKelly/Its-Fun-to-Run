@@ -98,8 +98,7 @@ class RunFragment : Fragment() {
             runModel.finishTime = layout.runTime.text.toString()
             runModel.runTime = LocalDateTime.now().format(DateTimeFormatter.ofPattern("M/d/y H:m:ss"))
             runModel.amountOfCals = layout.runKms.text.toString().toDouble()
-            if (runModel.finishTime!!.isNotEmpty()) {
-                // if (edit) {
+            if (runModel.finishTime!!.isNotEmpty() && runModel.distance == 0.0) {
                 runViewModel.addRun(
                     loggedInViewModel.liveFirebaseUser,
                     updateRunModel(runModel)
