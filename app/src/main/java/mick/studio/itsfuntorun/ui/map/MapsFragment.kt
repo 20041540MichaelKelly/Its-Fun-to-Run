@@ -159,7 +159,7 @@ class MapsFragment : Fragment() {
         val root = fragBinding.root
         activity?.title = getString(R.string.record_a_run)
         runViewModel =
-            ViewModelProvider(this).get(mick.studio.itsfuntorun.ui.run.RunViewModel::class.java)
+            ViewModelProvider(this).get(RunViewModel::class.java)
 
         fragBinding.stopButton.setOnCheckedChangeListener { _, isChecked ->
             if (isChecked) {
