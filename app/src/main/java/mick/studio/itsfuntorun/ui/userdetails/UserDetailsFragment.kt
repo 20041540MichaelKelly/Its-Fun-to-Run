@@ -72,13 +72,13 @@ class UserDetailsFragment : Fragment() {
                     userDetailsViewModel.addFriend(
                         FriendsModel(
                             uid = loggedInViewModel.liveFirebaseUser.value!!.uid,
-                            fid = user.uid
+                            pid = user.uid
                         ), loggedInViewModel.liveFirebaseUser)
                 }else {
                     friends.forEach { friend ->
                         Toast.makeText(context, args.user.uid.toString(), Toast.LENGTH_LONG).show()
 
-                        if (friend.uid.toString() != loggedInViewModel.liveFirebaseUser.value!!.uid || friend.fid == "" ) {
+                        if (friend.uid.toString() != loggedInViewModel.liveFirebaseUser.value!!.uid) {
                             userDetailsViewModel.addFriend(
                                 FriendsModel(
                                     uid = loggedInViewModel.liveFirebaseUser.value!!.uid,

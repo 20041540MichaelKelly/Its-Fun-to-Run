@@ -65,6 +65,30 @@ object FirebaseDBManager: RunStore, UserStore, FriendsStore{
             })
     }
 
+    override fun findAllMyFriends(userid: String, friendsList: MutableLiveData<List<FriendsModel>>) {
+        Timber.i("Firebase DB Reference : $database")
+
+        database.child("user-friends").child(userid)
+            .addValueEventListener(object : ValueEventListener {
+                override fun onCancelled(error: DatabaseError) {
+                    Timber.i("Firebase Its Fun To Run error : ${error.message}")
+                }
+
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    val localList = ArrayList<FriendsModel>()
+                    val children = snapshot.children
+                    children.forEach {
+                        val friend = it.getValue(FriendsModel::class.java)
+                        localList.add(friend!!)
+                    }
+                    database.child("user-friends").child(userid)
+                        .removeEventListener(this)
+
+                    friendsList.value = localList
+                }
+            })
+    }
+
 
     override fun findById(userid: String, runid: String, run: MutableLiveData<RunModel>) {
         database.child("user-runs").child(userid)
@@ -135,7 +159,7 @@ object FirebaseDBManager: RunStore, UserStore, FriendsStore{
 
         val childAdd = HashMap<String, Any>()
         childAdd["/friends/$key"] = friendValues
-        childAdd["/user-runs/$uid/$key"] = friendValues
+        childAdd["/user-friends/$uid/$key"] = friendValues
 
         database.updateChildren(childAdd)
         Timber.i("completed childAdd : $childAdd")
@@ -171,7 +195,7 @@ object FirebaseDBManager: RunStore, UserStore, FriendsStore{
 
         val childAdd = HashMap<String, Any>()
         childAdd["/user-info/$key"] = userValues
-        childAdd["/user-runs/$uid/$key"] = userValues
+        childAdd["/users/$uid/$key"] = userValues
 
         database.updateChildren(childAdd)
         Timber.i("completed childAdd : $childAdd")

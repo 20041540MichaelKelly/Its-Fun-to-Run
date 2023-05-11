@@ -73,8 +73,37 @@ class UserListFragment : Fragment(), UserListener {
 
         val fab: FloatingActionButton = fragBinding.fab
         fab.setOnClickListener {
-//            val action = RunListFragmentDirections.actionRunListFragmentToRunFragment(null)
-//            findNavController().navigate(action)
+            showLoader(loader,"Loading Friends")
+            loggedInViewModel.liveFirebaseUser.observe(viewLifecycleOwner, Observer { firebaseUser ->
+                if (firebaseUser != null) {
+                    userDetailsViewModel.liveFirebaseUser.value = firebaseUser
+                    userDetailsViewModel.findAllMyFriends()
+                }
+            })
+            var listOfFriends = ArrayList<UserModel>()
+            var listOfUsers = ArrayList<UserModel>()
+            userListViewModel.observableUsersList.observe(viewLifecycleOwner, Observer { users ->
+                users.forEach { user ->
+                    showLoader(loader,"Loading Friends")
+                    listOfUsers.add(user)
+                    hideLoader(loader)
+                    //checkSwipeRefresh()
+                }
+            })
+
+            userDetailsViewModel.observableFriends.observe(viewLifecycleOwner, Observer { friends ->
+                friends.forEach { friend ->
+                    listOfUsers.forEach {
+                        if (friend.pid == it.uid) {
+                            listOfFriends.add(it)
+                            hideLoader(loader)
+                        }
+                    }
+
+                }
+                render(listOfFriends)
+
+            })
         }
 //        setSwipeRefresh()
 //
