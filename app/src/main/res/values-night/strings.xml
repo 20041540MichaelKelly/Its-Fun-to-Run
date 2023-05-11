@@ -55,4 +55,5 @@
     <string name="member_tv">"Joined: "</string>
     <string name="add_friend">Add</string>
     <string name="hint_name">Name</string>
+    <string name="people">People</string>
 </resources>
