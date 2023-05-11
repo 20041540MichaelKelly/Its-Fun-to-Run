@@ -26,7 +26,7 @@
         <item name="colorOnPrimary">@color/colorAccent</item>
     </style>
 
-    <style name="Theme.ItsFunToRun.AppBarOverlay" parent="ThemeOverlay.AppCompat.ActionBar" />
+    <style name="Theme.ItsFunToRun.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
     <style name="Theme.ItsFunToRun.PopupOverlay" parent="Theme.ItsFunToRun" />
     <!-- START Firebase Resources-->

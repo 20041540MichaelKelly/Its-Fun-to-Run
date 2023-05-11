@@ -98,7 +98,6 @@ object FirebaseDBManager: RunStore, UserStore, FriendsStore{
         Timber.i("completed childAdd : $childAdd")
     }
 
-
     override fun delete(userid: String, runid: String) {
 
         val childDelete : MutableMap<String, Any?> = HashMap()
