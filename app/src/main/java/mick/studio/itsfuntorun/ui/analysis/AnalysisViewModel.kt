@@ -30,7 +30,7 @@ class AnalysisViewModel(app: Application) : AndroidViewModel(app) {
 
         }
         catch (e: Exception) {
-            Timber.i("Retrofit Error : $e.message")
+            Timber.i("ViewModel Error : $e.message")
         }
     }
 }

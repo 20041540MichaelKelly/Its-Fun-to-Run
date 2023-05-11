@@ -20,7 +20,7 @@
         <item name="windowNoTitle">true</item>
     </style>
 
-    <style name="Theme.ItsFunToRun.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+    <style name="Theme.ItsFunToRun.AppBarOverlay" parent="ThemeOverlay.AppCompat.ActionBar" />
 
     <style name="Theme.ItsFunToRun.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
     <!-- START Firebase Resources-->
