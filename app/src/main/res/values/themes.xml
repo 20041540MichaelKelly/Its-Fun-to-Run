@@ -1,16 +1,19 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
-    <style name="Theme.ItsFunToRun" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+    <style name="Theme.ItsFunToRun" parent="Theme.MaterialComponents.Light">
         <!-- Primary brand color. -->
+        <!--<item name="colorPrimary">@color/green</item>
+        <item name="colorPrimaryVariant">@color/jet_black</item>
+        <item name="colorOnPrimary">@color/grey_500</item>-->
         <item name="colorPrimary">@color/green</item>
-        <item name="colorPrimaryVariant">@color/black</item>
-        <item name="colorOnPrimary">@color/white</item>
+        <item name="colorPrimaryVariant">@color/material_dynamic_primary70</item>
+        <item name="colorOnPrimary">@color/colorAccent</item>
         <!-- Secondary brand color. -->
-        <item name="colorSecondary">@color/material_dynamic_secondary100</item>
-        <item name="colorSecondaryVariant">@color/pale_blue</item>
+        <item name="colorSecondary">@color/grey_500</item>
+        <item name="colorSecondaryVariant">@color/green</item>
         <item name="colorOnSecondary">@color/material_dynamic_primary70</item>
         <item name="android:windowBackground">@color/pale_blue</item>
-
+        <item name="colorPrimaryDark">#69F0AE</item>
         <!-- Status bar color. -->
         <item name="android:statusBarColor">?attr/colorPrimaryVariant</item>
     </style>
@@ -18,11 +21,14 @@
     <style name="Theme.ItsFunToRun.NoActionBar">
         <item name="windowActionBar">true</item>
         <item name="windowNoTitle">true</item>
+        <item name="colorPrimary">@color/green</item>
+        <item name="colorPrimaryVariant">@color/material_dynamic_primary70</item>
+        <item name="colorOnPrimary">@color/colorAccent</item>
     </style>
 
     <style name="Theme.ItsFunToRun.AppBarOverlay" parent="ThemeOverlay.AppCompat.ActionBar" />
 
-    <style name="Theme.ItsFunToRun.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+    <style name="Theme.ItsFunToRun.PopupOverlay" parent="Theme.ItsFunToRun" />
     <!-- START Firebase Resources-->
     <!-- Activity with no Title -->
     <style name="ThemeOverlay.MyNoTitleActivity" parent="Theme.ItsFunToRun">
@@ -31,7 +37,7 @@
     </style>
 
     <!-- Dark Buttons -->
-    <style name="ThemeOverlay.MyDarkButton" parent="ThemeOverlay.AppCompat.Dark">
+    <style name="ThemeOverlay.MyDarkButton" parent="Theme.ItsFunToRun">
         <item name="colorButtonNormal">@color/grey_500</item>
         <item name="colorAccent">@color/colorAccent</item>
         <item name="android:layout_marginRight">4dp</item>
@@ -39,8 +45,7 @@
         <item name="android:textColor">@android:color/white</item>
     </style>
 
-    <!-- Light EditTexts -->
-    <style name="ThemeOverlay.MyLightEditText" parent="ThemeOverlay.AppCompat.Dark" />
+    <style name="ThemeOverlay.Material3.TextInputEditText.OutlinedBox.Dense." parent="Theme.ItsFunToRun" />
 
     <style name="ThemeOverlay.MyTextDetail" parent="Theme.ItsFunToRun">
         <item name="android:layout_width">wrap_content</item>

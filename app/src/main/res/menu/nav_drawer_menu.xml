@@ -35,12 +35,12 @@
                 android:icon="@drawable/baseline_share_24"
                 android:title="@string/action_share" />
             <item
-                android:id="@+id/nav_send"
-                android:icon="@drawable/baseline_send_24"
+                android:id="@+id/userListFragment"
+                android:icon="@drawable/baseline_person_add_24"
                 android:title="@string/action_send" />
         </menu>
     </item>
-    <item android:title="Access Control">
+    <item android:title="@string/access_control">
         <menu>
             <item
                 android:id="@+id/signout"

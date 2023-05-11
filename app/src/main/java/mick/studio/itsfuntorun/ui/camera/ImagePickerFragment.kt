@@ -46,7 +46,6 @@ class ImagePickerFragment : Fragment() {
         val root = fragBinding.root
         loader = createLoader(requireActivity())
 
-
         imagePickerViewModel = ViewModelProvider(this).get(ImagePickerViewModel::class.java)
 
         registerImagePickerCallback()
@@ -93,7 +92,6 @@ class ImagePickerFragment : Fragment() {
                                     Picasso.get()
                                         .load(img)
                                         .into(fragBinding.runImage)
-
                                 }
                             }
 

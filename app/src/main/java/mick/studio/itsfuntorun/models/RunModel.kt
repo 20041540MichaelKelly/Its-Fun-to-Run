@@ -19,8 +19,9 @@ data class RunModel(
     var amountOfCals: Double = 0.0,
     var image: String? = "",
     var zoom: Float = 15f,
-    var email: String? = "joe@bloggs.com"
-) : Parcelable {
+    var email: String? = "john@doe.com",
+    var friends: List<String>?= listOf(),
+    ) : Parcelable {
     @Exclude
     fun toMap(): Map<String, Any?> {
         return mapOf(
@@ -35,7 +36,8 @@ data class RunModel(
             "amountOfCals" to amountOfCals,
             "image" to image,
             "zoom" to zoom,
-            "email" to email
+            "email" to email,
+            "friends" to friends
         )
     }
 }
