@@ -44,7 +44,7 @@ object FirebaseDBManager: RunStore, UserStore, FriendsStore{
     override fun findAllFriends(userid: String, friendsList: MutableLiveData<List<FriendsModel>>) {
         Timber.i("Firebase DB Reference : $database")
 
-        database.child("user-runs").child(userid).child("friends")
+        database.child("friends")
             .addValueEventListener(object : ValueEventListener {
                 override fun onCancelled(error: DatabaseError) {
                     Timber.i("Firebase Its Fun To Run error : ${error.message}")
@@ -57,7 +57,7 @@ object FirebaseDBManager: RunStore, UserStore, FriendsStore{
                         val friend = it.getValue(FriendsModel::class.java)
                         localList.add(friend!!)
                     }
-                    database.child("user-runs").child(userid).child("friends")
+                    database.child("friends")
                         .removeEventListener(this)
 
                     friendsList.value = localList

@@ -76,7 +76,9 @@ class UserDetailsFragment : Fragment() {
                         ), loggedInViewModel.liveFirebaseUser)
                 }else {
                     friends.forEach { friend ->
-                        if (friend.uid != user.uid) {
+                        Toast.makeText(context, args.user.uid.toString(), Toast.LENGTH_LONG).show()
+
+                        if (friend.uid.toString() != loggedInViewModel.liveFirebaseUser.value!!.uid || friend.fid == "" ) {
                             userDetailsViewModel.addFriend(
                                 FriendsModel(
                                     uid = loggedInViewModel.liveFirebaseUser.value!!.uid,
@@ -86,6 +88,7 @@ class UserDetailsFragment : Fragment() {
                         }
                     }
                 }
+                findNavController().popBackStack()
             })
         }
         //val runid = updateRunSession.runid
