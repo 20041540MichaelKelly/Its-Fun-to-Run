@@ -21,11 +21,13 @@ import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.auth.FirebaseUser
+import com.squareup.picasso.Picasso
 import mick.studio.itsfuntorun.R
 import mick.studio.itsfuntorun.activities.Login
 import mick.studio.itsfuntorun.databinding.HomeBinding
 import mick.studio.itsfuntorun.databinding.NavHeaderBinding
 import mick.studio.itsfuntorun.helpers.checkLocationPermissions
+import mick.studio.itsfuntorun.helpers.customTransformation
 import mick.studio.itsfuntorun.helpers.isPermissionGranted
 import mick.studio.itsfuntorun.models.RunModel
 import mick.studio.itsfuntorun.ui.auth.LoggedInViewModel
@@ -95,6 +97,14 @@ class Home : AppCompatActivity() {
         val headerView = homeBinding.navView.getHeaderView(0)
         navHeaderBinding = NavHeaderBinding.bind(headerView)
         navHeaderBinding.navHeaderEmail.text = currentUser.email
+        navHeaderBinding.navHeaderName.text = currentUser.displayName
+        if(currentUser.photoUrl != null && currentUser.displayName != null) {
+            Picasso.get().load(currentUser.photoUrl)
+                .resize(200, 200)
+                .transform(customTransformation())
+                .centerCrop()
+                .into(navHeaderBinding.imageView)
+        }
     }
 
     override fun onSupportNavigateUp(): Boolean {

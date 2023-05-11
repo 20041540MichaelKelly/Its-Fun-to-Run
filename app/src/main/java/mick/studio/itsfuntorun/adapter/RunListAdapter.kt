@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.squareup.picasso.Picasso
 import mick.studio.itsfuntorun.R
 import mick.studio.itsfuntorun.databinding.CardRunBinding
+import mick.studio.itsfuntorun.helpers.customTransformation
 import mick.studio.itsfuntorun.models.RunModel
 
 interface RunListener {
@@ -33,7 +34,11 @@ class RunListAdapter constructor(private var runs: List<RunModel>, private val l
             binding.run = run
             binding.imageIcon.setImageResource(R.drawable.baseline_image_not_supported_24)
             if(run.image != "") {
-                Picasso.get().load(run.image).resize(200,200).into(binding.imageIcon)
+                Picasso.get().load(run.image)
+                    .resize(200,200)
+                    .transform(customTransformation())
+                    .centerCrop()
+                    .into(binding.imageIcon)
             }
             binding.root.setOnClickListener { listener.onRunClick(run) }
             binding.executePendingBindings()
