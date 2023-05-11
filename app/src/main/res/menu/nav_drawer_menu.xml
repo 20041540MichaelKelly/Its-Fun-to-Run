@@ -31,13 +31,13 @@
     <item android:title="@string/group_communicate">
         <menu>
             <item
-                android:id="@+id/nav_share"
+                android:id="@+id/nav_friends"
                 android:icon="@drawable/baseline_share_24"
                 android:title="@string/action_share" />
             <item
                 android:id="@+id/userListFragment"
                 android:icon="@drawable/baseline_person_add_24"
-                android:title="@string/action_send" />
+                android:title="@string/people" />
         </menu>
     </item>
     <item android:title="@string/access_control">

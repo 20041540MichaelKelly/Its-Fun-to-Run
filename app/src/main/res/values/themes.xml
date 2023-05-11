@@ -10,7 +10,7 @@
         <item name="colorOnPrimary">@color/colorAccent</item>
         <!-- Secondary brand color. -->
         <item name="colorSecondary">@color/grey_500</item>
-        <item name="colorSecondaryVariant">@color/green</item>
+        <item name="colorSecondaryVariant">#40C4FF</item>
         <item name="colorOnSecondary">@color/material_dynamic_primary70</item>
         <item name="android:windowBackground">@color/pale_blue</item>
         <item name="colorPrimaryDark">#69F0AE</item>

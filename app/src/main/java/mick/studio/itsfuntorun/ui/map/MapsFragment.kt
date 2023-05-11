@@ -88,9 +88,7 @@ class MapsFragment : Fragment() {
                 }
 
                 fragBinding.runInTime.text = elapsedTime?.let { it1 -> formatToDigitalClock(it1) }
-                fragBinding.runSpeed.text =
-                    String.format("%.2f", mapsViewModel.currentLocation.value!!.speedAccuracyMetersPerSecond).toDouble()
-                        .toString()
+
 
 
                 isMapReady = true
@@ -100,7 +98,12 @@ class MapsFragment : Fragment() {
                     startLng,
                     mapsViewModel.currentLocation.value!!.latitude,
                     mapsViewModel.currentLocation.value!!.longitude
-                )
+                )/1000
+
+                fragBinding.runSpeed.text =
+                    String.format("%.2f", mapsViewModel.currentLocation.value!!.speed).toFloat()
+                        .toString()
+//                fragBinding.runSpeed.text = (distanceTravelled.toString().toFloat()/elapsedTime.toString().toFloat()).toString()
                 //distanceTravelled += distanceInMeter(startLat, startLng, 52.259320, -7.110070)
                 fragBinding.runInKms.text =
                     String.format("%.2f", distanceTravelled).toFloat().toString()
@@ -112,10 +115,10 @@ class MapsFragment : Fragment() {
             if (isStopped) {
                 runModel = RunModel(
                     runTime = fragBinding.runInTime.text.toString(),
-                    speed = fragBinding.runSpeed?.text.toString().toDouble(),
+                    speed =  fragBinding.runSpeed.text.toString().toDouble() ?: 0.0,
                     distance = fragBinding.runInKms.text.toString().toDouble(),
                     finishTime = fragBinding.runInTime.text.toString(),
-                    amountOfCals = fragBinding.runInKms.text.toString().toDouble() * 0.06
+                    amountOfCals = fragBinding.runInKms.text.toString().toDouble() * 0.6
                 )
                 sharedViewModel.setRunModel(runModel)
                 findNavController().navigate(R.id.runFragment)

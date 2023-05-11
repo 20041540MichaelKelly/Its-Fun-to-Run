@@ -79,5 +79,6 @@
     <string name="hint_name">Name</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="statistics">Statistics</string>
+    <string name="people">People</string>
 
 </resources>
