@@ -23,6 +23,11 @@
             android:title="@string/camera" />
 
         <item
+            android:id="@+id/fitnessFragment"
+            android:icon="@drawable/baseline_fitness_center_24"
+            android:title="@string/excersises" />
+
+        <item
             android:id="@+id/barChartFragment"
             android:icon="@drawable/baseline_bar_chart_24"
             android:title="@string/statistics" />

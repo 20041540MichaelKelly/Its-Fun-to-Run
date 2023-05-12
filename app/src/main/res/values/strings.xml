@@ -14,6 +14,7 @@
     <string name="title_activity_maps">MapsActivity</string>
     <string name="record_a_run">Record a Run</string>
     <string name="runs_not_found">No Runs Yet...\nGet Out and Run!</string>
+    <string name="excersises_not_found">No excersises found...</string>
     <string name="runError">Error : Couldn\'t Record a Run...</string>
     <string name="action_run_list">Run List</string>
     <string name="action_share">Share</string>
@@ -80,5 +81,8 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="statistics">Statistics</string>
     <string name="people">People</string>
+    <string name="muscle">muscle group...</string>
+    <string name="fitnessItemsNotFound">Excersise not found</string>
+    <string name="excersises">Excersise</string>
 
 </resources>

@@ -27,6 +27,9 @@
         <action
             android:id="@+id/action_runListFragment_to_statisticsFragment"
             app:destination="@id/statisticsFragment" />
+        <action
+            android:id="@+id/action_runListFragment_to_fitnessFragment"
+            app:destination="@id/fitnessFragment" />
     </fragment>
     <fragment
         android:id="@+id/runFragment"
@@ -139,4 +142,9 @@
             android:name="user"
             app:argType="mick.studio.itsfuntorun.models.users.UserModel" />
     </fragment>
+    <fragment
+        android:id="@+id/fitnessFragment"
+        android:name="mick.studio.itsfuntorun.ui.apifitness.FitnessFragment"
+        android:label="@string/excersises"
+        tools:layout="@layout/fragment_fitness" />
 </navigation>

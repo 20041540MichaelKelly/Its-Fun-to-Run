@@ -89,8 +89,6 @@ class MapsFragment : Fragment() {
 
                 fragBinding.runInTime.text = elapsedTime?.let { it1 -> formatToDigitalClock(it1) }
 
-
-
                 isMapReady = true
 
                 distanceTravelled += distanceInMeter(
@@ -115,7 +113,7 @@ class MapsFragment : Fragment() {
             if (isStopped) {
                 runModel = RunModel(
                     runTime = fragBinding.runInTime.text.toString(),
-                    speed =  fragBinding.runSpeed.text.toString().toDouble() ?: 0.0,
+                    speed = String.format("%.2f", mapsViewModel.currentLocation.value!!.speed).toDouble(),
                     distance = fragBinding.runInKms.text.toString().toDouble(),
                     finishTime = fragBinding.runInTime.text.toString(),
                     amountOfCals = fragBinding.runInKms.text.toString().toDouble() * 0.6

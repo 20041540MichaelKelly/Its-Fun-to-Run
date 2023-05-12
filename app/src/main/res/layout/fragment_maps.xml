@@ -50,6 +50,11 @@
                 app:layout_constraintHorizontal_bias="0.048"
                 app:layout_constraintStart_toEndOf="@+id/imageIcon"
                 app:layout_constraintTop_toTopOf="parent"
+                android:textColorHint="@color/green"
+                android:fontFamily="sans-serif-medium"
+                android:textAllCaps="true"
+                android:textColor="#6750A4"
+                android:textStyle="bold"
                 />
 
             <TextView
@@ -62,6 +67,11 @@
                 app:layout_constraintHorizontal_bias="0.052"
                 app:layout_constraintStart_toEndOf="@+id/imageIcon"
                 app:layout_constraintTop_toBottomOf="@id/runInKms"
+                android:textColorHint="@color/green"
+                android:fontFamily="sans-serif-medium"
+                android:textAllCaps="true"
+                android:textColor="#6750A4"
+                android:textStyle="bold"
                 
                 />
 
@@ -75,6 +85,12 @@
                 app:layout_constraintHorizontal_bias="0.052"
                 app:layout_constraintStart_toEndOf="@+id/imageIcon"
                 app:layout_constraintTop_toBottomOf="@id/runInTime"
+                android:textColorHint="@color/green"
+                android:fontFamily="sans-serif-medium"
+                android:textAllCaps="true"
+                android:textColor="#6750A4"
+                android:textStyle="bold"
+
 
                 />
 
