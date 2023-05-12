@@ -69,6 +69,12 @@
         <item name="android:color">@color/black</item>
 
     </style>
+
+    <style name="toggleStyle">
+        <item name="colorControlActivated">@color/colorWhite</item>
+        <item name="colorControlHighlight">@color/black</item>
+    </style>
+
     <!-- END Firebase Resources-->
 
 </resources>

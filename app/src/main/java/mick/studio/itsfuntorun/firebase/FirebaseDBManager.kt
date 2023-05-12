@@ -13,10 +13,31 @@ import timber.log.Timber
 
 object FirebaseDBManager: RunStore, UserStore, FriendsStore{
     var database: DatabaseReference = FirebaseDatabase.getInstance().reference
-
     override fun findAll(runsList: MutableLiveData<List<RunModel>>) {
         TODO("Not yet implemented")
     }
+
+//    override fun findAllRunsForFriends(userid: String, runsList: MutableLiveData<List<RunModel>>) {
+//        database.child("user-friends").child(userid)
+//            .addValueEventListener(object : ValueEventListener {
+//                override fun onCancelled(error: DatabaseError) {
+//                    Timber.i("Firebase Its Fun To Run error : ${error.message}")
+//                }
+//                override fun onDataChange(snapshot: DataSnapshot) {
+//                    val friendslocalList = ArrayList<FriendsModel>()
+//                    val children = snapshot.children
+//                    children.forEach {
+//                        val friend = it.getValue(FriendsModel::class.java)
+//                        friendslocalList.add(friend!!)
+//                    }
+//
+//                    database.child("user-friends").child(userid)
+//                        .removeEventListener(this)
+//
+//                    runsList.value = friendslocalList
+//                }
+//            })
+//    }
 
     override fun findAll(userid: String, runsList: MutableLiveData<List<RunModel>>) {
 
@@ -32,8 +53,31 @@ object FirebaseDBManager: RunStore, UserStore, FriendsStore{
                     children.forEach {
                         val run = it.getValue(RunModel::class.java)
                         localList.add(run!!)
-                  }
+                    }
                     database.child("user-runs").child(userid)
+                        .removeEventListener(this)
+
+                    runsList.value = localList
+                }
+            })
+    }
+
+    override fun findAllRuns(runsList: MutableLiveData<List<RunModel>>) {
+
+        database.child("runs")
+            .addValueEventListener(object : ValueEventListener {
+                override fun onCancelled(error: DatabaseError) {
+                    Timber.i("Firebase Its Fun To Run error : ${error.message}")
+                }
+
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    val localList = ArrayList<RunModel>()
+                    val children = snapshot.children
+                    children.forEach {
+                        val run = it.getValue(RunModel::class.java)
+                        localList.add(run!!)
+                  }
+                    database.child("runs")
                         .removeEventListener(this)
 
                     runsList.value = localList
@@ -176,6 +220,10 @@ object FirebaseDBManager: RunStore, UserStore, FriendsStore{
     }
 
     override fun updateUserFriends(user: UserModel) {
+        TODO("Not yet implemented")
+    }
+
+    override fun findAllRunsForFriends(userid: String, usersList: MutableLiveData<List<RunModel>>) {
         TODO("Not yet implemented")
     }
 
