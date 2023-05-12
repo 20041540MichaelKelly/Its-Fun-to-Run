@@ -6,15 +6,20 @@ import androidx.lifecycle.ViewModel
 import com.google.firebase.auth.FirebaseUser
 import mick.studio.itsfuntorun.firebase.FirebaseDBManager
 import mick.studio.itsfuntorun.models.RunModel
+import mick.studio.itsfuntorun.models.friends.FriendsModel
 import mick.studio.itsfuntorun.models.users.UserModel
 import timber.log.Timber
 
 class UserListViewModel : ViewModel() {
     private val usersList = MutableLiveData<List<UserModel>>()
+    private val friendsList = MutableLiveData<List<FriendsModel>>()
     private val user = MutableLiveData<UserModel>()
 
     val observableUsersList: LiveData<List<UserModel>>
         get() = usersList
+
+    val observableFriends: LiveData<List<FriendsModel>>
+        get() = friendsList
 
     var liveFirebaseUser = MutableLiveData<FirebaseUser>()
     var readOnly = MutableLiveData(false)
@@ -35,6 +40,7 @@ class UserListViewModel : ViewModel() {
             Timber.i("Loading Error : $e.message")
         }
     }
+
 
     fun loadAll() {
         try {

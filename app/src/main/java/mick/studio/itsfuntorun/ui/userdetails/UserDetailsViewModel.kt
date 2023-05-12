@@ -50,6 +50,16 @@ class UserDetailsViewModel : ViewModel() {
         }
     }
 
+    fun findAllMyFriends() {
+        try{
+            FirebaseDBManager.findAllMyFriends(liveFirebaseUser.value?.uid!!, friendsList)
+            Timber.i("User List Load Success : ${friendsList.value.toString()}")
+
+        }catch (e: Exception) {
+            Timber.i("Loading Error : $e.message")
+        }
+    }
+
     fun findAllFriends() {
         try {
 //            readOnly.value = false
