@@ -5,7 +5,6 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.google.firebase.auth.FirebaseUser
 import mick.studio.itsfuntorun.firebase.FirebaseDBManager
-import mick.studio.itsfuntorun.models.RunManager
 import mick.studio.itsfuntorun.models.RunModel
 import timber.log.Timber
 
@@ -36,10 +35,11 @@ class RunListViewModel : ViewModel() {
         }
     }
 
-    fun loadAll() {
+    fun loadAllFriends() {
         try {
             readOnly.value = true
-            FirebaseDBManager.findAll(runsList)
+           // FirebaseDBManager.findAllRunsForFriends(liveFirebaseUser.value.toString(),runsList)
+            FirebaseDBManager.findAllRuns(runsList)
             Timber.i("Report LoadAll Success : ${runsList.value.toString()}")
         }
         catch (e: Exception) {

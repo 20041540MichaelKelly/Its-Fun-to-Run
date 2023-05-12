@@ -5,16 +5,17 @@ import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
 import android.transition.TransitionInflater
 import android.view.*
+import androidx.appcompat.widget.SwitchCompat
 import androidx.fragment.app.Fragment
 import androidx.core.view.MenuHost
 import androidx.core.view.MenuProvider
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.NavigationUI
-import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import mick.studio.itsfuntorun.R
@@ -26,7 +27,6 @@ import mick.studio.itsfuntorun.helpers.hideLoader
 import mick.studio.itsfuntorun.helpers.showLoader
 import mick.studio.itsfuntorun.models.RunModel
 import mick.studio.itsfuntorun.ui.auth.LoggedInViewModel
-import timber.log.Timber
 
 class RunListFragment : Fragment(), RunListener {
 
@@ -34,6 +34,7 @@ class RunListFragment : Fragment(), RunListener {
     private val fragBinding get() = _fragBinding!!
     private lateinit var runListViewModel: RunListViewModel
     private val loggedInViewModel: LoggedInViewModel by activityViewModels()
+    var readOnly = MutableLiveData(false)
 
     lateinit var loader: AlertDialog
 
@@ -42,6 +43,7 @@ class RunListFragment : Fragment(), RunListener {
         setHasOptionsMenu(true)
         val inflater = TransitionInflater.from(requireContext())
         exitTransition = inflater.inflateTransition(R.transition.fade)
+
     }
 
     override fun onCreateView(
@@ -108,6 +110,16 @@ class RunListFragment : Fragment(), RunListener {
 
             override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
                 menuInflater.inflate(R.menu.menu_run, menu)
+
+                val item = menu.findItem(R.id.toggleDonations) as MenuItem
+                item.setActionView(R.layout.togglebutton_layout)
+                val toggleDonations: SwitchCompat = item.actionView!!.findViewById(R.id.toggleButton)
+                toggleDonations.isChecked = false
+
+                toggleDonations.setOnCheckedChangeListener { _, isChecked ->
+                    if (isChecked) runListViewModel.loadAllFriends()
+                    else runListViewModel.load()
+                }
             }
 
             override fun onMenuItemSelected(menuItem: MenuItem): Boolean {

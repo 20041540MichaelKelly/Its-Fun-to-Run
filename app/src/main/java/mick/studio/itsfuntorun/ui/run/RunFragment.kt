@@ -79,11 +79,11 @@ class RunFragment : Fragment() {
             fragBinding.runKms.setText(run!!.distance.toString())
             fragBinding.runTime.setText(run.finishTime)
             fragBinding.runCalories.setText(run.amountOfCals.toString())
-            if(run.image != ""){
-            Picasso.get()
-                .load(run.image)
-                .into(fragBinding.runImage)
-        }
+            if (run.image != "") {
+                Picasso.get()
+                    .load(run.image)
+                    .into(fragBinding.runImage)
+            }
         })
 
         setButtonOnClickListeners(fragBinding)
@@ -96,7 +96,8 @@ class RunFragment : Fragment() {
         layout.btnAdd.setOnClickListener() {
             runModel.distance = layout.runKms.text.toString().toDouble()
             runModel.finishTime = layout.runTime.text.toString()
-            runModel.runTime = LocalDateTime.now().format(DateTimeFormatter.ofPattern("M/d/y H:m:ss"))
+            runModel.runTime =
+                LocalDateTime.now().format(DateTimeFormatter.ofPattern("M/d/y H:m:ss"))
             runModel.amountOfCals = layout.runCalories.text.toString().toDouble()
             if (runModel.finishTime!!.isNotEmpty()) {
                 runViewModel.addRun(
@@ -116,7 +117,7 @@ class RunFragment : Fragment() {
 
     }
 
-    private fun updateRunModel(run: RunModel): RunModel{
+    private fun updateRunModel(run: RunModel): RunModel {
         return RunModel(
             lat = run.lat,
             lng = run.lng,
