@@ -23,4 +23,7 @@ interface UserStore {
         user:UserModel
     )
 
+    fun findAllRunsForFriends(userid: String, usersList: MutableLiveData<List<RunModel>>)
+
+
 }

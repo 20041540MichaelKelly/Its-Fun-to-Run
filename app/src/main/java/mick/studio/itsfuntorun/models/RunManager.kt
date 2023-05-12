@@ -60,4 +60,8 @@ object RunManager : RunStore {
         TODO("Not yet implemented")
     }
 
+    override fun findAllRuns(runsList: MutableLiveData<List<RunModel>>) {
+        TODO("Not yet implemented")
+    }
+
 }

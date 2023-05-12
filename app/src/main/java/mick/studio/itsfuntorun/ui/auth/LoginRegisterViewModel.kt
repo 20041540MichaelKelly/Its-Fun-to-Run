@@ -3,6 +3,7 @@ package mick.studio.itsfuntorun.ui.auth
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.firebase.auth.FirebaseUser
 import mick.studio.itsfuntorun.firebase.FirebaseAuthManager
 import mick.studio.itsfuntorun.firebase.FirebaseDBManager
@@ -34,6 +35,10 @@ class LoginRegisterViewModel(app: Application) : AndroidViewModel(app) {
         }  catch (e: IllegalArgumentException) {
             return false
         }
+    }
+
+    fun authWithGoogle(acct: GoogleSignInAccount) {
+        firebaseAuthManager.firebaseAuthWithGoogle(acct)
     }
 
     fun addUserInfo(userModel: UserModel) {
