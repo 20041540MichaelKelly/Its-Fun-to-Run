@@ -25,9 +25,6 @@
             android:id="@+id/action_runListFragment_to_barChartFragment"
             app:destination="@id/barChartFragment" />
         <action
-            android:id="@+id/action_runListFragment_to_statisticsFragment"
-            app:destination="@id/statisticsFragment" />
-        <action
             android:id="@+id/action_runListFragment_to_fitnessFragment"
             app:destination="@id/fitnessFragment" />
     </fragment>
@@ -50,9 +47,6 @@
         <action
             android:id="@+id/action_runFragment_to_barChartFragment"
             app:destination="@id/barChartFragment" />
-        <action
-            android:id="@+id/action_runFragment_to_statisticsFragment"
-            app:destination="@id/statisticsFragment" />
 
         <action
             android:id="@+id/action_runFragment_to_userListFragment"
@@ -80,7 +74,7 @@
             app:destination="@id/imagePickerFragment" />
         <action
             android:id="@+id/action_mapsFragment_to_runFragment"
-            app:destination="@id/runFragment"></action>
+            app:destination="@id/runFragment" />
         <argument
             android:name="run"
             app:argType="mick.studio.itsfuntorun.models.RunModel"
@@ -106,15 +100,6 @@
         android:name="mick.studio.itsfuntorun.ui.analysis.BarChartFragment"
         android:label="fragment_bar_chart"
         tools:layout="@layout/fragment_bar_chart" />
-    <fragment
-        android:id="@+id/statisticsFragment"
-        android:name="mick.studio.itsfuntorun.ui.analysis.StatisticsFragment"
-        android:label="fragment_statistics"
-        tools:layout="@layout/fragment_statistics" >
-        <action
-            android:id="@+id/action_statisticsFragment_to_runFragment"
-            app:destination="@id/runFragment" />
-    </fragment>
     <fragment
         android:id="@+id/pieChartFragment"
         android:name="mick.studio.itsfuntorun.ui.analysis.PieChartFragment"

@@ -64,7 +64,7 @@ class Home : AppCompatActivity() {
 
         //Initialize the bottom navigation view
         //create bottom navigation view object
-           val bottomNavigationView = findViewById<BottomNavigationView>(R.id.bottom_navigation_view)
+         //  val bottomNavigationView = findViewById<BottomNavigationView>(R.id.bottom_navigation_view)
         //}
 
         appBarConfiguration = AppBarConfiguration(setOf(
@@ -74,7 +74,7 @@ class Home : AppCompatActivity() {
         val navView = homeBinding.navView
 
         navView.setupWithNavController(navController)
-        bottomNavigationView?.setupWithNavController(navController)
+       // bottomNavigationView?.setupWithNavController(navController)
     }
     
     public override fun onStart() {

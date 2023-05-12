@@ -27,6 +27,7 @@
     </style>
 
     <style name="Theme.ItsFunToRun.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+    <style name="Theme.ItsFunToRun.BottomAppOverlay" parent="ThemeOverlay.Material3.BottomAppBar" />
 
     <style name="Theme.ItsFunToRun.PopupOverlay" parent="Theme.ItsFunToRun" />
     <!-- START Firebase Resources-->

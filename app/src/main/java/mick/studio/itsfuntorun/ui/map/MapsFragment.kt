@@ -98,9 +98,15 @@ class MapsFragment : Fragment() {
                     mapsViewModel.currentLocation.value!!.longitude
                 )/1000
 
+                pLines.add(
+                    LatLng(mapsViewModel.currentLocation.value!!.latitude,
+                        mapsViewModel.currentLocation.value!!.longitude)
+                )
+
                 fragBinding.runSpeed.text =
                     String.format("%.2f", mapsViewModel.currentLocation.value!!.speed).toFloat()
                         .toString()
+
 //                fragBinding.runSpeed.text = (distanceTravelled.toString().toFloat()/elapsedTime.toString().toFloat()).toString()
                 //distanceTravelled += distanceInMeter(startLat, startLng, 52.259320, -7.110070)
                 fragBinding.runInKms.text =
@@ -109,16 +115,26 @@ class MapsFragment : Fragment() {
                 startLng = mapsViewModel.currentLocation.value!!.longitude
 
             }
+            var listOfSpeeds = ArrayList<Double>()
+            listOfSpeeds.add(String.format("%.2f", mapsViewModel.currentLocation.value!!.speed).toFloat()*3.6)
 
             if (isStopped) {
+                drawRoute(pLines)
+                var runDistance = 0.0
+                val averageSpeed = average(listOfSpeeds)
+                if(fragBinding.runInKms.text.toString()!= ""){
+                    runDistance = fragBinding.runInKms.text.toString().toDouble()
+                }
+
                 runModel = RunModel(
                     runTime = fragBinding.runInTime.text.toString(),
-                    speed = String.format("%.2f", mapsViewModel.currentLocation.value!!.speed).toDouble(),
-                    distance = fragBinding.runInKms.text.toString().toDouble(),
+                    distance = runDistance,
                     finishTime = fragBinding.runInTime.text.toString(),
-                    amountOfCals = fragBinding.runInKms.text.toString().toDouble() * 0.6
+                    amountOfCals = runDistance * 0.6,
+                    speed = averageSpeed
                 )
                 sharedViewModel.setRunModel(runModel)
+                isStopped = false
                 findNavController().navigate(R.id.runFragment)
             }
 
@@ -213,6 +229,7 @@ class MapsFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
+        isStopped=false
         showLoader(loader, "Downloading Running Info")
         loggedInViewModel.liveFirebaseUser.observe(viewLifecycleOwner) { firebaseUser ->
             if (firebaseUser != null) {
@@ -251,6 +268,11 @@ class MapsFragment : Fragment() {
         polylineOptions.points += lat_lng
         map.addPolyline(polylineOptions)
 
+    }
+
+    private fun average(list: ArrayList<Double>): Double {
+        val myAverage = list.average() // here is the average you can use it.
+        return myAverage
     }
 
 }

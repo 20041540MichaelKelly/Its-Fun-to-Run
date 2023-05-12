@@ -157,7 +157,7 @@ class RunFragment : Fragment() {
             true -> {
                 view?.let {
                     //Uncomment this if you want to immediately return to Report
-                    findNavController().popBackStack()
+                    findNavController().navigate(R.id.runListFragment)
                 }
             }
             false -> Toast.makeText(context, getString(R.string.runError), Toast.LENGTH_LONG).show()
