@@ -13,7 +13,6 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
-import androidx.navigation.fragment.navArgs
 import com.squareup.picasso.Picasso
 import mick.studio.itsfuntorun.R
 import mick.studio.itsfuntorun.databinding.FragmentImagePickerBinding
@@ -23,7 +22,6 @@ import mick.studio.itsfuntorun.helpers.showImagePicker
 import mick.studio.itsfuntorun.helpers.showLoader
 import mick.studio.itsfuntorun.models.RunModel
 import mick.studio.itsfuntorun.models.SharedViewModel
-import mick.studio.itsfuntorun.ui.run.RunFragmentArgs
 import timber.log.Timber
 
 class ImagePickerFragment : Fragment() {
@@ -86,7 +84,7 @@ class ImagePickerFragment : Fragment() {
                             imagePickerViewModel.image.observe(viewLifecycleOwner) { img ->
                                 if (img != null) {
                                 sharedViewModel.observableRunModel.observe(viewLifecycleOwner) { run ->
-                                    run.image = img.toString()
+                                    run.photoUrl = img.toString()
                                     hideLoader(loader)
                                 }
                                     Picasso.get()

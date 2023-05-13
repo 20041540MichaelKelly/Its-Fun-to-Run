@@ -59,4 +59,7 @@
     <string name="muscle">muscle group...</string>
     <string name="fitnessItemsNotFound">Excersise not found</string>
     <string name="excersises">Excersise</string>
+    <string name="speed">Speed:</string>
+    <string name="add_comment">Add a comment..</string>
+    <string name="add_speed">Add a speed..</string>
 </resources>

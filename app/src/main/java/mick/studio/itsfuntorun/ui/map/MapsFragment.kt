@@ -2,11 +2,7 @@ package mick.studio.itsfuntorun.ui.map
 
 import android.annotation.SuppressLint
 import android.app.AlertDialog
-import android.content.Context
-import android.graphics.Bitmap
-import android.graphics.Canvas
 import android.graphics.Color
-import android.graphics.drawable.Drawable
 import android.location.Location
 import android.os.Build
 import android.os.Bundle
@@ -14,7 +10,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.RequiresApi
-import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
@@ -34,7 +29,6 @@ import mick.studio.itsfuntorun.helpers.showLoader
 import mick.studio.itsfuntorun.models.RunModel
 import mick.studio.itsfuntorun.models.SharedViewModel
 import mick.studio.itsfuntorun.ui.auth.LoggedInViewModel
-import mick.studio.itsfuntorun.ui.camera.ImagePickerFragmentDirections
 import mick.studio.itsfuntorun.ui.run.RunViewModel
 import mick.studio.itsfuntorun.ui.runlist.RunListViewModel
 import java.util.concurrent.TimeUnit
@@ -63,31 +57,33 @@ class MapsFragment : Fragment() {
     private var _fragBinding: FragmentMapsBinding? = null
     private var isMapReady: Boolean = false
     private var isStopped: Boolean = false
+    private lateinit var  loc : LatLng
 
     // This property is only valid between onCreateView and onDestroyView.
     private val fragBinding get() = _fragBinding!!
 
     @SuppressLint("MissingPermission")
-    private val callback = OnMapReadyCallback { googleMap ->
+    val callback = OnMapReadyCallback { googleMap ->
         map = googleMap
         mapsViewModel.map = googleMap
         mapsViewModel.map.isMyLocationEnabled = true
 
         mapsViewModel.currentLocation.observe(viewLifecycleOwner) {
             if (isActive) {
-                var elapsedTime : Long ?=0L
+                var elapsedTime: Long? = 0L
                 if (startTime == 0L) {
                     startTime = mapsViewModel.currentLocation.value!!.elapsedRealtimeMillis
                     startLat = mapsViewModel.currentLocation.value!!.latitude
                     startLng = mapsViewModel.currentLocation.value!!.longitude
 
                 }
-                if(elapsedTime == 0L) {
+                if (elapsedTime == 0L) {
                     elapsedTime =
                         mapsViewModel.currentLocation.value!!.elapsedRealtimeMillis - startTime
                 }
 
-                fragBinding.runInTime.text = elapsedTime?.let { it1 -> formatToDigitalClock(it1) }
+                fragBinding.runInTime.text =
+                    elapsedTime?.let { it1 -> formatToDigitalClock(it1) }
 
                 isMapReady = true
 
@@ -96,11 +92,19 @@ class MapsFragment : Fragment() {
                     startLng,
                     mapsViewModel.currentLocation.value!!.latitude,
                     mapsViewModel.currentLocation.value!!.longitude
-                )/1000
+                ) / 1000
+
+                pLines.add(
+                    LatLng(
+                        mapsViewModel.currentLocation.value!!.latitude,
+                        mapsViewModel.currentLocation.value!!.longitude
+                    )
+                )
 
                 fragBinding.runSpeed.text =
                     String.format("%.2f", mapsViewModel.currentLocation.value!!.speed).toFloat()
                         .toString()
+
 //                fragBinding.runSpeed.text = (distanceTravelled.toString().toFloat()/elapsedTime.toString().toFloat()).toString()
                 //distanceTravelled += distanceInMeter(startLat, startLng, 52.259320, -7.110070)
                 fragBinding.runInKms.text =
@@ -109,16 +113,31 @@ class MapsFragment : Fragment() {
                 startLng = mapsViewModel.currentLocation.value!!.longitude
 
             }
-
+            var listOfSpeeds = ArrayList<Double>()
+            listOfSpeeds.add(
+                String.format("%.2f", mapsViewModel.currentLocation.value!!.speed)
+                    .toFloat() * 3.6
+            )
+            loc = LatLng(
+                mapsViewModel.currentLocation.value!!.latitude,
+                mapsViewModel.currentLocation.value!!.longitude
+            )
             if (isStopped) {
+                var runDistance = 0.0
+                val averageSpeed = average(listOfSpeeds)
+                if (fragBinding.runInKms.text.toString() != "") {
+                    runDistance = fragBinding.runInKms.text.toString().toDouble()
+                }
+
                 runModel = RunModel(
                     runTime = fragBinding.runInTime.text.toString(),
-                    speed = String.format("%.2f", mapsViewModel.currentLocation.value!!.speed).toDouble(),
-                    distance = fragBinding.runInKms.text.toString().toDouble(),
+                    distance = runDistance,
                     finishTime = fragBinding.runInTime.text.toString(),
-                    amountOfCals = fragBinding.runInKms.text.toString().toDouble() * 0.6
+                    amountOfCals = runDistance * 0.6,
+                    speed = averageSpeed
                 )
                 sharedViewModel.setRunModel(runModel)
+                isStopped = false
                 findNavController().navigate(R.id.runFragment)
             }
 
@@ -129,25 +148,45 @@ class MapsFragment : Fragment() {
             val marker = MarkerOptions().position(loc).title("Marker in bbw")
             //set custom icon
             //add marker
-            mapsViewModel.map.addMarker(marker)
+            //mapsViewModel.map.addMarker(marker)
 
             mapsViewModel.map.moveCamera(CameraUpdateFactory.newLatLngZoom(loc, 14f))
             mapsViewModel.map.uiSettings.isZoomControlsEnabled = true
             mapsViewModel.map.uiSettings.isMyLocationButtonEnabled = true
 
-            runListViewModel.observableRunsList.observe(
-                viewLifecycleOwner,
-                Observer { runs ->
-                    runs?.let {
-                        render(runs as ArrayList<RunModel>)
-                        hideLoader(loader)
-                    }
-                }
-            )
+//            runListViewModel.observableRunsList.observe(
+//                viewLifecycleOwner,
+//                Observer { runs ->
+//                    runs?.let {
+//                        render(runs as ArrayList<RunModel>)
+//                        hideLoader(loader)
+//                    }
+//                }
+//            )
 
+
+            //set custom icon
+            //add marker
+            mapsViewModel.map.addMarker(marker)
+            drawRoute(loc)
 
         }
+        runListViewModel.observableRunsList.observe(
+            viewLifecycleOwner,
+            Observer { runs ->
+                runs?.let {
+                    render(runs as ArrayList<RunModel>)
+                    hideLoader(loader)
+                }
+            }
+        )
+
+
     }
+
+
+
+
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -201,8 +240,8 @@ class MapsFragment : Fragment() {
             runList.forEach {
                 mapsViewModel.map.addMarker(
                     MarkerOptions().position(LatLng(it.lat!!, it.lng!!))
-                        .title("${it.distance}kms ${it.uid}")
-                        .snippet(it.uid)
+                        .title("${it.distance}kms")
+                        .snippet(it.photoUrl)
                         .icon(
                             BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN)
                         )
@@ -213,6 +252,7 @@ class MapsFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
+        isStopped=false
         showLoader(loader, "Downloading Running Info")
         loggedInViewModel.liveFirebaseUser.observe(viewLifecycleOwner) { firebaseUser ->
             if (firebaseUser != null) {
@@ -247,10 +287,15 @@ class MapsFragment : Fragment() {
         return results[0]
     }
 
-    private fun drawRoute(lat_lng: ArrayList<LatLng>) {
+    private fun drawRoute(lat_lng: LatLng) {
         polylineOptions.points += lat_lng
         map.addPolyline(polylineOptions)
 
+    }
+
+    private fun average(list: ArrayList<Double>): Double {
+        val myAverage = list.average() // here is the average you can use it.
+        return myAverage
     }
 
 }

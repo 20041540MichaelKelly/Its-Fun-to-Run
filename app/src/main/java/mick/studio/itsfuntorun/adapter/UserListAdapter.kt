@@ -5,10 +5,8 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.squareup.picasso.Picasso
 import mick.studio.itsfuntorun.R
-import mick.studio.itsfuntorun.databinding.CardRunBinding
 import mick.studio.itsfuntorun.databinding.CardUserBinding
 import mick.studio.itsfuntorun.helpers.customTransformation
-import mick.studio.itsfuntorun.models.RunModel
 import mick.studio.itsfuntorun.models.users.UserModel
 
 interface UserListener {
@@ -35,8 +33,8 @@ class UserListAdapter constructor(private var users: List<UserModel>, private va
         fun bind(user: UserModel, listener: UserListener) {
             binding.user = user
             binding.imageIcon.setImageResource(R.drawable.baseline_image_not_supported_24)
-            if(user.image != "") {
-                Picasso.get().load(user.image)
+            if(user.photoUrl != "") {
+                Picasso.get().load(user.photoUrl)
                     .resize(200,200)
                     .transform(customTransformation())
                     .centerCrop()

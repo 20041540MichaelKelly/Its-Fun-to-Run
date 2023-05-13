@@ -53,10 +53,10 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback,
     private var LOCATION_REQUEST_CODE = 101
     private var myMarker: Marker? = null
 
-*/
-/*
-     * A Lazy method is used here so it is only called when needed
-     * No.1 **//*
+     */
+/* A Lazy method is used here so it is only called when needed
+     * No.1 *//*
+
 
 
 
