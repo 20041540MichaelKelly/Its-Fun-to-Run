@@ -78,3 +78,32 @@ The first version of this project was created using activities as the framework 
 # Nav Bar
 The Nav Bar contains multiple options for the user, and it has its own style in the xml layout but also has its own menu layout. This in turn is called from the mothership being the Home Activity. All fragments are referenced in the main navigation menu layout and from here they reference their own individual xml layout files. So, no matter where you are you can bring up the navigation drawer from any of the features in the application.
 
+# GitHub Process
+The style I used for GitHub, is a feature, develop, release and hotfix. This is the practise that I implemented in work and was on the rubric.  I would create a branch and name it after the feature I was implementing and then pull into the develop branch. Some feature examples would be map-feature or api-retro etc. Some stages I would be working on multiple branches depending on which I had an answer come to me. Funny enough if I have been stuck on getting the code to work. When I run, I can envision the code and try to work out different scenarios that could resolve the issue and then test these theories when I return from my run. Merging conflicts and losing good code did happen but 90% of the time was resolved. The release branch will be the master branch as this is the final product. Tags were also pushed up and can be downloaded from the GitHub Repository.
+
+# MVVM
+The MVVM architecture was used for this project. This proved to be convenient in working with Firebase as it can handle call-backs and return to code that is executing and finish the execution. The process is to create a Mutable object and then create an observable live object, according to the documentation provided by google; it is best practise to name this get() with an underscore _exampleObject. The object is then passed to a method for example load() which will call on the firebase database and assign the _exampleObject the data returned from the firebase. Then in the view call the observable object and loop through and perform whatever task on the data that is required. 
+
+# Login Page
+This is the first point of contact for the user. The user will have the option of signing in (if the user has an account already and signed out previously). Firebase remembers a user that has not signed out. The user can also sign in with their google account and this is the most convenient way for the user to signup.
+
+# Register Page
+This page asks the user for their name but requires the user to fill out their email address and password. This page was designed using the logo at the top on a card background and a scrollable view to allow for profile picture to be displayed. Once the user has entered their information then and registered successfully. The user will be sent to the landing page.
+# Run List Fragment
+This fragment is the landing page. This page displays all the running data that the user had recorded previously. It is a snippet of what you see compared to when you click into the individual run. The user can view an image in this recycler view as a memory of a great run or something that happened on the run out of the ordinary.  The Run List was created using an adapter that I followed from the labs with a few tweaks to match my project. If the User hits the toggle button at the top it will display the users’ friends runs also. 
+
+# Run Details Fragment
+Access to this fragment is done by clicking on one of the run sessions. This is done by passing the id of the run through in an action from the Run List Fragment. On the other side the Run Details Fragment, it takes this args that was sent over. Then using our observableRunList we can retrieve the run by matching off to the runid. The other variation of this run Details fragment is clicking into a friends run and having the ability to view there running but not capable of editing this data. The user can add a comment to this run. 
+
+# Maps Fragment
+The soul of the project.  The user clicks the start button to start, from this action the data starts getting displayed back to the user. This data contains the speed the user is travelling, and the calories burned, and distance travelled. The on-Location Request that got Current Location and all the inbuilt function such as speed and distance that tracked the LatLng(Lattitude, Longtitude). As the user is running, a polyline is drawn to mark the progress of the user. Once the user has completed their run, they can hit the pause button and hit the save button that appears when paused. The data stored is the distance travelled during the run and calories burned and the Average speed, which was obtained by add all the speed values to an array list and looping over and dividing by the size of the array. It automatically brings the user to the Run Fragment.
+
+# Run Fragment
+The Run Fragment is where the user can manually add a run that they may have forgotten to add, or they can edit the data that was passed through a sharedViewModel. The user can also add an image in another fragment specifically for this, then automatically return to the Run Fragment for review of all the data before adding the run.
+
+# User List Fragment 
+The User List Fragment is the social adaption of the project. On this page hit the floating action button and it will retrieve all the users’ friends. The user can view all the other users and if they view someone that they know or just like the appearance of their profile they can add the user as a friend by clicking on the users’ profile.
+
+# User Details Fragment
+
+
