@@ -35,9 +35,9 @@ class RunListViewModel : ViewModel() {
         }
     }
 
-    fun loadAllFriends() {
+    fun loadAllFriendsRuns() {
         try {
-            readOnly.value = true
+            //readOnly.value = true
            // FirebaseDBManager.findAllRunsForFriends(liveFirebaseUser.value.toString(),runsList)
             FirebaseDBManager.findAllRuns(runsList)
             Timber.i("Report LoadAll Success : ${runsList.value.toString()}")

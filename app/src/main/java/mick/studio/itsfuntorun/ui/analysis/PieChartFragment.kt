@@ -13,14 +13,15 @@ import androidx.lifecycle.ViewModelProvider
 import com.github.mikephil.charting.charts.PieChart
 import com.github.mikephil.charting.data.*
 import com.github.mikephil.charting.utils.ColorTemplate
-import com.google.android.material.bottomnavigation.BottomNavigationView
-import mick.studio.itsfuntorun.R
+import com.google.android.material.snackbar.Snackbar
 import mick.studio.itsfuntorun.databinding.FragmentPieChartBinding
 import mick.studio.itsfuntorun.helpers.createLoader
 import mick.studio.itsfuntorun.helpers.hideLoader
 import mick.studio.itsfuntorun.helpers.showLoader
 import mick.studio.itsfuntorun.models.RunModel
 import mick.studio.itsfuntorun.ui.auth.LoggedInViewModel
+import mick.studio.itsfuntorun.ui.runlist.RunListViewModel
+import mick.studio.itsfuntorun.ui.userdetails.UserDetailsViewModel
 
 class PieChartFragment : Fragment() {
     var run = RunModel()
@@ -33,6 +34,8 @@ class PieChartFragment : Fragment() {
     private lateinit var pieChart: PieChart
     lateinit var loader: AlertDialog
     val pieChartList:ArrayList<PieEntry> = ArrayList()
+    private val userDetailsViewModel: UserDetailsViewModel by activityViewModels()
+    private lateinit var runListViewModel: RunListViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -46,28 +49,12 @@ class PieChartFragment : Fragment() {
         _fragBinding = FragmentPieChartBinding.inflate(inflater, container, false)
         val root = fragBinding.root
         analysisViewModel = ViewModelProvider(this).get(AnalysisViewModel::class.java)
+        runListViewModel = ViewModelProvider(this).get(RunListViewModel::class.java)
         loader = createLoader(requireActivity())
         pieChart = fragBinding.runPieChart
 
         showLoader(loader, "fetching user data...")
-        loggedInViewModel.liveFirebaseUser.observe(viewLifecycleOwner, Observer { firebaseUser ->
-            if (firebaseUser != null) {
-                analysisViewModel.liveFirebaseUser.value = firebaseUser
-                analysisViewModel.load()
-                analysisViewModel.observableRunsList.observe(
-                    viewLifecycleOwner, Observer { runs ->
-                        runs?.let {
-                            runs.forEach { run ->
-                                addPointsToList(run.amountOfCals.toString().toFloat(), run.runTime.toString())
-                                hideLoader(loader)
-                                drawPieChart(pieChartList)
-                            }
-                        }
-
-                    }
-                )
-            }
-        })
+        getFriendsRuns()
 
         return root
     }
@@ -88,6 +75,42 @@ class PieChartFragment : Fragment() {
         pieChart.data=pieData
         pieChart.description.text="Calories Pie Chart"
         pieChart.animateY(2500)
+    }
+
+    private fun getFriendsRuns() {
+        showLoader(loader, "Loading Friends")
+        loggedInViewModel.liveFirebaseUser.observe(viewLifecycleOwner, Observer { firebaseUser ->
+            if (firebaseUser != null) {
+                userDetailsViewModel.liveFirebaseUser.value = firebaseUser
+                userDetailsViewModel.findAllMyFriends()
+                runListViewModel.loadAllFriendsRuns()
+            }
+        })
+
+        userDetailsViewModel.observableFriends.observe(viewLifecycleOwner, Observer { friends ->
+            hideLoader(loader)
+            if(friends.size == 0)  {
+                Snackbar.make(fragBinding.root, "No friends yet...",
+                    Snackbar.LENGTH_SHORT).show()}
+            friends.forEach { friend ->
+
+                runListViewModel.observableRunsList.observe(viewLifecycleOwner, Observer { runs ->
+
+                    runs.forEach { run ->
+
+                        showLoader(loader, "Loading Friends")
+                        if (friend.pid == run.uid)
+                            addPointsToList(
+                                run.amountOfCals.toString().toFloat(),
+                                run.displayName.toString()
+                            )
+                        hideLoader(loader)
+                        drawPieChart(pieChartList)
+                    }
+
+                })
+            }
+        })
     }
 
 }

@@ -12,27 +12,29 @@ import timber.log.Timber
 
 class LoginRegisterViewModel(app: Application) : AndroidViewModel(app) {
 
-    var firebaseAuthManager : FirebaseAuthManager = FirebaseAuthManager(app)
-    var liveFirebaseUser : MutableLiveData<FirebaseUser> = firebaseAuthManager.liveFirebaseUser
+    var firebaseAuthManager: FirebaseAuthManager = FirebaseAuthManager(app)
+    var liveFirebaseUser: MutableLiveData<FirebaseUser> = firebaseAuthManager.liveFirebaseUser
 
     fun login(email: String?, password: String?) {
         firebaseAuthManager.login(email, password)
     }
 
-    fun registerUserCreate(user:UserModel) {
+    fun registerUserCreate(user: UserModel): Boolean {
         try {
-           register(user)
-            //  addUserInfo(user)
-
-        }  catch (e: IllegalArgumentException) {
+            register(user)
+            print("Success Registering")
+            return true
+        } catch (e: IllegalArgumentException) {
+            print("Issue with: ${e.message}")
+            return false
         }
     }
 
-    fun register(user:UserModel): Boolean {
+    fun register(user: UserModel): Boolean {
         try {
             firebaseAuthManager.register(user)
             return true
-        }  catch (e: IllegalArgumentException) {
+        } catch (e: IllegalArgumentException) {
             return false
         }
     }
@@ -42,13 +44,13 @@ class LoginRegisterViewModel(app: Application) : AndroidViewModel(app) {
     }
 
     fun addUserInfo(userModel: UserModel) {
-            try{
-                FirebaseDBManager.createUser(userModel)
-                Timber.d("completed ${userModel}")
+        try {
+            FirebaseDBManager.createUser(userModel)
+            Timber.d("completed ${userModel}")
 
-                true
-            } catch (e: IllegalArgumentException) {
-                false
-            }
+            true
+        } catch (e: IllegalArgumentException) {
+            false
+        }
     }
 }

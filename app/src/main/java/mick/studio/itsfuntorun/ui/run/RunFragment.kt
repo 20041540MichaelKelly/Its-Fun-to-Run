@@ -1,42 +1,30 @@
 package mick.studio.itsfuntorun.ui.run
 
-import android.app.Activity.RESULT_CANCELED
-import android.app.Activity.RESULT_OK
 import android.app.AlertDialog
-import android.content.Intent
 import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
 import android.transition.TransitionInflater
 import android.view.*
 import android.widget.Toast
 import androidx.fragment.app.Fragment
-import androidx.activity.result.ActivityResultLauncher
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.view.MenuHost
 import androidx.core.view.MenuProvider
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.Observer
-import androidx.navigation.NavDirections
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
-import androidx.navigation.fragment.navArgs
-import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.NavigationUI
 import com.google.android.material.snackbar.Snackbar
 import com.squareup.picasso.Picasso
 import mick.studio.itsfuntorun.R
-import mick.studio.itsfuntorun.databinding.BottomNavBarBinding
 //import mick.studio.itsfuntorun.ui.map.MapsActivity
 import mick.studio.itsfuntorun.databinding.FragmentRunBinding
 import mick.studio.itsfuntorun.helpers.createLoader
 import mick.studio.itsfuntorun.models.RunModel
 import mick.studio.itsfuntorun.models.SharedViewModel
 import mick.studio.itsfuntorun.ui.auth.LoggedInViewModel
-import mick.studio.itsfuntorun.ui.camera.ImagePickerFragmentDirections
-import mick.studio.itsfuntorun.ui.camera.ImagePickerViewModel
-import mick.studio.itsfuntorun.ui.map.MapsViewModel
-import timber.log.Timber.i
+import mick.studio.itsfuntorun.ui.userlist.UserListViewModel
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
@@ -48,6 +36,8 @@ class RunFragment : Fragment() {
     private lateinit var loggedInViewModel: LoggedInViewModel
     private val sharedViewModel: SharedViewModel by activityViewModels()
     lateinit var loader: AlertDialog
+    lateinit var userListViewModel: UserListViewModel
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -65,10 +55,13 @@ class RunFragment : Fragment() {
         activity?.title = getString(R.string.record_a_run)
         setupMenu()
         loader = createLoader(requireActivity())
+        userListViewModel = ViewModelProvider(this).get(UserListViewModel::class.java)
 
         runViewModel = ViewModelProvider(this).get(RunViewModel::class.java)
         loggedInViewModel = ViewModelProvider(this).get(LoggedInViewModel::class.java)
-
+        userListViewModel.observableName.observe(viewLifecycleOwner, Observer { name ->
+            runModel.displayName = name.toString()
+        })
         runViewModel.observableStatus.observe(viewLifecycleOwner, Observer { status ->
             status?.let { render(status) }
         })
@@ -79,9 +72,9 @@ class RunFragment : Fragment() {
             fragBinding.runKms.setText(run!!.distance.toString())
             fragBinding.runTime.setText(run.finishTime)
             fragBinding.runCalories.setText(run.amountOfCals.toString())
-            if (run.image != "") {
+            if (run.photoUrl != "") {
                 Picasso.get()
-                    .load(run.image)
+                    .load(run.photoUrl)
                     .into(fragBinding.runImage)
             }
         })
@@ -126,9 +119,8 @@ class RunFragment : Fragment() {
             distance = run.distance,
             finishTime = run.finishTime,
             amountOfCals = run.amountOfCals,
-            image = run.image,
+            photoUrl = run.photoUrl,
             zoom = 15f,
-            email = run.email //Need to update with logged in observer to get the email
         )
     }
 

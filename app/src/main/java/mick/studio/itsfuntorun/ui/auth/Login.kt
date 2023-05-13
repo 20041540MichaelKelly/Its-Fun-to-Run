@@ -80,13 +80,6 @@ class Login : AppCompatActivity() {
         finish()
     }
 
-    private fun createAccount(email: String, password: String) {
-        Timber.d("createAccount:$email")
-        if (!validateForm()) { return }
-
-        //loginRegisterViewModel.register(user)
-    }
-
     private fun signIn(email: String, password: String) {
         Timber.d("signIn:$email")
         if (!validateForm()) { return }

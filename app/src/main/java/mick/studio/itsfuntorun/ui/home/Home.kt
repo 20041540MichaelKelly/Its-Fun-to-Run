@@ -98,13 +98,12 @@ class Home : AppCompatActivity() {
         navHeaderBinding = NavHeaderBinding.bind(headerView)
         navHeaderBinding.navHeaderEmail.text = currentUser.email
         navHeaderBinding.navHeaderName.text = currentUser.displayName
-        if(currentUser.photoUrl != null && currentUser.displayName != null) {
             Picasso.get().load(currentUser.photoUrl)
                 .resize(200, 200)
                 .transform(customTransformation())
                 .centerCrop()
                 .into(navHeaderBinding.imageView)
-        }
+
     }
 
     override fun onSupportNavigateUp(): Boolean {

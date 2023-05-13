@@ -58,9 +58,9 @@ class FirebaseAuthManager(application: Application) {
             .addOnCompleteListener(application!!.mainExecutor, { task ->
                 if (task.isSuccessful) {
                     liveFirebaseUser.postValue(firebaseAuth!!.currentUser)
-                    errorStatus.postValue(false)
                     user.uid = firebaseAuth!!.currentUser?.uid
                     FirebaseDBManager.createUser(user)
+                    errorStatus.postValue(false)
                 } else {
                     Timber.i( "Registration Failure: $task.exception!!.message")
                     errorStatus.postValue(true)

@@ -33,8 +33,8 @@ class RunListAdapter constructor(private var runs: List<RunModel>, private val l
         fun bind(run: RunModel, listener: RunListener) {
             binding.run = run
             binding.imageIcon.setImageResource(R.drawable.baseline_image_not_supported_24)
-            if(run.image != "") {
-                Picasso.get().load(run.image)
+            if(run.photoUrl != "") {
+                Picasso.get().load(run.photoUrl)
                     .resize(200,200)
                     .transform(customTransformation())
                     .centerCrop()

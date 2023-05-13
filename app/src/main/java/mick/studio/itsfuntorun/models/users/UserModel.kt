@@ -9,8 +9,8 @@ data class UserModel(
     var uid: String? = "",
     var pid: String? = "",
     var registerDate: String ?= "",
-    var name: String? = "",
-    var image: String? = "",
+    var displayName: String? = "",
+    var photoUrl: String? = "",
     var password: String = "",
     var email: String = "john@doe.com",
     var privateBio: Boolean = false
@@ -21,9 +21,9 @@ data class UserModel(
                 "uid" to uid,
                 "pid" to pid,
                 "registerDate" to registerDate,
-                "name" to name,
+                "displayName" to displayName,
                 "email" to email,
-                "image" to image,
+                "photoUrl" to photoUrl,
                 "password" to password
             )
         }

@@ -10,17 +10,17 @@ import kotlinx.parcelize.Parcelize
 data class RunModel(
     var uid: String ?= "",
     var runid: String ?= "",
-    var lat: Double ?= 0.0 ,
-    var lng: Double ?= 0.0 ,
+    var lat: Double ?= 0.0,
+    var lng: Double ?= 0.0,
     var runTime: String ?= "",
+    var displayName: String? = "",
     var speed: Double ?= 0.0,
     var distance: Double ?= 0.0,
     var finishTime: String ?= "",
     var amountOfCals: Double = 0.0,
-    var image: String? = "",
+    var photoUrl: String? = "",
     var zoom: Float = 15f,
-    var email: String? = "john@doe.com",
-    var friends: List<String>?= listOf(),
+    var comment: String = ""
     ) : Parcelable {
     @Exclude
     fun toMap(): Map<String, Any?> {
@@ -30,14 +30,13 @@ data class RunModel(
             "lat" to lat,
             "lng" to lng,
             "runTime" to runTime,
+            "displayName" to displayName,
             "speed" to speed,
             "distance" to distance,
             "finishTime" to finishTime,
             "amountOfCals" to amountOfCals,
-            "image" to image,
+            "photoUrl" to photoUrl,
             "zoom" to zoom,
-            "email" to email,
-            "friends" to friends
         )
     }
 }

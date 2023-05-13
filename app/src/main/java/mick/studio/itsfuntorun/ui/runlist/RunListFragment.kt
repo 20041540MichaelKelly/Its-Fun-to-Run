@@ -18,6 +18,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.NavigationUI
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import com.google.android.material.snackbar.Snackbar
 import mick.studio.itsfuntorun.R
 import mick.studio.itsfuntorun.adapter.RunListAdapter
 import mick.studio.itsfuntorun.adapter.RunListener
@@ -26,7 +27,9 @@ import mick.studio.itsfuntorun.helpers.createLoader
 import mick.studio.itsfuntorun.helpers.hideLoader
 import mick.studio.itsfuntorun.helpers.showLoader
 import mick.studio.itsfuntorun.models.RunModel
+import mick.studio.itsfuntorun.models.users.UserModel
 import mick.studio.itsfuntorun.ui.auth.LoggedInViewModel
+import mick.studio.itsfuntorun.ui.userdetails.UserDetailsViewModel
 
 class RunListFragment : Fragment(), RunListener {
 
@@ -34,7 +37,9 @@ class RunListFragment : Fragment(), RunListener {
     private val fragBinding get() = _fragBinding!!
     private lateinit var runListViewModel: RunListViewModel
     private val loggedInViewModel: LoggedInViewModel by activityViewModels()
+    private val userDetailsViewModel: UserDetailsViewModel by activityViewModels()
     var readOnly = MutableLiveData(false)
+
 
     lateinit var loader: AlertDialog
 
@@ -63,40 +68,19 @@ class RunListFragment : Fragment(), RunListener {
         runListViewModel.observableRunsList.observe(viewLifecycleOwner, Observer {
                 runs ->
             runs?.let {
+
                 render(runs as ArrayList<RunModel>)
                 hideLoader(loader)
-                //checkSwipeRefresh()
+//                checkSwipeRefresh()
             }
         })
 
         val fab: FloatingActionButton = fragBinding.fab
         fab.setOnClickListener {
-//            val action = RunListFragmentDirections.actionRunListFragmentToRunFragment(null)
-//            findNavController().navigate(action)
+            val action = RunListFragmentDirections.actionRunListFragmentToRunFragment()
+            findNavController().navigate(action)
         }
-//        setSwipeRefresh()
-//
-//        val swipeDeleteHandler = object : SwipeToDeleteCallback(requireContext()) {
-//            override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-//                showLoader(loader,"Deleting Donation")
-//                val adapter = fragBinding.recyclerView.adapter as DonationAdapter
-//                adapter.removeAt(viewHolder.adapterPosition)
-//                reportViewModel.delete(reportViewModel.liveFirebaseUser.value?.uid!!,
-//                    (viewHolder.itemView.tag as DonationModel).uid!!)
-//
-//                hideLoader(loader)
-//            }
-//        }
-//        val itemTouchDeleteHelper = ItemTouchHelper(swipeDeleteHandler)
-//        itemTouchDeleteHelper.attachToRecyclerView(fragBinding.recyclerView)
-//
-//        val swipeEditHandler = object : SwipeToEditCallback(requireContext()) {
-//            override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-//                onDonationClick(viewHolder.itemView.tag as DonationModel)
-//            }
-//        }
-//        val itemTouchEditHelper = ItemTouchHelper(swipeEditHandler)
-//        itemTouchEditHelper.attachToRecyclerView(fragBinding.recyclerView)
+        setSwipeRefresh()
 
         return root
     }
@@ -117,7 +101,8 @@ class RunListFragment : Fragment(), RunListener {
                 toggleDonations.isChecked = false
 
                 toggleDonations.setOnCheckedChangeListener { _, isChecked ->
-                    if (isChecked) runListViewModel.loadAllFriends()
+                    if (isChecked)getFriendsRuns()
+
                     else runListViewModel.load()
                 }
             }
@@ -133,6 +118,51 @@ class RunListFragment : Fragment(), RunListener {
         }, viewLifecycleOwner, Lifecycle.State.RESUMED)
     }
 
+    private fun getFriendsRuns() {
+        showLoader(loader,"Loading Friends")
+        loggedInViewModel.liveFirebaseUser.observe(viewLifecycleOwner, Observer { firebaseUser ->
+            if (firebaseUser != null) {
+                userDetailsViewModel.liveFirebaseUser.value = firebaseUser
+                userDetailsViewModel.findAllMyFriends()
+                //runListViewModel.loadAllFriendsRuns()
+            }
+        })
+        var listOfRuns :ArrayList<RunModel>
+        listOfRuns = ArrayList()
+
+        userDetailsViewModel.observableFriends.observe(viewLifecycleOwner, Observer { friends ->
+            hideLoader(loader)
+            if(friends.size == 0)  {
+                Snackbar.make(fragBinding.root, "No friends yet...",
+                    Snackbar.LENGTH_SHORT).show()}
+            friends.forEach { friend ->
+
+                    runListViewModel.loadAllFriendsRuns()
+                    runListViewModel.observableRunsList.observe(
+                        viewLifecycleOwner,
+                        Observer { runs ->
+                            runs.forEach { run ->
+                                showLoader(loader, "Loading Friends")
+                                if (friend.pid == run.uid)
+                                    listOfRuns.add(run)
+                                //checkSwipeRefresh()
+                            }
+                            hideLoader(loader)
+
+
+                        })
+
+            }
+        })
+        if(listOfRuns.isNotEmpty()) {
+            render(listOfRuns)
+        }else{
+            hideLoader(loader)
+        }
+
+
+    }
+
     private fun render(runList: List<RunModel>) {
         fragBinding.recyclerView.adapter = RunListAdapter(runList, this)
         if (runList.isEmpty()) {
@@ -143,6 +173,21 @@ class RunListFragment : Fragment(), RunListener {
             fragBinding.runsNotFound.visibility = View.GONE
         }
     }
+
+    fun setSwipeRefresh() {
+        fragBinding.swiperefresh.setOnRefreshListener {
+            fragBinding.swiperefresh.isRefreshing = true
+ //           showLoader(loader,"Downloading Runs")
+//            if(toggleDonations.isChecked)getFriendsRuns()
+//            else runListViewModel.load()
+        }
+    }
+
+    fun checkSwipeRefresh() {
+        if (fragBinding.swiperefresh.isRefreshing)
+            fragBinding.swiperefresh.isRefreshing = false
+    }
+
 
 //private fun setSwipeRefresh() {
 //    fragBinding.swiperefresh.setOnRefreshListener {
@@ -173,7 +218,6 @@ class RunListFragment : Fragment(), RunListener {
     }
 
     override fun onRunClick(run: RunModel) {
-        if (loggedInViewModel.liveFirebaseUser.value!!.uid == run.uid) {
 
             val action =
                 run.runid?.let {
@@ -184,7 +228,7 @@ class RunListFragment : Fragment(), RunListener {
             if (action != null) {
                 findNavController().navigate(action)
             }
-        }
+
     }
 
 

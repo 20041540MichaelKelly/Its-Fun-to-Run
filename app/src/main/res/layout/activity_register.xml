@@ -81,10 +81,11 @@
 
             <Button
                 android:id="@+id/chooseImage"
-                android:layout_width="150dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="5dp"
+                android:layout_margin="10dp"
                 android:layout_below="@id/runImage"
                 android:layout_marginRight="5dp"
                 android:background="@color/deep_blue"
@@ -95,24 +96,12 @@
                 android:textSize="16sp" />
 
             <Button
-                android:id="@+id/captureImage"
-                android:layout_width="150dp"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/runImage"
-                android:layout_alignEnd="@id/runImage"
-                android:background="@color/deep_blue"
-                android:paddingTop="8dp"
-                android:paddingBottom="8dp"
-                android:text="@string/button_capture_image"
-                android:textColor="@color/jet_black"
-                android:textSize="16sp" />
-
-            <Button
                 android:id="@+id/btnRegister"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/deep_blue"
                 android:layout_below="@id/chooseImage"
+                android:layout_marginTop="10dp"
                 android:layout_centerVertical="true"
                 android:layout_margin="10dp"
                 android:paddingBottom="8dp"

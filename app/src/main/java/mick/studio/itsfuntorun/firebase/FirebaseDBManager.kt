@@ -144,6 +144,17 @@ object FirebaseDBManager: RunStore, UserStore, FriendsStore{
             }
     }
 
+    override fun getName(userid: String,  name: MutableLiveData<String>) {
+        database.child("user-info").child(userid)
+            .get().addOnSuccessListener {
+                val user = it.getValue(UserModel::class.java)
+                name.value = user?.displayName
+                Timber.i("firebase Got value ${it.value}")
+            }.addOnFailureListener{
+                Timber.e("firebase Error getting data $it")
+            }
+    }
+
     override fun create(firebaseUser: MutableLiveData<FirebaseUser>, run: RunModel) {
         Timber.i("Firebase DB Reference : $database")
 
@@ -181,7 +192,7 @@ object FirebaseDBManager: RunStore, UserStore, FriendsStore{
 
         val childUpdate : MutableMap<String, Any?> = HashMap()
         childUpdate["runs/$runid"] = runValues
-        childUpdate["user-runs/$userid/$runid"] = runValues
+        childUpdate["user-runs/$run.uid/$runid"] = runValues
 
         database.updateChildren(childUpdate)
     }
@@ -235,7 +246,6 @@ object FirebaseDBManager: RunStore, UserStore, FriendsStore{
             Timber.i("Firebase Error : Key Empty")
             return
         }
-
 
         user.pid = key
         val uid = user.uid

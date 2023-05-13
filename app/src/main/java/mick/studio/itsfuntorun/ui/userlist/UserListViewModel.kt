@@ -14,9 +14,13 @@ class UserListViewModel : ViewModel() {
     private val usersList = MutableLiveData<List<UserModel>>()
     private val friendsList = MutableLiveData<List<FriendsModel>>()
     private val user = MutableLiveData<UserModel>()
+    private val _name = MutableLiveData<String>()
 
     val observableUsersList: LiveData<List<UserModel>>
         get() = usersList
+
+    val observableName: LiveData<String>
+        get() = _name
 
     val observableFriends: LiveData<List<FriendsModel>>
         get() = friendsList
@@ -33,6 +37,19 @@ class UserListViewModel : ViewModel() {
             readOnly.value = false
             //val userid = liveFirebaseUser.value?.uid!!
             FirebaseDBManager.findAllUsers(liveFirebaseUser.value?.uid!!, usersList)
+            Timber.i("User List Load Success : ${usersList.value.toString()}")
+
+        }
+        catch (e: Exception) {
+            Timber.i("Loading Error : $e.message")
+        }
+    }
+
+    fun getName() {
+        try {
+            readOnly.value = false
+            //val userid = liveFirebaseUser.value?.uid!!
+            FirebaseDBManager.getName(liveFirebaseUser.value?.uid!!, _name)
             Timber.i("User List Load Success : ${usersList.value.toString()}")
 
         }

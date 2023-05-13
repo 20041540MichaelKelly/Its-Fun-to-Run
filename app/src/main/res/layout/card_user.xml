@@ -56,7 +56,7 @@
             app:layout_constraintHorizontal_bias="0.052"
             app:layout_constraintStart_toEndOf="@+id/imageIcon"
             app:layout_constraintTop_toBottomOf="@id/userEmail"
-            android:text="@{user.name}"
+            android:text="@{user.displayName}"
             />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -16,7 +16,6 @@ import mick.studio.itsfuntorun.databinding.FragmentUserDetailsBinding
 import mick.studio.itsfuntorun.models.friends.FriendsModel
 import mick.studio.itsfuntorun.models.users.UserModel
 import mick.studio.itsfuntorun.ui.auth.LoggedInViewModel
-import mick.studio.itsfuntorun.ui.userlist.UserListFragmentDirections
 import mick.studio.itsfuntorun.ui.userlist.UserListViewModel
 
 class UserDetailsFragment : Fragment() {
@@ -45,11 +44,11 @@ class UserDetailsFragment : Fragment() {
         userListViewModel = ViewModelProvider(this).get(UserListViewModel::class.java)
 
         fragBinding.userEmailTV.setText("Email : ${args.user.email}")
-        fragBinding.userNameTV.setText("Name : ${args.user.name.toString()}")
+        fragBinding.userNameTV.setText("Name : ${args.user.displayName.toString()}")
         fragBinding.userMemberSinceTV.setText("Joined : ${args.user.registerDate.toString()}")
-        if (args.user.image != "") {
+        if (args.user.photoUrl != "") {
             Picasso.get()
-                .load(args.user.image)
+                .load(args.user.photoUrl)
                 .into(fragBinding.profileImage)
         }
 
@@ -76,13 +75,11 @@ class UserDetailsFragment : Fragment() {
                         ), loggedInViewModel.liveFirebaseUser)
                 }else {
                     friends.forEach { friend ->
-                        Toast.makeText(context, args.user.uid.toString(), Toast.LENGTH_LONG).show()
-
                         if (friend.uid.toString() != loggedInViewModel.liveFirebaseUser.value!!.uid) {
                             userDetailsViewModel.addFriend(
                                 FriendsModel(
                                     uid = loggedInViewModel.liveFirebaseUser.value!!.uid,
-                                    fid = user.uid
+                                    pid = user.uid
                                 ), loggedInViewModel.liveFirebaseUser
                             )
                         }
