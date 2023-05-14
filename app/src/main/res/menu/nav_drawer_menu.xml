@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/runFragment"
+            android:icon="@drawable/baseline_run_circle_24"
+            android:title="@string/action_run" />
+        <item
+            android:id="@+id/runListFragment"
+            android:icon="@drawable/baseline_format_list_numbered_24"
+            android:title="@string/action_run_list" />
+        <item
+            android:id="@+id/mapsFragment"
+            android:icon="@drawable/baseline_map_24"
+            android:title="@string/map_a_run" />
+
+        <item
+            android:id="@+id/imagePickerFragment"
+            android:icon="@drawable/baseline_photo_camera_24"
+            android:title="@string/camera" />
+
+        <item
+            android:id="@+id/fitnessFragment"
+            android:icon="@drawable/baseline_fitness_center_24"
+            android:title="@string/excersises" />
+
+        <item
+            android:id="@+id/barChartFragment"
+            android:icon="@drawable/baseline_bar_chart_24"
+            android:title="@string/statistics" />
+    </group>
+
+    <item android:title="@string/group_communicate">
+        <menu>
+            <item
+                android:id="@+id/nav_friends"
+                android:icon="@drawable/baseline_share_24"
+                android:title="@string/action_share" />
+            <item
+                android:id="@+id/userListFragment"
+                android:icon="@drawable/baseline_person_add_24"
+                android:title="@string/people" />
+        </menu>
+    </item>
+    <item android:title="@string/access_control">
+        <menu>
+            <item
+                android:id="@+id/signout"
+                android:icon="@android:drawable/ic_menu_revert"
+                android:onClick="signOut"
+                android:title="@string/sign_out" />
+        </menu>
+    </item>
+</menu>

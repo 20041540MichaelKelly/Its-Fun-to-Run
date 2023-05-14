@@ -1,16 +1,81 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
-    <style name="Theme.ItsFunToRun" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+    <style name="Theme.ItsFunToRun" parent="Theme.MaterialComponents.Light">
         <!-- Primary brand color. -->
-        <item name="colorPrimary">@color/blue</item>
-        <item name="colorPrimaryVariant">@color/black</item>
-        <item name="colorOnPrimary">@color/white</item>
+        <!--<item name="colorPrimary">@color/green</item>
+        <item name="colorPrimaryVariant">@color/jet_black</item>
+        <item name="colorOnPrimary">@color/grey_500</item>-->
+        <item name="colorPrimary">@color/green</item>
+        <item name="colorPrimaryVariant">@color/material_dynamic_primary70</item>
+        <item name="colorOnPrimary">@color/colorAccent</item>
         <!-- Secondary brand color. -->
-        <item name="colorSecondary">@color/pale_blue</item>
-        <item name="colorSecondaryVariant">@color/pale_blue</item>
-        <item name="colorOnSecondary">@color/black</item>
+        <item name="colorSecondary">@color/grey_500</item>
+        <item name="colorSecondaryVariant">#40C4FF</item>
+        <item name="colorOnSecondary">@color/material_dynamic_primary70</item>
+        <item name="android:windowBackground">@color/pale_blue</item>
+        <item name="colorPrimaryDark">#69F0AE</item>
         <!-- Status bar color. -->
         <item name="android:statusBarColor">?attr/colorPrimaryVariant</item>
-        <!-- Customize your theme here. -->
     </style>
+
+    <style name="Theme.ItsFunToRun.NoActionBar">
+        <item name="windowActionBar">true</item>
+        <item name="windowNoTitle">true</item>
+        <item name="colorPrimary">@color/green</item>
+        <item name="colorPrimaryVariant">@color/material_dynamic_primary70</item>
+        <item name="colorOnPrimary">@color/colorAccent</item>
+    </style>
+
+    <style name="Theme.ItsFunToRun.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+    <style name="Theme.ItsFunToRun.BottomAppOverlay" parent="ThemeOverlay.Material3.BottomAppBar" />
+
+    <style name="Theme.ItsFunToRun.PopupOverlay" parent="Theme.ItsFunToRun" />
+    <!-- START Firebase Resources-->
+    <!-- Activity with no Title -->
+    <style name="ThemeOverlay.MyNoTitleActivity" parent="Theme.ItsFunToRun">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <!-- Dark Buttons -->
+    <style name="ThemeOverlay.MyDarkButton" parent="Theme.ItsFunToRun">
+        <item name="colorButtonNormal">@color/grey_500</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:layout_marginRight">4dp</item>
+        <item name="android:layout_marginLeft">4dp</item>
+        <item name="android:textColor">@android:color/white</item>
+    </style>
+
+    <style name="ThemeOverlay.Material3.TextInputEditText.OutlinedBox.Dense." parent="Theme.ItsFunToRun" />
+
+    <style name="ThemeOverlay.MyTextDetail" parent="Theme.ItsFunToRun">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:fadeScrollbars">true</item>
+        <item name="android:gravity">center</item>
+        <item name="android:maxLines">5</item>
+        <item name="android:padding">4dp</item>
+        <item name="android:scrollbars">vertical</item>
+        <item name="android:textSize">14sp</item>
+    </style>
+
+    <style name="ThemeOverlay.FirebaseIcon" parent="Theme.ItsFunToRun">
+        <item name="android:layout_marginTop">@dimen/icon_top_margin</item>
+        <item name="android:layout_marginBottom">@dimen/icon_bottom_margin</item>
+    </style>
+
+    <style name="ThemeOverlay.MyTitleText" parent="Theme.ItsFunToRun">
+        <item name="android:gravity">center</item>
+        <item name="android:textSize">30sp</item>
+        <item name="android:color">@color/black</item>
+
+    </style>
+
+    <style name="toggleStyle">
+        <item name="colorControlActivated">@color/colorWhite</item>
+        <item name="colorControlHighlight">@color/black</item>
+    </style>
+
+    <!-- END Firebase Resources-->
+
 </resources>

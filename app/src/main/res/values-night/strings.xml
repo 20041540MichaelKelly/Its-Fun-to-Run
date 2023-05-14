@@ -1,4 +1,65 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="menu_cancel_run">Cancel run</string>
+    <string name="save_run">Save Run</string>
+    <string name="select_run_image">Select an Image</string>
+    <string name="record_a_run">Record a Run</string>
+    <string name="action_run_list">Run List</string>
+    <string name="action_share">Share</string>
+    <string name="action_send">Send</string>
+    <string name="group_communicate">Communicate</string>
+    <string name="action_run">Run</string>
+
+    <!-- START Firebase Resources-->
+
+    <string name="label_emailpassword">Email/Password Authentication</string>
+    <string name="desc_emailpassword">Use an email and password to authenticate with Firebase.</string>
+    <string name="sign_in">Sign In</string>
+    <string name="create_account">Create Account</string>
+    <string name="send_link">Send Link</string>
+    <string name="sign_out">Sign Out</string>
+    <string name="verify_email">Verify Email</string>
+    <string name="disconnect">Disconnect</string>
+    <string name="loading">Loading…</string>
+    <string name="signed_in">Signed In</string>
+    <string name="signed_out">Signed Out</string>
+    <string name="token_null">Token: null</string>
+    <string name="hint_email">Email</string>
+    <string name="hint_password">Password</string>
+    <string name="desc_firebase_lockup">Firebase logo and name</string>
+    <string name="auth_failed">Authentication failed</string>
+    <string name="firebase_status_fmt">Firebase User: %s</string>
+    <string name="firebase_user_management">Firebase User Management</string>
+    <string name="emailpassword_status_fmt">Email User: %1$s (verified: %2$b)</string>
+    <string name="emailpassword_title_text">Please Login Below</string>
+    <string name="start_run">Start</string>
+    <string name="stop_run">STOP</string>
+    <string name="map_a_run">Map a Run</string>
+    <string name="hint_lng">Longtitude</string>
+    <string name="hint_lat">Lattitude</string>
+    <string name="calories_tv">"Calories: "</string>
+    <string name="save_image">SAVE</string>
+    <string name="calories_burned">Calories Burned</string>
+    <string name="saved">Saved</string>
+    <string name="digital_time">0:00:00</string>
+    <string name="_0_0_kms">0.0 Kms</string>
+    <string name="statistics">Statistics</string>
+    <string name="camera">Camera</string>
+    <string name="users_not_found">Oops...No Users listed</string>
+    <string name="access_control">Access Control</string>
+    <string name="register_user">Register</string>
+    <string name="enter_a_user_info">Enter your details...</string>
+    <string name="button_capture_image">Capture</string>
+    <string name="user_email">"Email: "</string>
+    <string name="user_name">"Name: "</string>
+    <string name="member_tv">"Joined: "</string>
+    <string name="add_friend">Add</string>
+    <string name="hint_name">Name</string>
+    <string name="people">People</string>
+    <string name="muscle">muscle group...</string>
+    <string name="fitnessItemsNotFound">Excersise not found</string>
+    <string name="excersises">Excersise</string>
+    <string name="speed">Speed:</string>
+    <string name="add_comment">Add a comment..</string>
+    <string name="add_speed">Add a speed..</string>
 </resources>
