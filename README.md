@@ -1,3 +1,9 @@
+# Original Sketch
+
+![sketch](/app/run_sketch.png)
+
+
+
 # Its-Fun-to-Run
 This is an application that brings friends together in a positive way. Allowing the users to interact as they track their runs and compete against each other.
 
@@ -61,7 +67,7 @@ The above tables are all interlinked and can be referenced by each other. By the
 
 ## 2.	Google sign in
 This is achieved my implementing this into the grade.build and then creating a onClickListener that starts up the list of available Google accounts on the phone if there are any. This is convenient as your account will be auto generated from existing credentials associated with your Google account. Google provides all the methods required for this; it is just a matter of putting all the pieces together.
-![google](/app/google_signin.png)
+![google](/app/google_signin.jpg)
 
 ## 3.	Api-ninjas (Free API)
 This is a free API to a certain extent depending on how many calls are made a month I have adapted this feature into the app so the user can retrieve different exercises for any part of the body. It is as important to keep all your muscles strong for improved performance of running. This feature will give the user the option of filtering through the data to find what exercise that best suits them.
@@ -90,19 +96,18 @@ The MVVM architecture was used for this project. This proved to be convenient in
 
 ## Login Page
 This is the first point of contact for the user. The user will have the option of signing in (if the user has an account already and signed out previously). Firebase remembers a user that has not signed out. The user can also sign in with their google account and this is the most convenient way for the user to signup.
-![google](/app/google_signin.png)
+![google](/app/google_signin.jpg)
 
 ## Register Page
 This page asks the user for their name but requires the user to fill out their email address and password. This page was designed using the logo at the top on a card background and a scrollable view to allow for profile picture to be displayed. Once the user has entered their information then and registered successfully. The user will be sent to the landing page.
-![register](/app/register.png)
+![register](/app/register.jpg)
 
 ## Run List Fragment
 This fragment is the landing page. This page displays all the running data that the user had recorded previously. It is a snippet of what you see compared to when you click into the individual run. The user can view an image in this recycler view as a memory of a great run or something that happened on the run out of the ordinary.  The Run List was created using an adapter that I followed from the labs with a few tweaks to match my project. If the User hits the toggle button at the top it will display the users’ friends runs also.
-![runs](/app/run_shown.png)
+![runs](/app/run_shown.jpg)
 
 ## Run Details Fragment
 Access to this fragment is done by clicking on one of the run sessions. This is done by passing the id of the run through in an action from the Run List Fragment. On the other side the Run Details Fragment, it takes this args that was sent over. Then using our observableRunList we can retrieve the run by matching off to the runid. The other variation of this run Details fragment is clicking into a friends run and having the ability to view there running but not capable of editing this data. The user can add a comment to this run.
-![tables](/app/table_db.png)
 
 ## Maps Fragment
 The soul of the project.  The user clicks the start button to start, from this action the data starts getting displayed back to the user. This data contains the speed the user is travelling, and the calories burned, and distance travelled. The on-Location Request that got Current Location and all the inbuilt function such as speed and distance that tracked the LatLng(Lattitude, Longtitude). As the user is running, a polyline is drawn to mark the progress of the user. Once the user has completed their run, they can hit the pause button and hit the save button that appears when paused. The data stored is the distance travelled during the run and calories burned and the Average speed, which was obtained by add all the speed values to an array list and looping over and dividing by the size of the array. It automatically brings the user to the Run Fragment.
@@ -112,7 +117,7 @@ The Run Fragment is where the user can manually add a run that they may have for
 
 ## User List Fragment 
 The User List Fragment is the social adaption of the project. On this page hit the floating action button and it will retrieve all the users’ friends. The user can view all the other users and if they view someone that they know or just like the appearance of their profile they can add the user as a friend by clicking on the users’ profile.
-![users](/app/list_of_users.png)
+![users](/app/list_of_users.jpg)
 
 ## User Details Fragment
 This fragment appears when the user clicks on a profile. It displays all the information of a potential friend. The user then can hit add as a friend. Now that this action has been undertaking. The user can view their friends runs and comment on their runs but also their data is compared against yours in the form of bar charts and pie charts.
