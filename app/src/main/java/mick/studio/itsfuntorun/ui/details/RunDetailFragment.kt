@@ -11,6 +11,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import mick.studio.itsfuntorun.databinding.FragmentRunDetailBinding
 import mick.studio.itsfuntorun.models.RunModel
@@ -95,7 +96,8 @@ class RunDetailFragment : Fragment() {
             fragBinding.runTime.setText(run.runTime)
             fragBinding.runKms.setText(run.distance.toString())
             fragBinding.runCalories.setText(run.amountOfCals.toString())
-            fragBinding.runImage.setImageURI(Uri.parse(run.photoUrl))
+            fragBinding.runSpeed.setText(run.speed.toString())
+            fragBinding.runComment.setText(run.comment)
         if(loggedInViewModel.liveFirebaseUser.value!!.uid != run.uid) {
             fragBinding.runTime.setFocusable(false)
             fragBinding.runKms.setFocusable(false)
@@ -108,10 +110,16 @@ class RunDetailFragment : Fragment() {
         layout: FragmentRunDetailBinding
     ) {
         layout.editRunButton.setOnClickListener() {
+            layout.runTime.setText(updateRunSession.runTime)
+            layout.runKms.setText(updateRunSession.distance.toString())
+            layout.runCalories.setText(updateRunSession.amountOfCals.toString())
+            layout.runSpeed.setText(updateRunSession.speed.toString())
+            layout.runComment.setText(updateRunSession.comment)
             val runid = updateRunSession.runid
+
             updateRunSession.runTime = layout.runTime.text.toString()
             updateRunSession.distance = layout.runKms.text.toString().toDouble()
-            updateRunSession.amountOfCals = layout.runCalories.text.toString().toDouble()
+            updateRunSession.amountOfCals =layout.runCalories.text.toString().toDouble()
             updateRunSession.speed = layout.runSpeed.text.toString().toDouble()
             updateRunSession.comment = layout.runComment.text.toString()
 
@@ -121,27 +129,10 @@ class RunDetailFragment : Fragment() {
                     runid, updateRunSession
                 )
                 Toast.makeText(context, "Run Updated", Toast.LENGTH_LONG).show()
+                findNavController().popBackStack()
 
             }
         }
 
-//        layout.deleteRunButton.setOnClickListener(){
-//            if(updateRunSession.runid != "") {
-//                runListViewModel.deleteRun(
-//                    loggedInViewModel.liveFirebaseUser.value!!.uid,
-//                    updateRunSession
-//                )
-//                Snackbar.make(it, R.string.deleted_run_wait, Snackbar.LENGTH_LONG)
-//                    .show()
-//                Handler().postDelayed({
-//                    val action =
-//                        IndividualFoodItemFragmentDirections.actionIndividualFoodItemFragmentToMyFoodListFragment(
-//                            usedForUpdateFoodItem.timeForFood.toLong()
-//                        )
-//                    findNavController().navigate(action)
-//                }, 1500)
-//            }
-//        }
-//    }
     }
 }

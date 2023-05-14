@@ -82,7 +82,7 @@ class BarChartFragment : Fragment() {
     private fun drawBarChart(list: ArrayList<BarEntry>) {
         val barDataSet = BarDataSet(list, "List")
 
-        barDataSet.setColors(ColorTemplate.COLORFUL_COLORS, 100)
+        barDataSet.setColors(ColorTemplate.COLORFUL_COLORS, 255)
         barDataSet.valueTextColor = Color.BLACK
         val barData = BarData(barDataSet)
         barChart.setFitBars(true)
@@ -113,7 +113,7 @@ class BarChartFragment : Fragment() {
                     runs.forEach { run ->
 
                         showLoader(loader, "Loading Friends")
-                        if (friend.pid == run.uid)
+                        if (friend.pid == run.uid || run.uid == loggedInViewModel.liveFirebaseUser.value!!.uid)
                             addPointsToList(
                                 "5.0".toFloat(),
                                 run.distance.toString().toFloat(),

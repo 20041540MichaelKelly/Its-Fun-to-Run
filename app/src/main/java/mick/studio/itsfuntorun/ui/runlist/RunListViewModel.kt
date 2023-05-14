@@ -46,4 +46,15 @@ class RunListViewModel : ViewModel() {
             Timber.i("Report LoadAll Error : $e.message")
         }
     }
+
+    fun deleteItem(firebaseUser: MutableLiveData<FirebaseUser>,run: String){
+        try
+        {
+            FirebaseDBManager.delete(firebaseUser.value!!.uid, run)
+            Timber.i("deleted : ${run}")
+
+        } catch (e: IllegalArgumentException) {
+            Timber.i("Retrofit Error : $e.message")
+        }
+    }
 }

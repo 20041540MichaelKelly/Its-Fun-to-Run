@@ -7,12 +7,13 @@ import com.squareup.picasso.Picasso
 import mick.studio.itsfuntorun.R
 import mick.studio.itsfuntorun.databinding.CardRunBinding
 import mick.studio.itsfuntorun.helpers.customTransformation
+import mick.studio.itsfuntorun.helpers.hideLoader
 import mick.studio.itsfuntorun.models.RunModel
 
 interface RunListener {
     fun onRunClick(run: RunModel)
 }
-class RunListAdapter constructor(private var runs: List<RunModel>, private val listener: RunListener) :
+class RunListAdapter constructor(private var runs: ArrayList<RunModel>, private val listener: RunListener) :
                                 RecyclerView.Adapter<RunListAdapter.MainHolder>() {
        override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MainHolder {
            val binding = CardRunBinding.inflate(LayoutInflater.from(parent.context), parent, false)
@@ -25,12 +26,19 @@ class RunListAdapter constructor(private var runs: List<RunModel>, private val l
         holder.bind(run, listener)
     }
 
+        fun removeAt(position: Int) {
+        runs.removeAt(position)
+        notifyItemRemoved(position)
+    }
+
     override fun getItemCount(): Int = runs.size
 
     class MainHolder(private val binding : CardRunBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
         fun bind(run: RunModel, listener: RunListener) {
+            binding.root.tag = run.runid
+
             binding.run = run
             binding.imageIcon.setImageResource(R.drawable.baseline_image_not_supported_24)
             if(run.photoUrl != "") {

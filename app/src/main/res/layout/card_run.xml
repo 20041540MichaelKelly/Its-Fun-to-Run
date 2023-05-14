@@ -7,60 +7,65 @@
             type="mick.studio.itsfuntorun.models.RunModel" />
     </data>
     <androidx.cardview.widget.CardView
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_marginBottom="8dp"
-    android:elevation="24dp">
-
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/relativeLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="16dp">
+        android:layout_marginBottom="8dp"
+        android:elevation="24dp">
 
-        <ImageView
-            android:id="@+id/imageIcon"
-            android:layout_width="64dp"
-            android:layout_height="64dp"
-            android:layout_marginTop="4dp"
-            android:layout_marginEnd="16dp"
-            android:contentDescription="@string/change_run_image"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <TextView
-            android:id="@+id/runInKms"
-            android:layout_width="wrap_content"
+        <RelativeLayout
+            android:id="@+id/cardRun"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            android:textSize="30sp"
-            android:text="@{run.distance.toString()}"
-            android:layout_marginTop="4dp"
-            android:textAlignment="viewStart"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.048"
-            app:layout_constraintStart_toEndOf="@+id/imageIcon"
-            app:layout_constraintTop_toTopOf="parent"
-             />
+            android:padding="16dp">
 
-        <TextView
-            android:id="@+id/runInTime"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
-            android:textAlignment="viewStart"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.052"
-            app:layout_constraintStart_toEndOf="@+id/imageIcon"
-            app:layout_constraintTop_toBottomOf="@id/runInKms"
-            android:text="@{run.finishTime}"
-            />
+            <ImageView
+                android:id="@+id/imageIcon"
+                android:layout_width="64dp"
+                android:layout_height="64dp"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"
+                android:layout_marginEnd="16dp"
+                android:contentDescription="@string/app_name"
+                app:srcCompat="@drawable/baseline_image_not_supported_24" />
+
+            <TextView
+                android:id="@+id/runInKms"
+                android:layout_width="87dp"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="15dp"
+                android:layout_toEndOf="@+id/imageIcon"
+                android:text="@{Double.toString(run.distance)}"
+                android:textSize="24sp"
+                 />
+
+            <TextView
+                android:id="@+id/runInTime"
+                android:layout_width="88dp"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_marginStart="17dp"
+                android:layout_marginTop="15dp"
+                android:layout_toEndOf="@+id/runInKms"
+                android:text="@{run.runTime}"
+                android:textSize="24sp"
+                 />
+
+            <TextView
+                android:id="@+id/runComment"
+                android:layout_width="88dp"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="70dp"
+                android:layout_toEndOf="@+id/imageIcon"
+                android:layout_below="@id/runInKms"
+                android:text="@{run.comment}"
+                android:textSize="24sp"
+                />
 
 
-
-</androidx.constraintlayout.widget.ConstraintLayout>
-</androidx.cardview.widget.CardView>
+        </RelativeLayout>
+    </androidx.cardview.widget.CardView>
 </layout>

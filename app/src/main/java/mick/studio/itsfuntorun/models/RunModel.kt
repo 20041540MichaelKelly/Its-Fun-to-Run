@@ -37,6 +37,7 @@ data class RunModel(
             "amountOfCals" to amountOfCals,
             "photoUrl" to photoUrl,
             "zoom" to zoom,
+            "comment" to comment,
         )
     }
 }

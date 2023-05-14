@@ -9,6 +9,7 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:padding="3dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
@@ -119,38 +120,8 @@
                         android:textColor="@color/black" />
 
                 </com.google.android.material.textfield.TextInputLayout>
-                <!--                <Button-->
-                <!--                    android:id="@+id/chooseImage"-->
-                <!--                    android:layout_width="match_parent"-->
-                <!--                    android:layout_height="wrap_content"-->
-                <!--                    android:layout_margin="16dp"-->
-                <!--                    android:background="@color/deep_blue"-->
-                <!--                    android:paddingBottom="8dp"-->
-                <!--                    android:paddingTop="8dp"-->
-                <!--                    android:text="@string/button_addImage"-->
-                <!--                    android:textColor="@color/white"-->
-                <!--                    android:textSize="16sp"/>-->
-
-                <ImageView
-                    android:id="@+id/runImage"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="20dp"
-                    tools:srcCompat="@drawable/baseline_photo_camera_24" />
 
 
-<!--                <Button-->
-<!--                    android:id="@+id/btnAdd"-->
-<!--                    android:layout_width="match_parent"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:layout_margin="16dp"-->
-<!--                    android:background="#64DD17"-->
-<!--                    android:paddingTop="8dp"-->
-<!--                    android:paddingBottom="8dp"-->
-<!--                    android:stateListAnimator="@null"-->
-<!--                    android:text="@string/button_addRun"-->
-<!--                    android:textColor="@color/black"-->
-<!--                    android:textSize="16sp" />-->
 
             </LinearLayout>
         </ScrollView>
@@ -159,22 +130,14 @@
 
     <Button
         android:id="@+id/editRunButton"
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Edit"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/deleteRunButton"
         app:layout_constraintHorizontal_chainStyle="packed"
         app:layout_constraintStart_toStartOf="parent" />
 
-    <Button
-        android:id="@+id/deleteRunButton"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:text="Delete"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/editRunButton" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
 

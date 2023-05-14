@@ -16,13 +16,16 @@ import androidx.lifecycle.Observer
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.NavigationUI
+import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.snackbar.Snackbar
 import mick.studio.itsfuntorun.R
 import mick.studio.itsfuntorun.adapter.RunListAdapter
 import mick.studio.itsfuntorun.adapter.RunListener
 import mick.studio.itsfuntorun.databinding.FragmentRunListBinding
+import mick.studio.itsfuntorun.helpers.SwipeToDeleteCallback
 import mick.studio.itsfuntorun.helpers.createLoader
 import mick.studio.itsfuntorun.helpers.hideLoader
 import mick.studio.itsfuntorun.helpers.showLoader
@@ -61,7 +64,17 @@ class RunListFragment : Fragment(), RunListener {
         loader = createLoader(requireActivity())
 
         fragBinding.recyclerView.layoutManager = LinearLayoutManager(activity)
+        val swipeDeleteHandler = object : SwipeToDeleteCallback(requireContext()) {
+            override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+                val adapter = fragBinding.recyclerView.adapter as RunListAdapter
+                adapter.removeAt(viewHolder.adapterPosition)
+                runListViewModel.deleteItem(loggedInViewModel.liveFirebaseUser, viewHolder.itemView.tag as String)
 
+
+            }
+        }
+        val itemTouchDeleteHelper = ItemTouchHelper(swipeDeleteHandler)
+        itemTouchDeleteHelper.attachToRecyclerView(fragBinding.recyclerView)
         runListViewModel = ViewModelProvider(this).get(RunListViewModel::class.java)
         showLoader(loader, "Downloading Runs")
 
@@ -71,7 +84,7 @@ class RunListFragment : Fragment(), RunListener {
 
                 render(runs as ArrayList<RunModel>)
                 hideLoader(loader)
-//                checkSwipeRefresh()
+                checkSwipeRefresh()
             }
         })
 
@@ -80,6 +93,7 @@ class RunListFragment : Fragment(), RunListener {
             val action = RunListFragmentDirections.actionRunListFragmentToRunFragment()
             findNavController().navigate(action)
         }
+
         setSwipeRefresh()
 
         return root
@@ -145,7 +159,7 @@ class RunListFragment : Fragment(), RunListener {
                                 showLoader(loader, "Loading Friends")
                                 if (friend.pid == run.uid)
                                     listOfRuns.add(run)
-                                //checkSwipeRefresh()
+                                    checkSwipeRefresh()
                             }
                             hideLoader(loader)
 
@@ -163,7 +177,7 @@ class RunListFragment : Fragment(), RunListener {
 
     }
 
-    private fun render(runList: List<RunModel>) {
+    private fun render(runList: ArrayList<RunModel>) {
         fragBinding.recyclerView.adapter = RunListAdapter(runList, this)
         if (runList.isEmpty()) {
             fragBinding.recyclerView.visibility = View.GONE
@@ -187,20 +201,6 @@ class RunListFragment : Fragment(), RunListener {
         if (fragBinding.swiperefresh.isRefreshing)
             fragBinding.swiperefresh.isRefreshing = false
     }
-
-
-//private fun setSwipeRefresh() {
-//    fragBinding.swiperefresh.setOnRefreshListener {
-//        fragBinding.swiperefresh.isRefreshing = true
-//        showLoader(loader,"Downloading Donations")
-//        reportViewModel.load()
-//    }
-//}
-
-//private fun checkSwipeRefresh() {
-//    if (fragBinding.swiperefresh.isRefreshing)
-//        fragBinding.swiperefresh.isRefreshing = false
-//}
 
     override fun onResume() {
         super.onResume()
