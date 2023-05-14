@@ -53,6 +53,8 @@ p.	triceps
 
 ## 1.	Firebase
 I have implemented a real time database from firebase that uses authentication to create an auth instance of the users email and password and login activity. Through registration a user object is created through registration or google login. Then the Id from this is being used in the authentication process is stored in a separate database called user-runs, there is also a runs database that is just a map of all the details stored for the run item object. So, the user-database is used the most as it is to check the credentials of the user and retrieve the correct data. This is done by referencing the database and having liveFireBaseUser that retrieves the userid that can be compared and then validated against the data stored.
+
+![][firebase]
 ![firebase](firebase.png)
 
 The above tables are all interlinked and can be referenced by each other. By the following table:
