@@ -88,16 +88,7 @@ class UserDetailsFragment : Fragment() {
                 findNavController().popBackStack()
             })
         }
-        //val runid = updateRunSession.runid
-//            updateRunSession.runTime = layout.editRunTime.text.toString()
-//            updateRunSession.distance = layout.editRunDistance.text.toString().toDouble()
-//            updateRunSession.amountOfCals = layout.editCalories.text.toString().toDouble()
-//
-//            if (runid != null) {
-//                runDetailViewModel.updateUser(
-//                    loggedInViewModel.liveFirebaseUser.value!!.uid,
-//                    runid, updateRunSession
-//                )
+
         Toast.makeText(context, "Run Updated", Toast.LENGTH_LONG).show()
 
     }

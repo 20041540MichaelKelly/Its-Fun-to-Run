@@ -11,6 +11,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.core.view.get
 import androidx.drawerlayout.widget.DrawerLayout
+import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
@@ -33,6 +34,8 @@ import mick.studio.itsfuntorun.models.RunModel
 import mick.studio.itsfuntorun.ui.auth.LoggedInViewModel
 import mick.studio.itsfuntorun.ui.camera.ImagePickerFragmentDirections
 import mick.studio.itsfuntorun.ui.map.MapsViewModel
+import mick.studio.itsfuntorun.ui.userdetails.UserDetailsViewModel
+import mick.studio.itsfuntorun.ui.userlist.UserListViewModel
 import timber.log.Timber
 
 class Home : AppCompatActivity() {
@@ -43,6 +46,7 @@ class Home : AppCompatActivity() {
     private lateinit var appBarConfiguration: AppBarConfiguration
     private lateinit var loggedInViewModel : LoggedInViewModel
     private val mapsViewModel : MapsViewModel by viewModels()
+    private lateinit var userListViewModel: UserListViewModel
     var run = RunModel()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -80,10 +84,12 @@ class Home : AppCompatActivity() {
     public override fun onStart() {
         super.onStart()
         loggedInViewModel = ViewModelProvider(this).get(LoggedInViewModel::class.java)
+        userListViewModel = ViewModelProvider(this).get(UserListViewModel::class.java)
         loggedInViewModel.liveFirebaseUser.observe(this, Observer { firebaseUser ->
             if (firebaseUser != null)
                 updateNavHeader(loggedInViewModel.liveFirebaseUser.value!!)
         })
+        userListViewModel.loadAll()
 
         loggedInViewModel.loggedOut.observe(this, Observer { loggedout ->
             if (loggedout) {
@@ -98,11 +104,32 @@ class Home : AppCompatActivity() {
         navHeaderBinding = NavHeaderBinding.bind(headerView)
         navHeaderBinding.navHeaderEmail.text = currentUser.email
         navHeaderBinding.navHeaderName.text = currentUser.displayName
+        if(currentUser.photoUrl == null){
+            userListViewModel.observableUsersList.observe(this, Observer { users ->
+                users.forEach{ user ->
+                    if(user.uid == currentUser.uid){
+                        Picasso.get().load(user.photoUrl)
+                            .resize(200, 200)
+                            .transform(customTransformation())
+                            .centerCrop()
+                            .into(navHeaderBinding.imageView)
+
+                        navHeaderBinding.navHeaderName.text = user.displayName
+                    }
+                }
+
+            })
+        }else{
             Picasso.get().load(currentUser.photoUrl)
                 .resize(200, 200)
                 .transform(customTransformation())
                 .centerCrop()
                 .into(navHeaderBinding.imageView)
+
+            navHeaderBinding.navHeaderName.text = currentUser.displayName
+        }
+
+
 
     }
 

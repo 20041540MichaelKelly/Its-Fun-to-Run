@@ -99,10 +99,10 @@ class PieChartFragment : Fragment() {
                     runs.forEach { run ->
 
                         showLoader(loader, "Loading Friends")
-                        if (friend.pid == run.uid)
+                        if (friend.pid == run.uid || run.uid == loggedInViewModel.liveFirebaseUser.value!!.uid)
                             addPointsToList(
                                 run.amountOfCals.toString().toFloat(),
-                                run.displayName.toString()
+                                run.runTime.toString()
                             )
                         hideLoader(loader)
                         drawPieChart(pieChartList)

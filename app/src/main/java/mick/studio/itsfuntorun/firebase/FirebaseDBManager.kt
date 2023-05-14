@@ -276,7 +276,7 @@ object FirebaseDBManager: RunStore, UserStore, FriendsStore{
                             localList.add(user!!)
                         }
                     }
-                    database.child("user-info")
+                    database.child("users")
                         .removeEventListener(this)
 
                     usersList.value = localList
